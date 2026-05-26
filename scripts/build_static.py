@@ -170,8 +170,8 @@ def clean_path(path: str) -> str:
 def app_url(path: str) -> str:
     path = clean_path(path)
     if not path:
-        return "/"
-    return "/" + quote(path, safe="/#?=&.:@%+-_~") + "/"
+        return "/#/"
+    return "/#/" + quote(path, safe="/#?=&.:@%+-_~") + "/"
 
 
 def asset_url(path: str) -> str:
@@ -577,12 +577,12 @@ APP_SHELL = """<!doctype html>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>IndusTree</title>
   <meta name="description" content="ambient experimental industrial wave noise music from Nijmegen">
-  <link rel="stylesheet" href="/assets/site.css">
+  <link rel="stylesheet" href="/assets/site.css?v=2">
 </head>
 <body>
   <header class="site-header">
     <div class="wrap header-inner">
-      <a class="brand" href="/">
+      <a class="brand" href="/#/">
         <img src="/files/logo.gif" alt="IndusTree">
         <span>
           <strong>IndusTree</strong>
@@ -606,7 +606,7 @@ APP_SHELL = """<!doctype html>
       <p><span data-footer>IndusTree was an experimental noise music band from Nijmegen. Static archive generated from the Drupal 6 export.</span> <a href="https://github.com/guaka/industree.org">View the repository</a>.</p>
     </div>
   </footer>
-  <script src="/assets/index.js" defer></script>
+  <script src="/assets/index.js?v=2" defer></script>
 </body>
 </html>
 """
@@ -738,6 +738,12 @@ h2 { font-size: 24px; }
   border-top: 1px solid var(--line);
 }
 
+.list-section + .list-section {
+  margin-top: 36px;
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+}
+
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -860,12 +866,19 @@ INDEX_JS = r"""
 
   const routeHref = (path) => {
     const clean = normalizePath(path);
-    return clean ? `/${clean}/` : "/";
+    return clean ? `/#/${clean}/` : "/#/";
   };
 
   const canonicalPath = (path) => {
     const clean = normalizePath(path);
     return archive.aliases[clean] || clean;
+  };
+
+  const currentRoutePath = () => {
+    if (location.hash.startsWith("#/")) {
+      return location.hash.slice(1);
+    }
+    return location.pathname;
   };
 
   const titleFor = (title) => {
@@ -956,6 +969,27 @@ INDEX_JS = r"""
 </section>`;
   };
 
+  const renderAudioList = () => {
+    const nodes = (archive.lists.audio || [])
+      .map((id) => archive.nodes[String(id)])
+      .filter(Boolean);
+    const playable = nodes.filter((node) => Boolean(node.audio?.source));
+    const unavailable = nodes.filter((node) => !node.audio?.source);
+    setMeta("Music");
+    app.innerHTML = `<section class="page">
+  <h1>Music</h1>
+  <p class="lede">${playable.length} playable tracks, plus ${unavailable.length} archive entries waiting for audio.</p>
+  <section class="list-section" aria-labelledby="playable-audio">
+    <h2 id="playable-audio">Playable now</h2>
+    <div class="cards compact">${playable.map((node) => cardHtml(node, true)).join("\n")}</div>
+  </section>
+  ${unavailable.length ? `<section class="list-section" aria-labelledby="missing-audio">
+    <h2 id="missing-audio">Archive entries without audio yet</h2>
+    <div class="cards compact">${unavailable.map((node) => cardHtml(node, true)).join("\n")}</div>
+  </section>` : ""}
+</section>`;
+  };
+
   const renderContact = () => {
     setMeta("Contact");
     app.innerHTML = `<section class="page">
@@ -969,17 +1003,17 @@ INDEX_JS = r"""
     app.innerHTML = `<section class="page">
   <h1>Page not found</h1>
   <p>This static archive may have a different path than the old Drupal site.</p>
-  <p><a href="/">Return to the archive home</a></p>
+  <p><a href="/#/">Return to the archive home</a></p>
 </section>`;
   };
 
   const renderRoute = () => {
-    const path = canonicalPath(location.pathname);
+    const path = canonicalPath(currentRoutePath());
     renderNav(path);
 
     if (!path) return renderHome();
     if (path === "audio" || path === "music") {
-      return renderList("audio", "Music", "A static archive of {count} audio entries from the original Drupal site.");
+      return renderAudioList();
     }
     if (path === "lyrics") return renderList("lyrics", "Lyrics");
     if (path === "archive") {
@@ -997,7 +1031,7 @@ INDEX_JS = r"""
     renderNotFound();
   };
 
-  const renderNav = (currentPath = canonicalPath(location.pathname)) => {
+  const renderNav = (currentPath = canonicalPath(currentRoutePath())) => {
     if (!nav) return;
     const items = archive.nav.map((item) => {
       const itemPath = canonicalPath(item.path);
@@ -1018,9 +1052,13 @@ INDEX_JS = r"""
     if (/\.[a-z0-9]{2,5}$/i.test(url.pathname) && !url.pathname.endsWith("/index.html")) return;
 
     event.preventDefault();
-    history.pushState({}, "", url.pathname + url.search + url.hash);
+    if (url.hash.startsWith("#/")) {
+      history.pushState({}, "", `/${url.hash}`);
+    } else {
+      history.pushState({}, "", routeHref(url.pathname));
+    }
     renderRoute();
-    if (!url.hash) window.scrollTo({ top: 0, behavior: "instant" });
+    window.scrollTo({ top: 0, behavior: "instant" });
   };
 
   fetch(dataUrl)
@@ -1030,7 +1068,7 @@ INDEX_JS = r"""
     })
     .then((data) => {
       archive = data;
-      document.querySelector(".brand")?.setAttribute("href", "/");
+      document.querySelector(".brand")?.setAttribute("href", "/#/");
       document.querySelector(".brand img")?.setAttribute("src", archive.site.logo);
       document.querySelector(".brand img")?.setAttribute("alt", archive.site.name);
       const brandName = document.querySelector(".brand strong");
@@ -1041,6 +1079,7 @@ INDEX_JS = r"""
       renderRoute();
       document.addEventListener("click", handleClick);
       window.addEventListener("popstate", renderRoute);
+      window.addEventListener("hashchange", renderRoute);
     })
     .catch((error) => {
       console.error(error);

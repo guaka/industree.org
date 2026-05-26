@@ -156,7 +156,7 @@ if [ "$dry_run" -eq 0 ]; then
   esac
 fi
 
-rsync_flags="-avP"
+rsync_flags="-avP --omit-dir-times --no-perms"
 if [ "$dry_run" -eq 1 ]; then
   rsync_flags="$rsync_flags --dry-run"
 fi

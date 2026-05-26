@@ -29,12 +29,19 @@
 
   const routeHref = (path) => {
     const clean = normalizePath(path);
-    return clean ? `/${clean}/` : "/";
+    return clean ? `/#/${clean}/` : "/#/";
   };
 
   const canonicalPath = (path) => {
     const clean = normalizePath(path);
     return archive.aliases[clean] || clean;
+  };
+
+  const currentRoutePath = () => {
+    if (location.hash.startsWith("#/")) {
+      return location.hash.slice(1);
+    }
+    return location.pathname;
   };
 
   const titleFor = (title) => {
@@ -125,6 +132,27 @@
 </section>`;
   };
 
+  const renderAudioList = () => {
+    const nodes = (archive.lists.audio || [])
+      .map((id) => archive.nodes[String(id)])
+      .filter(Boolean);
+    const playable = nodes.filter((node) => Boolean(node.audio?.source));
+    const unavailable = nodes.filter((node) => !node.audio?.source);
+    setMeta("Music");
+    app.innerHTML = `<section class="page">
+  <h1>Music</h1>
+  <p class="lede">${playable.length} playable tracks, plus ${unavailable.length} archive entries waiting for audio.</p>
+  <section class="list-section" aria-labelledby="playable-audio">
+    <h2 id="playable-audio">Playable now</h2>
+    <div class="cards compact">${playable.map((node) => cardHtml(node, true)).join("\n")}</div>
+  </section>
+  ${unavailable.length ? `<section class="list-section" aria-labelledby="missing-audio">
+    <h2 id="missing-audio">Archive entries without audio yet</h2>
+    <div class="cards compact">${unavailable.map((node) => cardHtml(node, true)).join("\n")}</div>
+  </section>` : ""}
+</section>`;
+  };
+
   const renderContact = () => {
     setMeta("Contact");
     app.innerHTML = `<section class="page">
@@ -138,17 +166,17 @@
     app.innerHTML = `<section class="page">
   <h1>Page not found</h1>
   <p>This static archive may have a different path than the old Drupal site.</p>
-  <p><a href="/">Return to the archive home</a></p>
+  <p><a href="/#/">Return to the archive home</a></p>
 </section>`;
   };
 
   const renderRoute = () => {
-    const path = canonicalPath(location.pathname);
+    const path = canonicalPath(currentRoutePath());
     renderNav(path);
 
     if (!path) return renderHome();
     if (path === "audio" || path === "music") {
-      return renderList("audio", "Music", "A static archive of {count} audio entries from the original Drupal site.");
+      return renderAudioList();
     }
     if (path === "lyrics") return renderList("lyrics", "Lyrics");
     if (path === "archive") {
@@ -166,7 +194,7 @@
     renderNotFound();
   };
 
-  const renderNav = (currentPath = canonicalPath(location.pathname)) => {
+  const renderNav = (currentPath = canonicalPath(currentRoutePath())) => {
     if (!nav) return;
     const items = archive.nav.map((item) => {
       const itemPath = canonicalPath(item.path);
@@ -187,9 +215,13 @@
     if (/\.[a-z0-9]{2,5}$/i.test(url.pathname) && !url.pathname.endsWith("/index.html")) return;
 
     event.preventDefault();
-    history.pushState({}, "", url.pathname + url.search + url.hash);
+    if (url.hash.startsWith("#/")) {
+      history.pushState({}, "", `/${url.hash}`);
+    } else {
+      history.pushState({}, "", routeHref(url.pathname));
+    }
     renderRoute();
-    if (!url.hash) window.scrollTo({ top: 0, behavior: "instant" });
+    window.scrollTo({ top: 0, behavior: "instant" });
   };
 
   fetch(dataUrl)
@@ -199,7 +231,7 @@
     })
     .then((data) => {
       archive = data;
-      document.querySelector(".brand")?.setAttribute("href", "/");
+      document.querySelector(".brand")?.setAttribute("href", "/#/");
       document.querySelector(".brand img")?.setAttribute("src", archive.site.logo);
       document.querySelector(".brand img")?.setAttribute("alt", archive.site.name);
       const brandName = document.querySelector(".brand strong");
@@ -210,6 +242,7 @@
       renderRoute();
       document.addEventListener("click", handleClick);
       window.addEventListener("popstate", renderRoute);
+      window.addEventListener("hashchange", renderRoute);
     })
     .catch((error) => {
       console.error(error);

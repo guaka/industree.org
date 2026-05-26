@@ -124,6 +124,12 @@ h2 { font-size: 24px; }
   border-top: 1px solid var(--line);
 }
 
+.list-section + .list-section {
+  margin-top: 36px;
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+}
+
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
