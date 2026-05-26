@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import gzip
 import html
+import json
 import os
 import posixpath
 import re
@@ -19,6 +20,8 @@ from urllib.parse import quote, urlparse
 ROOT = Path(__file__).resolve().parents[1]
 SQL_DUMP = ROOT / "industree.sql.gz"
 OUT = ROOT / "docs"
+MEDIA_MANIFEST = ROOT / "media" / "audio_manifest.json"
+DEFAULT_MEDIA_BASE_URL = "https://d7.bfr.ee"
 TARGET_TABLES = {
     "audio",
     "audio_metadata",
@@ -130,6 +133,20 @@ def read_tables():
     return data
 
 
+def load_audio_manifest(path: Path = MEDIA_MANIFEST):
+    if not path.exists():
+        return {}, ""
+    with path.open("r", encoding="utf-8") as handle:
+        payload = json.load(handle)
+    media_base_url = payload.get("media_base_url", "") if isinstance(payload, dict) else ""
+    entries = payload.get("tracks", payload) if isinstance(payload, dict) else payload
+    manifest = {}
+    for entry in entries:
+        if isinstance(entry, dict) and entry.get("node_id"):
+            manifest[int(entry["node_id"])] = entry
+    return manifest, media_base_url
+
+
 def php_unserialize_string(value):
     if not isinstance(value, str):
         return value
@@ -183,6 +200,10 @@ class SiteBuilder:
             "site_slogan", "ambient experimental industrial wave noise music from Nijmegen"
         )
         self.site_mail = self.variables.get("site_mail", "")
+        self.audio_manifest, manifest_media_base_url = load_audio_manifest()
+        self.media_base_url = os.environ.get(
+            "MEDIA_BASE_URL", manifest_media_base_url or DEFAULT_MEDIA_BASE_URL
+        ).strip().rstrip("/")
 
         self.nodes = {
             int(row["nid"]): row
@@ -251,6 +272,10 @@ class SiteBuilder:
         if directory and rel == ".":
             rel = "./"
         return quote(rel, safe="/#?=&.:@%+-_~")
+
+    def media_url(self, server_path: str) -> str:
+        path = (server_path or "").replace("\\", "/").lstrip("/")
+        return f"{self.media_base_url}/{quote(path, safe='/._-~')}"
 
     def resolve_drupal_path(self, raw_path: str, from_path: str, attr: str = "href") -> str:
         if not raw_path:
@@ -449,6 +474,7 @@ class SiteBuilder:
         filename = file_row.get("filename") or Path(original_path).name
         expected = posixpath.join("files/audio", Path(original_path).name or filename)
         expected_local = OUT / expected
+        manifest_entry = self.audio_manifest.get(nid)
         details = []
         for key, label in [
             ("artist", "Artist"),
@@ -460,8 +486,33 @@ class SiteBuilder:
                 details.append(f"<dt>{label}</dt><dd>{html.escape(str(meta[key]))}</dd>")
         if row.get("playtime"):
             details.append(f"<dt>Length</dt><dd>{html.escape(str(row['playtime']))}</dd>")
+        if manifest_entry:
+            media_format = (manifest_entry.get("format") or "").upper()
+            match_type = (manifest_entry.get("match_type") or "manual").replace("_", " ").title()
+            if media_format:
+                details.append(f"<dt>Restored format</dt><dd>{html.escape(media_format)}</dd>")
+            details.append(f"<dt>Restored match</dt><dd>{html.escape(match_type)}</dd>")
         body = ['<div class="audio-panel">']
-        if expected_local.exists():
+        if manifest_entry and self.media_base_url:
+            src = self.media_url(manifest_entry.get("server_path", ""))
+            media_format = (manifest_entry.get("format") or Path(src).suffix.lstrip(".") or "audio").upper()
+            match_type = (manifest_entry.get("match_type") or "manual").lower()
+            escaped_src = html.escape(src)
+            body.append(f'<audio controls preload="metadata" src="{escaped_src}"></audio>')
+            body.append(f'<p><a class="button" href="{escaped_src}">Download audio</a></p>')
+            if media_format != "MP3" or match_type != "exact":
+                body.append(
+                    f'<p class="media-note">Restored as {html.escape(media_format)} '
+                    'from the external audio archive.</p>'
+                )
+        elif manifest_entry:
+            server_path = manifest_entry.get("server_path", "")
+            body.append(
+                '<p class="missing-media">Audio recovered in '
+                '<code>media/audio_manifest.json</code>. Set <code>MEDIA_BASE_URL</code> '
+                f'to publish external audio from <code>{html.escape(server_path)}</code>.</p>'
+            )
+        elif expected_local.exists():
             src = self.rel_url(from_path, expected, directory=False)
             body.append(f'<audio controls preload="metadata" src="{src}"></audio>')
             body.append(f'<p><a class="button" href="{src}">Download audio</a></p>')
@@ -736,7 +787,7 @@ h1, h2, h3 {
 h1 { font-size: 36px; }
 h2 { font-size: 24px; }
 
-.meta, .lede, .missing-media, .related {
+.meta, .lede, .missing-media, .media-note, .related {
   color: var(--muted);
 }
 

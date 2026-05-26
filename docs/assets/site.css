@@ -99,7 +99,7 @@ h1, h2, h3 {
 h1 { font-size: 36px; }
 h2 { font-size: 24px; }
 
-.meta, .lede, .missing-media, .related {
+.meta, .lede, .missing-media, .media-note, .related {
   color: var(--muted);
 }
 

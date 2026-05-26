@@ -1,6 +1,8 @@
 # Local/system noise
 .DS_Store
 *.log
+__pycache__/
+*.pyc
 
 # Original Drupal 6 export and private/local configuration
 /industree.sql.gz
@@ -13,3 +15,11 @@
 # Optional source folder for images recovered later from Archive.org.
 # Rebuild with scripts/build_static.py to copy committed copies into docs/bobimages/.
 /bobimages/
+
+# Raw recovery inputs and generated media transfer reports.
+/mp3/
+/playlist*.xml
+/media/upload/
+/media/rsync_audio_manifest.tsv
+deploy
+media
