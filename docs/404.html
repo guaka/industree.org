@@ -29,6 +29,100 @@
       </noscript>
     </section>
   </main>
+  <template id="impulse-player-template">
+    <div class="container">
+        <div class="info-header" id="infoHeader">
+            <div>
+                <div class="row"><span class="lbl">Song Name</span> <span class="val title" id="ihSongName">No module loaded</span></div>
+                <div class="row"><span class="lbl">Order</span> <span class="val hi" id="ihOrder">000/000</span>
+                     &nbsp;<span class="lbl">Pattern</span> <span class="val hi" id="ihPattern">000</span></div>
+                <div class="row"><span class="lbl">Row</span> <span class="val" id="ihRow">000/000</span>
+                     &nbsp;<span class="lbl">Channels</span> <span class="val" id="ihChannels">00</span></div>
+            </div>
+            <div>
+                <div class="row"><span class="lbl">Instrument</span> <span class="val warn" id="ihInst">00</span>
+                     &nbsp;<span class="lbl">Octave</span> <span class="val warn" id="ihOctave">4</span></div>
+                <div class="row"><span class="lbl">Spd</span> <input type="number" id="inputSpeed" min="1" max="255" value="6" style="width:32px;background:#0a0a14;border:1px solid #333;color:#8c8;font-family:inherit;font-size:11px;padding:0 2px;">
+                     <span class="lbl">Tmp</span> <input type="number" id="inputTempo" min="32" max="255" value="125" style="width:36px;background:#0a0a14;border:1px solid #333;color:#8c8;font-family:inherit;font-size:11px;padding:0 2px;"></div>
+                <div class="row"><span class="lbl">Smp</span> <span class="val" id="ihSmpCount">00</span>
+                     &nbsp;<span class="lbl">Ins</span> <span class="val" id="ihInsCount">00</span>
+                     &nbsp;<span class="lbl">Time</span> <span class="val" id="ihTime">0:00:00</span></div>
+            </div>
+        </div>
+        <div class="controls">
+            <input type="file" id="fileInput" accept=".it" style="display:none;">
+            <button id="btnOpen">Open .it</button>
+            <div class="sep"></div>
+            <button id="btnPlay" disabled>F5 Play</button>
+            <button id="btnStop" disabled>F8 Stop</button>
+            <div class="sep"></div>
+            <button id="btnNewPat" disabled>+ Pat</button>
+            <div class="sep"></div>
+            <span style="color:#444;font-size:10px" id="statusMsg">F1..Help &nbsp; F5..Play &nbsp; F6..Pat &nbsp; F8..Stop &nbsp; F9..Load</span>
+        </div>
+        <div class="main">
+            <div class="file-list" id="fileListPanel">
+                <h3>itfiles/</h3>
+            </div>
+            <div class="editor-area">
+                <div class="tabs">
+                    <div class="tab active" data-panel="patternPanel">Pattern (F2)</div>
+                    <div class="tab" data-panel="samplePanel">Samples (F3)</div>
+                    <div class="tab" data-panel="instrumentPanel">Instruments (F4)</div>
+                    <div class="tab" data-panel="orderPanel">Orders (F12)</div>
+                </div>
+                <div class="order-bar" id="orderBar"><span class="lbl">Order:</span></div>
+                <div class="panel active" id="patternPanel">
+                    <div class="pattern-wrap" id="patternWrap">
+                        <table class="pat-table"><thead id="patHead"></thead><tbody id="patBody"></tbody></table>
+                    </div>
+                </div>
+                <div class="panel" id="samplePanel">
+                    <div class="sample-panel">
+                        <div class="sample-list-wrap"><h3>Samples</h3><div id="smpList"></div></div>
+                        <div class="sample-detail">
+                            <canvas class="waveform-canvas" id="waveCanvas"></canvas>
+                            <div class="smp-info" id="smpInfo"></div>
+                            <button id="smpPreview" style="background:#111;border:1px solid #333;color:#8a8;padding:2px 8px;font-family:inherit;font-size:10px;cursor:pointer;">Preview (C-5)</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel" id="instrumentPanel">
+                    <div class="inst-panel">
+                        <div class="inst-list-wrap"><h3>Instruments</h3><div id="insList"></div></div>
+                        <div class="inst-detail">
+                            <div id="insInfo" style="font-size:10px;color:#667;margin-bottom:4px;"></div>
+                            <div class="env-tabs">
+                                <button class="env-tab active" data-env="vol">Vol</button>
+                                <button class="env-tab" data-env="pan">Pan</button>
+                                <button class="env-tab" data-env="pitch">Pitch</button>
+                            </div>
+                            <canvas class="env-canvas" id="envCanvas"></canvas>
+                            <div class="note-table-wrap"><table class="note-table"><thead id="ntHead"></thead><tbody id="ntBody"></tbody></table></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel" id="orderPanel">
+                    <div class="order-panel">
+                        <div class="order-edit-wrap">
+                            <h3>Order List</h3>
+                            <div class="order-grid" id="orderGrid"></div>
+                            <div class="order-btns">
+                                <button id="ordInsert">Insert</button>
+                                <button id="ordDelete">Delete</button>
+                                <button id="ordAddEnd">+ End (---)</button>
+                                <button id="ordAddSkip">+ Skip (+++)</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="pianoHint" class="piano-hint">Piano: ZSXDCVGBHNJM / Q2W3ER5T6Y7U &nbsp; * / octave</div>
+    <div id="toast" class="toast"></div>
+  </template>
+
   <footer class="site-footer">
     <div class="wrap">
       <p><span data-footer>IndusTree was an experimental noise music band from Nijmegen. Static archive generated from the Drupal 6 export.</span> <a href="https://github.com/guaka/industree.org">View the repository</a>.</p>

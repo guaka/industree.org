@@ -22,8 +22,13 @@ SQL_DUMP = ROOT / "industree.sql.gz"
 OUT = ROOT / "docs"
 MEDIA_MANIFEST = ROOT / "media" / "audio_manifest.json"
 DEFAULT_MEDIA_BASE_URL = "https://audio.industree.org"
+DEFAULT_IT_FILES_BASE_URL = "https://audio.industree.org/itfiles/"
+IT_FILE_NAMES = ["1-2sleepy.it"]
+IMPULSE_PLAYER_SOURCE = ROOT / "impulse" / "player.html"
 CUSTOM_DOMAIN = "industree.org"
 CONTACT_URL = "https://marcusmoonen.com/contact/"
+ARTIST_LINK_URL = "https://marcusmoonen.com/music/artist/industree/"
+AUDIO_TAG_TOKEN_RE = re.compile(r"(?:\[audio-tag-[^\]]+\]|audio-tag-[a-z-]+)", re.I)
 TARGET_TABLES = {
     "audio",
     "audio_metadata",
@@ -167,6 +172,13 @@ def clean_path(path: str) -> str:
     return re.sub(r"/+", "/", path)
 
 
+def slugify(value: str) -> str:
+    value = html.unescape(strip_html(value)).lower()
+    value = value.replace("&", " and ")
+    value = re.sub(r"[^a-z0-9]+", "-", value)
+    return value.strip("-")
+
+
 def app_url(path: str) -> str:
     path = clean_path(path)
     if not path:
@@ -199,6 +211,84 @@ def excerpt(value: str, words: int = 36) -> str:
     return " ".join(parts[:words]) + "..."
 
 
+def impulse_source_parts() -> tuple[str, str, str]:
+    source = IMPULSE_PLAYER_SOURCE.read_text(encoding="utf-8")
+    style_match = re.search(r"<style>(.*?)</style>", source, re.S)
+    body_match = re.search(r"<body>(.*?)<script>", source, re.S)
+    script_match = re.search(r"<script>(.*?)</script>\s*</body>", source, re.S)
+    if not (style_match and body_match and script_match):
+        raise ValueError(f"Could not extract Impulse player parts from {IMPULSE_PLAYER_SOURCE}")
+    return (
+        scope_impulse_css(style_match.group(1).strip()),
+        body_match.group(1).strip(),
+        wrap_impulse_script(script_match.group(1).strip()),
+    )
+
+
+def scope_impulse_css(css: str) -> str:
+    rules = []
+    for chunk in css.split("}"):
+        if "{" not in chunk:
+            continue
+        selector_text, body = chunk.split("{", 1)
+        selectors = []
+        for selector in selector_text.split(","):
+            selector = selector.strip()
+            if not selector:
+                continue
+            if selector == "*":
+                selectors.extend([".impulse-player-mount", ".impulse-player-mount *"])
+            elif selector == "body":
+                selectors.append(".impulse-player-mount")
+            else:
+                selectors.append(f".impulse-player-mount {selector}")
+        if selectors:
+            rules.append(f"{', '.join(selectors)} {{{body}}}")
+    return "\n".join(rules) + "\n"
+
+
+def wrap_impulse_script(script: str) -> str:
+    script = script.replace(
+        "const IT_FILES = ['1-2sleepy.it'];",
+        "const IT_FILES = (options.files || ['1-2sleepy.it']).map(file => typeof file === 'string' ? file : file.name);",
+    )
+    script = script.replace(
+        "const DEFAULT_IT_BASE_URL = 'https://audio.industree.org/itfiles/';\n"
+        "const QUERY = new URLSearchParams(window.location.search);\n"
+        "const IT_BASE_URL = (QUERY.get('base') || DEFAULT_IT_BASE_URL).replace(/\\/?$/, '/');\n"
+        "const INITIAL_FILE = QUERY.get('file') || IT_FILES[0];",
+        "const DEFAULT_IT_BASE_URL = 'https://audio.industree.org/itfiles/';\n"
+        "const IT_BASE_URL = (options.baseUrl || DEFAULT_IT_BASE_URL).replace(/\\/?$/, '/');\n"
+        "const INITIAL_FILE = options.initialFile || IT_FILES[0];",
+    )
+    script = script.replace(
+        "document.addEventListener('keydown', (e) => {",
+        "document.addEventListener('keydown', (e) => {\n"
+        "    if (impulseGeneration !== window.__industreeImpulseGeneration || !document.getElementById(mountId)) return;",
+    )
+    script = script.replace(
+        "document.addEventListener('keyup', (e) => {",
+        "document.addEventListener('keyup', (e) => {\n"
+        "    if (impulseGeneration !== window.__industreeImpulseGeneration || !document.getElementById(mountId)) return;",
+    )
+    return (
+        "(() => {\n"
+        "  window.initIndusTreeImpulsePlayer = function(options = {}) {\n"
+        "    if (window.__industreeImpulseStop) {\n"
+        "      try { window.__industreeImpulseStop(); } catch (_) {}\n"
+        "    }\n"
+        "    const mountId = options.mountId || 'impulsePlayerMount';\n"
+        "    if (!document.getElementById(mountId)) return;\n"
+        "    const impulseGeneration = (window.__industreeImpulseGeneration || 0) + 1;\n"
+        "    window.__industreeImpulseGeneration = impulseGeneration;\n"
+        f"{script}\n"
+        "    window.indusTreeImpulseLoadFile = loadItFile;\n"
+        "    window.__industreeImpulseStop = () => { try { stopPlayback(); } catch (_) {} };\n"
+        "  };\n"
+        "})();\n"
+    )
+
+
 class SiteBuilder:
     def __init__(self, data):
         self.data = data
@@ -215,6 +305,9 @@ class SiteBuilder:
         self.media_base_url = os.environ.get(
             "MEDIA_BASE_URL", manifest_media_base_url or DEFAULT_MEDIA_BASE_URL
         ).strip().rstrip("/")
+        self.it_files_base_url = os.environ.get(
+            "IT_FILES_BASE_URL", DEFAULT_IT_FILES_BASE_URL
+        ).strip().rstrip("/") + "/"
 
         self.nodes = {
             int(row["nid"]): row
@@ -257,9 +350,75 @@ class SiteBuilder:
             )
         ]
         self.primary_links.sort(key=lambda row: (int(row["weight"]), int(row["mlid"])))
+        self.legacy_path_to_nid = {}
+        for src, dst in self.aliases.items():
+            match = re.fullmatch(r"node/(\d+)", src)
+            if match and int(match.group(1)) in self.nodes:
+                self.legacy_path_to_nid[dst] = int(match.group(1))
+        self.node_paths = self.build_node_paths()
 
     def node_path(self, nid: int) -> str:
-        return self.aliases.get(f"node/{nid}") or f"node/{nid}"
+        return self.node_paths.get(nid) or self.aliases.get(f"node/{nid}") or f"node/{nid}"
+
+    def build_node_paths(self) -> dict[int, str]:
+        paths = {}
+        used = {}
+        for nid in sorted(self.nodes):
+            node = self.nodes[nid]
+            path = self.aliases.get(f"node/{nid}") or f"node/{nid}"
+            if node["type"] == "audio" and AUDIO_TAG_TOKEN_RE.search(path):
+                path = f"audio/{slugify(self.node_title(nid)) or f'track-{nid}'}"
+
+            original = path
+            suffix = 2
+            while path in used and used[path] != nid:
+                path = f"{original}-{suffix}"
+                suffix += 1
+            paths[nid] = path
+            used[path] = nid
+        return paths
+
+    def audio_meta_for_node(self, nid: int) -> dict:
+        audio = self.audio_by_nid.get(nid) or {}
+        return self.audio_meta.get(int(audio.get("vid") or 0), {})
+
+    def node_title(self, nid: int) -> str:
+        node = self.nodes[nid]
+        title = str(node.get("title") or "")
+        if node["type"] != "audio":
+            return title
+
+        meta = self.audio_meta_for_node(nid)
+        tag_title = str(meta.get("title") or "").strip()
+        tag_artist = str(meta.get("artist") or "").strip()
+        if tag_title and tag_artist:
+            return f"{tag_title} by {tag_artist}"
+        if tag_title and AUDIO_TAG_TOKEN_RE.search(title):
+            return tag_title
+        if not AUDIO_TAG_TOKEN_RE.search(title):
+            return title
+
+        title = re.sub(r"\s+\bby\s+\[audio-tag-artist-raw\]", "", title, flags=re.I)
+        title = title.replace("[audio-tag-title-raw]", tag_title)
+        title = title.replace("[audio-tag-artist-raw]", tag_artist)
+        title = AUDIO_TAG_TOKEN_RE.sub("", title)
+        title = re.sub(r"\s+", " ", title).strip(" -")
+        return title or tag_title or tag_artist or f"Audio {nid}"
+
+    def canonical_alias_target(self, path: str) -> str:
+        path = clean_path(path)
+        if path == "music":
+            return "audio"
+        if path.startswith("node/"):
+            try:
+                nid = int(path.split("/", 1)[1])
+            except ValueError:
+                return self.aliases.get(path, path)
+            if nid in self.nodes:
+                return self.node_path(nid)
+        if path in self.legacy_path_to_nid:
+            return self.node_path(self.legacy_path_to_nid[path])
+        return self.aliases.get(path, path)
 
     def media_url(self, server_path: str) -> str:
         path = (server_path or "").replace("\\", "/").lstrip("/")
@@ -288,9 +447,9 @@ class SiteBuilder:
         if path in {"audio", "music", "contact", "archive", "lyrics"}:
             target = "audio" if path == "music" else path
         elif path.startswith("node/") and path in self.aliases:
-            target = self.aliases[path]
+            target = self.canonical_alias_target(path)
         elif path in self.aliases.values():
-            target = path
+            target = self.canonical_alias_target(path)
         elif path.startswith(("files/", "bobimages/")):
             return asset_url(path) + suffix
         elif external_original:
@@ -327,37 +486,74 @@ class SiteBuilder:
         return "\n".join(f"<p>{part.replace(chr(10), '<br>')}</p>" for part in paragraphs)
 
     def nav_items(self):
-        fallback = [
-            ("Welcome", ""),
+        items = [
             ("Music", "audio"),
+            ("Impulse", "impulse"),
+            ("Lyrics", "lyrics"),
+            ("Archive", "archive"),
             ("About", self.node_path(7) if 7 in self.nodes else "about"),
             ("Links", self.node_path(8) if 8 in self.nodes else "links"),
             ("CausaliDox", self.node_path(9) if 9 in self.nodes else "causalidox"),
             ("Buy CD's!", self.node_path(10) if 10 in self.nodes else "buy-cds"),
             ("Contact", "contact"),
         ]
-        source = []
-        for row in self.primary_links:
-            target = clean_path(row["link_path"])
-            if target == "<front>" or row["link_title"] == "Welcome":
-                target = ""
-            elif target.startswith("node/") and target in self.aliases:
-                target = self.aliases[target]
-            elif target == "music":
-                target = "audio"
-            source.append((row["link_title"], target))
+        return [
+            {"title": title, "path": clean_path(target), "href": app_url(target)}
+            for title, target in items
+        ]
 
-        deduped = []
-        seen = set()
-        for title, target in source or fallback:
-            key = (title.lower(), target)
-            title_key = title.lower()
-            if key in seen or title_key in seen:
-                continue
-            seen.add(key)
-            seen.add(title_key)
-            deduped.append({"title": title, "path": clean_path(target), "href": app_url(target)})
-        return deduped
+    def music_artist(self, nid: int) -> str:
+        artist = str(self.audio_meta_for_node(nid).get("artist") or "").strip()
+        known_names = {
+            "causalidox": "CausaliDox",
+            "guaka": "Guaka",
+            "industree": "IndusTree",
+        }
+        if artist:
+            return known_names.get(artist.lower(), artist)
+        return "IndusTree"
+
+    def music_payload(self, nid: int, audio_panel: dict | None) -> dict:
+        audio = self.audio_by_nid.get(nid) or {}
+        meta = self.audio_meta_for_node(nid)
+        title = self.node_title(nid)
+        artist = self.music_artist(nid)
+        album = str(meta.get("album") or "").strip()
+        genre = str(meta.get("genre") or "").strip()
+        year = str(meta.get("year") or "").strip()
+        duration = str(audio.get("playtime") or "").strip()
+        source = (audio_panel or {}).get("source", "")
+        playable = bool(source)
+        search_text = " ".join(
+            part for part in [title, artist, album, genre, year, duration] if part
+        ).lower()
+        return {
+            "artist": artist,
+            "artistKey": slugify(artist),
+            "album": album,
+            "genre": genre,
+            "year": year,
+            "duration": duration,
+            "playable": playable,
+            "status": "playable" if playable else "missing",
+            "searchText": search_text,
+        }
+
+    def impulse_payload(self) -> dict:
+        files = [
+            {
+                "name": name,
+                "url": self.it_files_base_url + quote(name),
+            }
+            for name in IT_FILE_NAMES
+        ]
+        return {
+            "baseUrl": self.it_files_base_url,
+            "files": files,
+            "markup": impulse_source_parts()[1],
+            "scriptPath": "/assets/impulse-player.js",
+            "stylePath": "/assets/impulse-player.css",
+        }
 
     def audio_details(self, nid: int):
         row = self.audio_by_nid.get(nid)
@@ -434,24 +630,35 @@ class SiteBuilder:
         revision = self.revisions_by_vid.get(int(node["vid"]), {})
         body = revision.get("body", "")
         path = self.node_path(nid)
+        body_html = self.render_body(body)
+        excerpt_text = excerpt(revision.get("teaser") or body)
+        if nid == 8:
+            body_html = body_html.replace(
+                "</ul>",
+                f'<li><a href="{ARTIST_LINK_URL}">IndusTree music on marcusmoonen.com</a></li>\n</ul>',
+                1,
+            )
+            excerpt_text = f"{excerpt_text} IndusTree music on marcusmoonen.com"
         payload = {
             "id": nid,
             "type": node["type"],
             "typeLabel": node["type"].replace("_", " ").title(),
-            "title": node["title"],
+            "title": self.node_title(nid),
             "path": path,
             "href": app_url(path),
             "created": int(node.get("created") or 0),
             "date": pretty_date(node.get("created")),
             "promoted": int(node.get("promote") or 0) == 1,
-            "bodyHtml": self.render_body(body),
-            "excerpt": excerpt(revision.get("teaser") or body),
+            "bodyHtml": body_html,
+            "excerpt": excerpt_text,
             "extra": self.node_extra(nid),
             "audio": None,
             "lyricsPath": "",
+            "music": None,
         }
         if node["type"] == "audio":
             payload["audio"] = self.audio_details(nid)
+            payload["music"] = self.music_payload(nid, payload["audio"])
             fields = self.audio_fields_by_nid.get(nid) or {}
             lyrics_nid = fields.get("field_lyrics_link_nid")
             if lyrics_nid and int(lyrics_nid) in self.nodes:
@@ -469,8 +676,8 @@ class SiteBuilder:
 
         audio_ids = [nid for nid, node in self.nodes.items() if node["type"] == "audio"]
         audio_ids.sort(key=lambda nid: (
-            (self.audio_meta.get(int((self.audio_by_nid.get(nid) or {}).get("vid") or 0), {}).get("artist") or "").lower(),
-            self.nodes[nid]["title"].lower(),
+            self.music_artist(nid).lower(),
+            self.node_title(nid).lower(),
         ))
 
         lyric_ids = [nid for nid, node in self.nodes.items() if node["type"] == "lyrics"]
@@ -484,6 +691,9 @@ class SiteBuilder:
             node_path = self.node_path(nid)
             path_to_node[node_path] = nid
             aliases[f"node/{nid}"] = node_path
+            old_path = self.aliases.get(f"node/{nid}")
+            if old_path and old_path != node_path:
+                aliases[old_path] = node_path
 
         return {
             "site": {
@@ -499,6 +709,7 @@ class SiteBuilder:
                 "contactUrl": CONTACT_URL,
                 "mediaBaseUrl": self.media_base_url,
             },
+            "impulse": self.impulse_payload(),
             "nav": self.nav_items(),
             "aliases": aliases,
             "pathToNode": path_to_node,
@@ -538,13 +749,19 @@ class SiteBuilder:
         if bobimages.exists():
             shutil.copytree(bobimages, OUT / "bobimages")
 
+        if not IMPULSE_PLAYER_SOURCE.exists():
+            raise FileNotFoundError(f"Missing Impulse player source: {IMPULSE_PLAYER_SOURCE}")
+        impulse_css, _, impulse_js = impulse_source_parts()
+        self.write_file("assets/impulse-player.css", impulse_css)
+        self.write_file("assets/impulse-player.js", impulse_js)
+
         self.write_file("assets/site.css", STYLE_CSS)
         self.write_file("assets/index.js", INDEX_JS)
         self.write_file(".nojekyll", "")
         self.write_file("CNAME", CUSTOM_DOMAIN + "\n")
 
     def build_sitemap(self):
-        urls = ["", "audio", "music", "lyrics", "archive", "contact"]
+        urls = ["", "audio", "music", "impulse", "lyrics", "archive", "contact"]
         urls.extend(self.node_path(nid) for nid in self.nodes)
         urls.extend(f"node/{nid}" for nid in self.nodes)
         entries = "\n".join(
@@ -638,6 +855,15 @@ a:hover { color: var(--accent); }
 .wrap {
   width: min(1080px, calc(100% - 32px));
   margin: 0 auto;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
 
 .site-header {
@@ -754,6 +980,278 @@ h2 { font-size: 24px; }
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
 
+.music-page {
+  padding-bottom: 132px;
+}
+
+.music-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: end;
+  margin-bottom: 22px;
+}
+
+.music-hero p {
+  margin: 0;
+}
+
+.music-stats {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.music-stat {
+  min-width: 88px;
+  padding: 8px 10px;
+  color: var(--muted);
+  background: #fffdf7;
+  border: 1px solid var(--line);
+  text-align: center;
+}
+
+.music-stat strong {
+  display: block;
+  color: var(--ink);
+  font-size: 20px;
+  line-height: 1;
+}
+
+.music-tools {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  display: grid;
+  gap: 12px;
+  margin: 0 -28px 24px;
+  padding: 14px 28px;
+  background: rgba(244, 240, 232, 0.98);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.music-search input {
+  width: 100%;
+  min-height: 42px;
+  padding: 9px 12px;
+  color: var(--ink);
+  background: #fffdf7;
+  border: 1px solid var(--line);
+  font: inherit;
+}
+
+.music-filter-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.music-filter,
+.artist-chip,
+.track-load {
+  min-height: 34px;
+  border: 1px solid var(--line);
+  color: var(--accent-dark);
+  background: #fffdf7;
+  font: inherit;
+  cursor: pointer;
+}
+
+.music-filter,
+.artist-chip {
+  padding: 6px 10px;
+}
+
+.music-filter[aria-pressed="true"],
+.artist-chip[aria-pressed="true"] {
+  color: #fff;
+  background: var(--accent-dark);
+  border-color: var(--accent-dark);
+}
+
+.music-results {
+  display: grid;
+  gap: 8px;
+}
+
+.music-results-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: baseline;
+  margin-bottom: 10px;
+  color: var(--muted);
+}
+
+.music-results-head h2 {
+  margin: 0;
+}
+
+.mixtape-track {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  min-height: 64px;
+  padding: 10px 12px;
+  background: #fffdf7;
+  border: 1px solid var(--line);
+  border-left: 4px solid #2c7770;
+}
+
+.mixtape-track:hover {
+  border-color: #9c9a6b;
+}
+
+.mixtape-track.is-active {
+  background: #f9f3df;
+  border-color: var(--accent-dark);
+  border-left-color: var(--accent-dark);
+}
+
+.mixtape-track.is-missing {
+  opacity: 0.68;
+  border-left-color: var(--muted);
+}
+
+.track-load {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 50%;
+  color: #fff;
+  background: #2c7770;
+  border-color: #2c7770;
+  font-weight: 700;
+}
+
+.track-load:disabled,
+.track-missing-mark {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+}
+
+.track-main {
+  min-width: 0;
+}
+
+.track-title {
+  display: inline-block;
+  max-width: 100%;
+  color: var(--accent-dark);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.track-meta {
+  margin: 4px 0 0;
+  color: var(--muted);
+}
+
+.track-side {
+  display: grid;
+  gap: 4px;
+  justify-items: end;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.track-status {
+  color: #2c7770;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+.track-detail {
+  font-size: 13px;
+}
+
+.mixtape-track.is-missing .track-status {
+  color: var(--muted);
+}
+
+.mixtape-empty {
+  padding: 22px;
+  color: var(--muted);
+  background: #fffdf7;
+  border: 1px solid var(--line);
+}
+
+.impulse-page {
+  display: grid;
+  gap: 22px;
+}
+
+.impulse-intro {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: end;
+}
+
+.impulse-intro p {
+  margin: 0;
+}
+
+.impulse-player-mount {
+  width: 100%;
+  min-height: 720px;
+  background: #000;
+  border: 1px solid var(--line);
+}
+
+.bottom-player {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  padding: 12px 16px;
+  background: rgba(22, 22, 22, 0.96);
+  border-top: 3px solid #2c7770;
+  color: #f4f0e8;
+}
+
+.bottom-player-inner {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(280px, 520px) auto;
+  gap: 16px;
+  align-items: center;
+  width: min(1080px, 100%);
+  margin: 0 auto;
+}
+
+.bottom-player-title {
+  display: block;
+  font-size: 18px;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.bottom-player-meta {
+  display: block;
+  color: #d5ccbf;
+  margin-top: 3px;
+}
+
+.bottom-player audio {
+  width: 100%;
+}
+
+.bottom-player a {
+  color: #f4f0e8;
+}
+
 .card {
   min-width: 0;
   padding: 16px;
@@ -828,6 +1326,47 @@ h2 { font-size: 24px; }
     padding: 20px;
   }
 
+  .music-page {
+    padding-bottom: 188px;
+  }
+
+  .music-hero,
+  .impulse-intro,
+  .bottom-player-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .impulse-intro {
+    display: grid;
+    align-items: start;
+  }
+
+  .impulse-player-mount {
+    min-height: 640px;
+  }
+
+  .music-stats,
+  .music-results-head {
+    justify-content: flex-start;
+  }
+
+  .music-tools {
+    margin-right: -20px;
+    margin-left: -20px;
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+
+  .mixtape-track {
+    grid-template-columns: 42px minmax(0, 1fr);
+  }
+
+  .track-side {
+    grid-column: 2;
+    justify-items: start;
+    white-space: normal;
+  }
+
   h1 {
     font-size: 30px;
   }
@@ -844,6 +1383,12 @@ INDEX_JS = r"""
   const nav = document.querySelector("[data-nav]");
   const footer = document.querySelector("[data-footer]");
   let archive;
+  const musicState = {
+    artist: "all",
+    query: "",
+    status: "playable",
+    currentId: null,
+  };
 
   const escapeHtml = (value) => String(value ?? "")
     .replaceAll("&", "&amp;")
@@ -890,6 +1435,57 @@ INDEX_JS = r"""
     document.title = titleFor(title);
     const meta = document.querySelector('meta[name="description"]');
     if (meta) meta.setAttribute("content", description || archive.site.description);
+  };
+
+  let impulseRuntimePromise;
+
+  const loadScript = (src) => new Promise((resolve, reject) => {
+    const existing = document.querySelector(`script[src="${src}"]`);
+    if (existing) {
+      existing.addEventListener("load", resolve, { once: true });
+      existing.addEventListener("error", reject, { once: true });
+      if (window.initIndusTreeImpulsePlayer) resolve();
+      return;
+    }
+    const script = document.createElement("script");
+    script.src = src;
+    script.defer = true;
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+
+  const ensureImpulseRuntime = () => {
+    const styleHref = new URL("impulse-player.css?v=2", assetBase).toString();
+    if (!document.querySelector(`link[href="${styleHref}"]`)) {
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = styleHref;
+      document.head.appendChild(link);
+    }
+    if (!impulseRuntimePromise) {
+      impulseRuntimePromise = loadScript(new URL("impulse-player.js?v=2", assetBase).toString());
+    }
+    return impulseRuntimePromise;
+  };
+
+  const mountImpulsePlayer = (initialFile, files) => {
+    ensureImpulseRuntime()
+      .then(() => {
+        window.initIndusTreeImpulsePlayer?.({
+          mountId: "impulsePlayerMount",
+          baseUrl: archive.impulse?.baseUrl,
+          files,
+          initialFile,
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+        const mount = document.getElementById("impulsePlayerMount");
+        if (mount) {
+          mount.innerHTML = '<p class="missing-media">The Impulse player could not be loaded.</p>';
+        }
+      });
   };
 
   const cardHtml = (node, compact = false) => {
@@ -969,25 +1565,169 @@ INDEX_JS = r"""
 </section>`;
   };
 
+  const musicNodes = () => (archive.lists.audio || [])
+    .map((id) => archive.nodes[String(id)])
+    .filter(Boolean);
+
+  const artistCounts = (nodes) => {
+    const counts = new Map();
+    for (const node of nodes) {
+      const artist = node.music?.artist || "IndusTree";
+      counts.set(artist, (counts.get(artist) || 0) + 1);
+    }
+    return [...counts.entries()]
+      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+  };
+
+  const nodeMatchesMusicState = (node) => {
+    const music = node.music || {};
+    if (musicState.status === "playable" && !music.playable) return false;
+    if (musicState.status === "missing" && music.playable) return false;
+    if (musicState.artist !== "all" && music.artistKey !== musicState.artist) return false;
+    const query = musicState.query.trim().toLowerCase();
+    if (query && !(music.searchText || "").includes(query)) return false;
+    return true;
+  };
+
+  const trackRowHtml = (node) => {
+    const music = node.music || {};
+    const playable = Boolean(music.playable && node.audio?.source);
+    const isActive = String(node.id) === String(musicState.currentId);
+    const detail = routeHref(node.path);
+    const artist = music.artist || "IndusTree";
+    const duration = music.duration || "";
+    const album = music.album ? ` / ${escapeHtml(music.album)}` : "";
+    const status = playable ? "Playable" : "Missing audio";
+    const control = playable
+      ? `<button class="track-load" type="button" data-track-id="${escapeHtml(node.id)}" aria-label="Play ${escapeHtml(node.title)}">&gt;</button>`
+      : '<span class="track-missing-mark" aria-hidden="true">-</span>';
+    return `<article class="mixtape-track${playable ? "" : " is-missing"}${isActive ? " is-active" : ""}" data-track-id="${escapeHtml(node.id)}">
+  ${control}
+  <div class="track-main">
+    <span class="track-title">${escapeHtml(node.title)}</span>
+    <p class="track-meta">${escapeHtml(artist)}${album}</p>
+  </div>
+  <div class="track-side">
+    <span>${escapeHtml(duration || node.date || "")}</span>
+    <span class="track-status">${escapeHtml(status)}</span>
+    <a class="track-detail" href="${detail}">Details</a>
+  </div>
+</article>`;
+  };
+
+  const bottomPlayerHtml = () => {
+    const node = musicState.currentId ? archive.nodes[String(musicState.currentId)] : null;
+    if (!node) {
+      return `<aside class="bottom-player" aria-label="Music player">
+  <div class="bottom-player-inner">
+    <div>
+      <strong class="bottom-player-title">Choose a track</strong>
+      <span class="bottom-player-meta">IndusTree archive mixtape</span>
+    </div>
+    <audio controls preload="metadata" data-mixtape-audio></audio>
+    <span></span>
+  </div>
+</aside>`;
+    }
+
+    const music = node.music || {};
+    const artist = music.artist || "IndusTree";
+    const duration = music.duration ? ` / ${music.duration}` : "";
+    const source = node.audio?.source || "";
+    const audio = source
+      ? `<audio controls preload="metadata" src="${escapeHtml(source)}" data-mixtape-audio></audio>`
+      : '<p class="missing-media">Audio is not restored for this archive entry yet.</p>';
+    const download = source
+      ? `<a href="${escapeHtml(node.audio.download || source)}" download>Download</a>`
+      : `<a href="${routeHref(node.path)}">Open entry</a>`;
+    return `<aside class="bottom-player" aria-label="Music player">
+  <div class="bottom-player-inner">
+    <div>
+      <strong class="bottom-player-title">${escapeHtml(node.title)}</strong>
+      <span class="bottom-player-meta">${escapeHtml(artist + duration)}</span>
+    </div>
+    ${audio}
+    <div>${download}</div>
+  </div>
+</aside>`;
+  };
+
   const renderAudioList = () => {
     const nodes = (archive.lists.audio || [])
       .map((id) => archive.nodes[String(id)])
       .filter(Boolean);
     const playable = nodes.filter((node) => Boolean(node.audio?.source));
     const unavailable = nodes.filter((node) => !node.audio?.source);
+    const filtered = nodes.filter(nodeMatchesMusicState);
+    const artists = artistCounts(nodes);
+    const artistKeys = new Map(nodes.map((node) => [
+      node.music?.artist || "IndusTree",
+      node.music?.artistKey || "industree",
+    ]));
+    const artistButtons = [
+      ["All", "all", nodes.length],
+      ...artists.map(([artist, count]) => [artist, artistKeys.get(artist), count]),
+    ].filter(([, key]) => key);
+    const statusButtons = [
+      ["Playable", "playable", playable.length],
+      ["All", "all", nodes.length],
+      ["Missing audio", "missing", unavailable.length],
+    ];
     setMeta("Music");
-    app.innerHTML = `<section class="page">
-  <h1>Music</h1>
-  <p class="lede">${playable.length} playable tracks, plus ${unavailable.length} archive entries waiting for audio.</p>
-  <section class="list-section" aria-labelledby="playable-audio">
-    <h2 id="playable-audio">Playable now</h2>
-    <div class="cards compact">${playable.map((node) => cardHtml(node, true)).join("\n")}</div>
+    app.innerHTML = `<section class="page music-page">
+  <div class="music-hero">
+    <div>
+      <h1>Music</h1>
+      <p class="lede">Restored tracks and archive entries from the IndusTree orbit.</p>
+    </div>
+    <div class="music-stats" aria-label="Music archive stats">
+      <span class="music-stat"><strong>${playable.length}</strong>Playable</span>
+      <span class="music-stat"><strong>${unavailable.length}</strong>Missing</span>
+      <span class="music-stat"><strong>${artists.length}</strong>Artists</span>
+    </div>
+  </div>
+  <div class="music-tools">
+    <label class="music-search">
+      <span class="visually-hidden">Search music</span>
+      <input type="search" value="${escapeHtml(musicState.query)}" placeholder="Search tracks, artists, years..." data-music-search>
+    </label>
+    <div class="music-filter-row" aria-label="Track status">
+      ${statusButtons.map(([label, key, count]) => `<button class="music-filter" type="button" data-music-status="${escapeHtml(key)}" aria-pressed="${musicState.status === key}">${escapeHtml(label)} (${count})</button>`).join("\n")}
+    </div>
+    <div class="music-filter-row" aria-label="Artists">
+      ${artistButtons.map(([label, key, count]) => `<button class="artist-chip" type="button" data-music-artist="${escapeHtml(key)}" aria-pressed="${musicState.artist === key}">${escapeHtml(label)} (${count})</button>`).join("\n")}
+    </div>
+  </div>
+  <section class="music-results" aria-labelledby="music-results-title">
+    <div class="music-results-head">
+      <h2 id="music-results-title">Tracks</h2>
+      <span>${filtered.length} shown</span>
+    </div>
+    ${filtered.length ? filtered.map(trackRowHtml).join("\n") : '<p class="mixtape-empty">No tracks match these filters.</p>'}
   </section>
-  ${unavailable.length ? `<section class="list-section" aria-labelledby="missing-audio">
-    <h2 id="missing-audio">Archive entries without audio yet</h2>
-    <div class="cards compact">${unavailable.map((node) => cardHtml(node, true)).join("\n")}</div>
-  </section>` : ""}
+  ${bottomPlayerHtml()}
 </section>`;
+  };
+
+  const renderImpulse = () => {
+    const impulse = archive.impulse || { files: [], markup: "" };
+    const files = impulse.files || [];
+    const first = files[0] || {
+      name: "1-2sleepy.it",
+      url: "https://audio.industree.org/itfiles/1-2sleepy.it",
+    };
+    setMeta("Impulse");
+    app.innerHTML = `<section class="page impulse-page">
+  <div class="impulse-intro">
+    <div>
+      <h1>Impulse</h1>
+      <p class="lede">Original Impulse Tracker files, playable in the browser with the Chasm IT player.</p>
+    </div>
+    <a class="button" href="${escapeHtml(first.url)}">Download ${escapeHtml(first.name)}</a>
+  </div>
+  <div class="impulse-player-mount" id="impulsePlayerMount">${impulse.markup || ""}</div>
+</section>`;
+    mountImpulsePlayer(first.name, files);
   };
 
   const renderContact = () => {
@@ -1009,12 +1749,19 @@ INDEX_JS = r"""
 
   const renderRoute = () => {
     const path = canonicalPath(currentRoutePath());
+    const isMusicPage = path === "audio" || path === "music";
+    const isImpulsePage = path === "impulse";
+    document.body.classList.toggle("has-mixtape-player", isMusicPage);
+    if (!isImpulsePage && window.__industreeImpulseStop) {
+      try { window.__industreeImpulseStop(); } catch (_) {}
+    }
     renderNav(path);
 
     if (!path) return renderHome();
-    if (path === "audio" || path === "music") {
+    if (isMusicPage) {
       return renderAudioList();
     }
+    if (isImpulsePage) return renderImpulse();
     if (path === "lyrics") return renderList("lyrics", "Lyrics");
     if (path === "archive") {
       return renderList("archive", "Archive", "{count} published nodes converted from Drupal 6.");
@@ -1033,16 +1780,65 @@ INDEX_JS = r"""
 
   const renderNav = (currentPath = canonicalPath(currentRoutePath())) => {
     if (!nav) return;
+    const currentNode = archive.nodes[String(archive.pathToNode[currentPath] || "")];
     const items = archive.nav.map((item) => {
       const itemPath = canonicalPath(item.path);
-      const active = itemPath === currentPath || (!itemPath && !currentPath);
+      const active = itemPath === currentPath
+        || (!itemPath && !currentPath)
+        || (itemPath === "audio" && (currentPath === "music" || currentPath.startsWith("audio/") || currentNode?.type === "audio"));
       return `<li><a href="${routeHref(item.path)}"${active ? ' aria-current="page"' : ""}>${escapeHtml(item.title)}</a></li>`;
     });
     nav.innerHTML = `<ul>${items.join("\n")}</ul>`;
   };
 
+  const selectTrack = (id, shouldPlay = true) => {
+    const node = archive.nodes[String(id)];
+    if (!node || node.type !== "audio") return;
+    musicState.currentId = String(id);
+    renderAudioList();
+    const audio = app.querySelector("[data-mixtape-audio]");
+    if (shouldPlay && node.audio?.source && audio) {
+      audio.play().catch(() => {});
+    }
+  };
+
+  const handleMusicInput = (event) => {
+    const input = event.target.closest("[data-music-search]");
+    if (!input) return;
+    musicState.query = input.value;
+    renderAudioList();
+    const nextInput = app.querySelector("[data-music-search]");
+    if (nextInput) {
+      nextInput.focus();
+      nextInput.setSelectionRange(nextInput.value.length, nextInput.value.length);
+    }
+  };
+
   const handleClick = (event) => {
     if (event.defaultPrevented || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const statusButton = event.target.closest("[data-music-status]");
+    if (statusButton) {
+      event.preventDefault();
+      musicState.status = statusButton.dataset.musicStatus || "playable";
+      renderAudioList();
+      return;
+    }
+
+    const artistButton = event.target.closest("[data-music-artist]");
+    if (artistButton) {
+      event.preventDefault();
+      musicState.artist = artistButton.dataset.musicArtist || "all";
+      renderAudioList();
+      return;
+    }
+
+    const trackTrigger = event.target.closest("[data-track-id]");
+    if (trackTrigger && !event.target.closest("a[href]")) {
+      event.preventDefault();
+      selectTrack(trackTrigger.dataset.trackId);
+      return;
+    }
+
     const link = event.target.closest("a[href]");
     if (!link || link.target || link.hasAttribute("download")) return;
 
@@ -1078,6 +1874,7 @@ INDEX_JS = r"""
       if (footer) footer.textContent = archive.site.footer;
       renderRoute();
       document.addEventListener("click", handleClick);
+      app.addEventListener("input", handleMusicInput);
       window.addEventListener("popstate", renderRoute);
       window.addEventListener("hashchange", renderRoute);
     })
@@ -1093,13 +1890,13 @@ INDEX_JS = r"""
 
 
 def main() -> int:
-    if not SQL_DUMP.exists():
-        print(f"Missing {SQL_DUMP}", file=sys.stderr)
-        return 1
-    data = read_tables()
-    SiteBuilder(data).build()
-    print(f"Built static app in {OUT}")
-    return 0
+    print(
+        "scripts/build_static.py is deprecated. docs/ is now the source of truth. "
+        "Edit docs/index.html, docs/assets/index.js, docs/assets/site.css, and "
+        "docs/assets/site-data.json directly.",
+        file=sys.stderr,
+    )
+    return 2
 
 
 if __name__ == "__main__":

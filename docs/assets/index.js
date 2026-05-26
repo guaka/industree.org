@@ -7,6 +7,12 @@
   const nav = document.querySelector("[data-nav]");
   const footer = document.querySelector("[data-footer]");
   let archive;
+  const musicState = {
+    artist: "all",
+    query: "",
+    status: "playable",
+    currentId: null,
+  };
 
   const escapeHtml = (value) => String(value ?? "")
     .replaceAll("&", "&amp;")
@@ -53,6 +59,57 @@
     document.title = titleFor(title);
     const meta = document.querySelector('meta[name="description"]');
     if (meta) meta.setAttribute("content", description || archive.site.description);
+  };
+
+  let impulseRuntimePromise;
+
+  const loadScript = (src) => new Promise((resolve, reject) => {
+    const existing = document.querySelector(`script[src="${src}"]`);
+    if (existing) {
+      existing.addEventListener("load", resolve, { once: true });
+      existing.addEventListener("error", reject, { once: true });
+      if (window.initIndusTreeImpulsePlayer) resolve();
+      return;
+    }
+    const script = document.createElement("script");
+    script.src = src;
+    script.defer = true;
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+
+  const ensureImpulseRuntime = () => {
+    const styleHref = new URL("impulse-player.css?v=2", assetBase).toString();
+    if (!document.querySelector(`link[href="${styleHref}"]`)) {
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = styleHref;
+      document.head.appendChild(link);
+    }
+    if (!impulseRuntimePromise) {
+      impulseRuntimePromise = loadScript(new URL("impulse-player.js?v=2", assetBase).toString());
+    }
+    return impulseRuntimePromise;
+  };
+
+  const mountImpulsePlayer = (initialFile, files) => {
+    ensureImpulseRuntime()
+      .then(() => {
+        window.initIndusTreeImpulsePlayer?.({
+          mountId: "impulsePlayerMount",
+          baseUrl: archive.impulse?.baseUrl,
+          files,
+          initialFile,
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+        const mount = document.getElementById("impulsePlayerMount");
+        if (mount) {
+          mount.innerHTML = '<p class="missing-media">The Impulse player could not be loaded.</p>';
+        }
+      });
   };
 
   const cardHtml = (node, compact = false) => {
@@ -132,25 +189,161 @@
 </section>`;
   };
 
+  const artistCounts = (nodes) => {
+    const counts = new Map();
+    for (const node of nodes) {
+      const artist = node.music?.artist || "IndusTree";
+      counts.set(artist, (counts.get(artist) || 0) + 1);
+    }
+    return [...counts.entries()]
+      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+  };
+
+  const nodeMatchesMusicState = (node) => {
+    const music = node.music || {};
+    if (musicState.status === "playable" && !music.playable) return false;
+    if (musicState.status === "missing" && music.playable) return false;
+    if (musicState.artist !== "all" && music.artistKey !== musicState.artist) return false;
+    const query = musicState.query.trim().toLowerCase();
+    if (query && !(music.searchText || "").includes(query)) return false;
+    return true;
+  };
+
+  const trackRowHtml = (node) => {
+    const music = node.music || {};
+    const playable = Boolean(music.playable && node.audio?.source);
+    const isActive = String(node.id) === String(musicState.currentId);
+    const detail = routeHref(node.path);
+    const artist = music.artist || "IndusTree";
+    const duration = music.duration || "";
+    const album = music.album ? ` / ${escapeHtml(music.album)}` : "";
+    const status = playable ? "Playable" : "Missing audio";
+    const control = playable
+      ? `<button class="track-load" type="button" data-track-id="${escapeHtml(node.id)}" aria-label="Play ${escapeHtml(node.title)}">&gt;</button>`
+      : '<span class="track-missing-mark" aria-hidden="true">-</span>';
+    return `<article class="mixtape-track${playable ? "" : " is-missing"}${isActive ? " is-active" : ""}" data-track-id="${escapeHtml(node.id)}">
+  ${control}
+  <div class="track-main">
+    <span class="track-title">${escapeHtml(node.title)}</span>
+    <p class="track-meta">${escapeHtml(artist)}${album}</p>
+  </div>
+  <div class="track-side">
+    <span>${escapeHtml(duration || node.date || "")}</span>
+    <span class="track-status">${escapeHtml(status)}</span>
+    <a class="track-detail" href="${detail}">Details</a>
+  </div>
+</article>`;
+  };
+
+  const bottomPlayerHtml = () => {
+    const node = musicState.currentId ? archive.nodes[String(musicState.currentId)] : null;
+    if (!node) {
+      return "";
+    }
+
+    const music = node.music || {};
+    const artist = music.artist || "IndusTree";
+    const duration = music.duration ? ` / ${music.duration}` : "";
+    const source = node.audio?.source || "";
+    const audio = source
+      ? `<audio controls preload="metadata" src="${escapeHtml(source)}" data-mixtape-audio></audio>`
+      : '<p class="missing-media">Audio is not restored for this archive entry yet.</p>';
+    const download = source
+      ? `<a href="${escapeHtml(node.audio.download || source)}" download>Download</a>`
+      : `<a href="${routeHref(node.path)}">Open entry</a>`;
+    return `<aside class="bottom-player" aria-label="Music player">
+  <div class="bottom-player-inner">
+    <div>
+      <strong class="bottom-player-title">${escapeHtml(node.title)}</strong>
+      <span class="bottom-player-meta">${escapeHtml(artist + duration)}</span>
+    </div>
+    ${audio}
+    <div>${download}</div>
+  </div>
+</aside>`;
+  };
+
   const renderAudioList = () => {
     const nodes = (archive.lists.audio || [])
       .map((id) => archive.nodes[String(id)])
       .filter(Boolean);
     const playable = nodes.filter((node) => Boolean(node.audio?.source));
     const unavailable = nodes.filter((node) => !node.audio?.source);
+    const filtered = nodes.filter(nodeMatchesMusicState);
+    const artists = artistCounts(nodes);
+    const artistKeys = new Map(nodes.map((node) => [
+      node.music?.artist || "IndusTree",
+      node.music?.artistKey || "industree",
+    ]));
+    const artistOptions = [
+      ["All", "all", nodes.length],
+      ...artists.map(([artist, count]) => [artist, artistKeys.get(artist), count]),
+    ].filter(([, key]) => key);
+    const statusButtons = [
+      ["Playable", "playable", playable.length],
+      ["All", "all", nodes.length],
+      ["Missing audio", "missing", unavailable.length],
+    ];
     setMeta("Music");
-    app.innerHTML = `<section class="page">
-  <h1>Music</h1>
-  <p class="lede">${playable.length} playable tracks, plus ${unavailable.length} archive entries waiting for audio.</p>
-  <section class="list-section" aria-labelledby="playable-audio">
-    <h2 id="playable-audio">Playable now</h2>
-    <div class="cards compact">${playable.map((node) => cardHtml(node, true)).join("\n")}</div>
+    app.innerHTML = `<section class="page music-page${musicState.currentId ? " has-player" : ""}">
+  <div class="music-hero">
+    <div>
+      <h1>Music</h1>
+      <p class="lede">Restored tracks and archive entries from the IndusTree orbit.</p>
+    </div>
+    <div class="music-stats" aria-label="Music archive stats">
+      <span class="music-stat"><strong>${playable.length}</strong>Playable</span>
+      <span class="music-stat"><strong>${unavailable.length}</strong>Missing</span>
+      <span class="music-stat"><strong>${artists.length}</strong>Artists</span>
+    </div>
+  </div>
+  <div class="music-tools">
+    <label class="music-search">
+      <span class="visually-hidden">Search music</span>
+      <input type="search" value="${escapeHtml(musicState.query)}" placeholder="Search tracks, artists, years..." data-music-search>
+    </label>
+    <div class="music-filter-row" aria-label="Track status">
+      ${statusButtons.map(([label, key, count]) => `<button class="music-filter" type="button" data-music-status="${escapeHtml(key)}" aria-pressed="${musicState.status === key}">${escapeHtml(label)} (${count})</button>`).join("\n")}
+    </div>
+    <label class="music-artist-select">
+      <span class="visually-hidden">Artist</span>
+      <select data-music-artist-select>
+        ${artistOptions.map(([label, key, count]) => `<option value="${escapeHtml(key)}"${musicState.artist === key ? " selected" : ""}>${escapeHtml(label)} (${count})</option>`).join("\n")}
+      </select>
+    </label>
+  </div>
+  <section class="music-results" aria-labelledby="music-results-title">
+    <div class="music-results-head">
+      <h2 id="music-results-title">Tracks</h2>
+      <span>${filtered.length} shown</span>
+    </div>
+    ${filtered.length ? filtered.map(trackRowHtml).join("\n") : '<p class="mixtape-empty">No tracks match these filters.</p>'}
   </section>
-  ${unavailable.length ? `<section class="list-section" aria-labelledby="missing-audio">
-    <h2 id="missing-audio">Archive entries without audio yet</h2>
-    <div class="cards compact">${unavailable.map((node) => cardHtml(node, true)).join("\n")}</div>
-  </section>` : ""}
+  ${bottomPlayerHtml()}
 </section>`;
+  };
+
+  const renderImpulse = () => {
+    const impulse = archive.impulse || { files: [] };
+    const files = impulse.files || [];
+    const first = files[0] || {
+      name: "1-2sleepy.it",
+      url: "https://audio.industree.org/itfiles/1-2sleepy.it",
+    };
+    const template = document.getElementById("impulse-player-template");
+    const playerMarkup = template ? template.innerHTML : "";
+    setMeta("Impulse");
+    app.innerHTML = `<section class="page impulse-page">
+  <div class="impulse-intro">
+    <div>
+      <h1>Impulse</h1>
+      <p class="lede">Original Impulse Tracker files, playable in the browser with the Chasm IT player.</p>
+    </div>
+    <a class="button" href="${escapeHtml(first.url)}">Download ${escapeHtml(first.name)}</a>
+  </div>
+  <div class="impulse-player-mount" id="impulsePlayerMount">${playerMarkup}</div>
+</section>`;
+    mountImpulsePlayer(first.name, files);
   };
 
   const renderContact = () => {
@@ -172,12 +365,19 @@
 
   const renderRoute = () => {
     const path = canonicalPath(currentRoutePath());
+    const isMusicPage = path === "audio" || path === "music";
+    const isImpulsePage = path === "impulse";
+    document.body.classList.toggle("has-mixtape-player", isMusicPage);
+    if (!isImpulsePage && window.__industreeImpulseStop) {
+      try { window.__industreeImpulseStop(); } catch (_) {}
+    }
     renderNav(path);
 
     if (!path) return renderHome();
-    if (path === "audio" || path === "music") {
+    if (isMusicPage) {
       return renderAudioList();
     }
+    if (isImpulsePage) return renderImpulse();
     if (path === "lyrics") return renderList("lyrics", "Lyrics");
     if (path === "archive") {
       return renderList("archive", "Archive", "{count} published nodes converted from Drupal 6.");
@@ -196,16 +396,64 @@
 
   const renderNav = (currentPath = canonicalPath(currentRoutePath())) => {
     if (!nav) return;
+    const currentNode = archive.nodes[String(archive.pathToNode[currentPath] || "")];
     const items = archive.nav.map((item) => {
       const itemPath = canonicalPath(item.path);
-      const active = itemPath === currentPath || (!itemPath && !currentPath);
+      const active = itemPath === currentPath
+        || (!itemPath && !currentPath)
+        || (itemPath === "audio" && (currentPath === "music" || currentPath.startsWith("audio/") || currentNode?.type === "audio"));
       return `<li><a href="${routeHref(item.path)}"${active ? ' aria-current="page"' : ""}>${escapeHtml(item.title)}</a></li>`;
     });
     nav.innerHTML = `<ul>${items.join("\n")}</ul>`;
   };
 
+  const selectTrack = (id, shouldPlay = true) => {
+    const node = archive.nodes[String(id)];
+    if (!node || node.type !== "audio") return;
+    musicState.currentId = String(id);
+    renderAudioList();
+    const audio = app.querySelector("[data-mixtape-audio]");
+    if (shouldPlay && node.audio?.source && audio) {
+      audio.play().catch(() => {});
+    }
+  };
+
+  const handleMusicInput = (event) => {
+    const input = event.target.closest("[data-music-search]");
+    if (!input) return;
+    musicState.query = input.value;
+    renderAudioList();
+    const nextInput = app.querySelector("[data-music-search]");
+    if (nextInput) {
+      nextInput.focus();
+      nextInput.setSelectionRange(nextInput.value.length, nextInput.value.length);
+    }
+  };
+
+  const handleMusicChange = (event) => {
+    const select = event.target.closest("[data-music-artist-select]");
+    if (!select) return;
+    musicState.artist = select.value || "all";
+    renderAudioList();
+  };
+
   const handleClick = (event) => {
     if (event.defaultPrevented || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const statusButton = event.target.closest("[data-music-status]");
+    if (statusButton) {
+      event.preventDefault();
+      musicState.status = statusButton.dataset.musicStatus || "playable";
+      renderAudioList();
+      return;
+    }
+
+    const trackTrigger = event.target.closest("[data-track-id]");
+    if (trackTrigger && !event.target.closest("a[href]")) {
+      event.preventDefault();
+      selectTrack(trackTrigger.dataset.trackId);
+      return;
+    }
+
     const link = event.target.closest("a[href]");
     if (!link || link.target || link.hasAttribute("download")) return;
 
@@ -241,6 +489,8 @@
       if (footer) footer.textContent = archive.site.footer;
       renderRoute();
       document.addEventListener("click", handleClick);
+      app.addEventListener("input", handleMusicInput);
+      app.addEventListener("change", handleMusicChange);
       window.addEventListener("popstate", renderRoute);
       window.addEventListener("hashchange", renderRoute);
     })
