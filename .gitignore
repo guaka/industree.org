@@ -1,0 +1,15 @@
+# Local/system noise
+.DS_Store
+*.log
+
+# Original Drupal 6 export and private/local configuration
+/industree.sql.gz
+/settings.php
+/default.settings.php
+/drushrc.php
+/themes/
+/files/
+
+# Optional source folder for images recovered later from Archive.org.
+# Rebuild with scripts/build_static.py to copy committed copies into docs/bobimages/.
+/bobimages/

@@ -1,0 +1,9 @@
+.header-group-wrapper,
+.footer-message-wrapper
+{
+  background: url(/sites/industree.guaka.org/files/viz/backtop6.jpg) !important;
+}
+
+.header-group-inner {
+  padding:20px 0 !important;
+}
