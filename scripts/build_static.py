@@ -21,7 +21,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SQL_DUMP = ROOT / "industree.sql.gz"
 OUT = ROOT / "docs"
 MEDIA_MANIFEST = ROOT / "media" / "audio_manifest.json"
-DEFAULT_MEDIA_BASE_URL = "https://d7.bfr.ee"
+DEFAULT_MEDIA_BASE_URL = "https://audio.industree.org"
 TARGET_TABLES = {
     "audio",
     "audio_metadata",
@@ -416,7 +416,7 @@ class SiteBuilder:
   </main>
   <footer class="site-footer">
     <div class="wrap">
-      <p>IndusTree was an experimental noise music band from Nijmegen. Static archive generated from the Drupal 6 export.</p>
+      <p>IndusTree was an experimental noise music band from Nijmegen. Static archive generated from the Drupal 6 export. <a href="https://github.com/guaka/industree.org">View the repository</a>.</p>
     </div>
   </footer>
 </body>

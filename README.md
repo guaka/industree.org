@@ -10,10 +10,10 @@ python3 scripts/build_static.py
 
 The generated site is written to `docs/`.
 
-Audio links are generated from `media/audio_manifest.json`. By default restored audio points to the temporary host `https://d7.bfr.ee/audio/...`. After `audio.industree.org` DNS is ready, rebuild with:
+Audio links are generated from `media/audio_manifest.json`. Restored audio points to `https://audio.industree.org/audio/...` by default. To override the media host for a temporary deployment, rebuild with:
 
 ```sh
-MEDIA_BASE_URL=https://audio.industree.org python3 scripts/build_static.py
+MEDIA_BASE_URL=https://example.org python3 scripts/build_static.py
 ```
 
 ## GitHub Pages
@@ -27,16 +27,16 @@ The Drupal database references many MP3 files, but the audio binaries are not co
 Recovered audio files can stay on the mounted media share. To sync the selected manifest entries to the server:
 
 ```sh
-scripts/rsync_audio.sh d7.bfr.ee:/var/www/audio.industree.org/
+scripts/rsync_audio.sh
 ```
 
 For a dry run:
 
 ```sh
-scripts/rsync_audio.sh --dry-run d7.bfr.ee:/var/www/audio.industree.org/
+scripts/rsync_audio.sh --dry-run
 ```
 
-The script reads `media/audio_manifest.json`, rsyncs each `source_path` to its `server_path`, and writes an ignored transfer report to `media/rsync_audio_manifest.tsv`.
+The script reads `media/audio_manifest.json`, stages all restored tracks into their final `server_path`, uploads them with one rsync, fixes readable permissions, verifies the published audio URLs, and writes an ignored transfer report to `media/rsync_audio_manifest.tsv`. Use `--delete` only when the remote audio folder should exactly match the manifest.
 
 ## Missing images
 
