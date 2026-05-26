@@ -93,7 +93,7 @@
     return impulseRuntimePromise;
   };
 
-  const impulseFileHref = (file) => `/#/impulse/${encodeURIComponent(file)}/`;
+  const impulseFileHref = (file) => `/#/impulse/${encodeURIComponent(file)}`;
 
   const mountImpulsePlayer = (initialFile, files, autoplay = false) => {
     ensureImpulseRuntime()

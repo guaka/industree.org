@@ -29,7 +29,7 @@ function hex3(v) { return ('00' + (v || 0).toString(16)).slice(-3).toUpperCase()
 function pad3(v) { return ('00' + v).slice(-3); }
 function readStr(dv, off, len) { let s = ''; for (let i = 0; i < len; i++) { const c = dv.getUint8(off + i); if (!c) break; s += String.fromCharCode(c); } return s.trim(); }
 function itFileUrl(name) { return IT_BASE_URL + encodeURIComponent(name); }
-function itFileHash(name) { return '#/impulse/' + encodeURIComponent(name) + '/'; }
+function itFileHash(name) { return '#/impulse/' + encodeURIComponent(name); }
 function loadItFile(name, config) {
     const loadOptions = config || {};
     if (!name) return;
