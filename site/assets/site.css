@@ -7,6 +7,7 @@
   --accent: #b53427;
   --accent-dark: #70221c;
   --panel: #fffaf0;
+  --ui-font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -15,7 +16,7 @@ body {
   margin: 0;
   color: var(--ink);
   background: #151515 url("../files/viz/backtop6.jpg") top center fixed;
-  font: 16px/1.55 Georgia, "Times New Roman", serif;
+  font: 16px/1.55 var(--ui-font);
 }
 
 a { color: var(--accent-dark); }
@@ -38,6 +39,7 @@ a:hover { color: var(--accent); }
 .site-header {
   background: rgba(244, 240, 232, 0.96);
   border-bottom: 1px solid var(--line);
+  font-family: var(--ui-font);
 }
 
 .header-inner {
@@ -57,20 +59,15 @@ a:hover { color: var(--accent); }
 }
 
 .brand img {
-  width: 58px;
+  width: 220px;
   height: auto;
-}
-
-.brand strong {
-  display: block;
-  font-size: 27px;
-  line-height: 1;
 }
 
 .brand em {
   display: block;
   color: var(--muted);
-  font-size: 14px;
+  font-size: 13px;
+  line-height: 1.25;
   font-style: normal;
 }
 
@@ -89,6 +86,9 @@ a:hover { color: var(--accent); }
   padding: 5px 8px;
   border: 1px solid var(--line);
   background: #fffdf7;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
   text-decoration: none;
   white-space: nowrap;
 }
@@ -513,11 +513,7 @@ h2 { font-size: 24px; }
   }
 
   .brand img {
-    width: 52px;
-  }
-
-  .brand strong {
-    font-size: 26px;
+    width: 170px;
   }
 
   .primary-nav ul {

@@ -846,7 +846,7 @@ function drawWaveform(smp) {
     const h = canvas.height = canvas.offsetHeight * (window.devicePixelRatio || 1);
     ctx.fillStyle = '#050510'; ctx.fillRect(0, 0, w, h);
     ctx.strokeStyle = '#1a1a2e'; ctx.beginPath(); ctx.moveTo(0, h / 2); ctx.lineTo(w, h / 2); ctx.stroke();
-    if (!smp.data || !smp.data.length) { ctx.fillStyle = '#333'; ctx.font = '12px monospace'; ctx.fillText('No sample data', 10, h / 2); return; }
+    if (!smp.data || !smp.data.length) { ctx.fillStyle = '#333'; ctx.font = '12px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'; ctx.fillText('No sample data', 10, h / 2); return; }
     const data = smp.data, len = data.length;
     ctx.fillStyle = '#3a6a3a';
     if (len / w > 2) {
@@ -905,7 +905,7 @@ function drawEnvelope(env, label, isVol) {
     const w = canvas.width = canvas.offsetWidth * (window.devicePixelRatio || 1);
     const h = canvas.height = canvas.offsetHeight * (window.devicePixelRatio || 1);
     ctx.fillStyle = '#050510'; ctx.fillRect(0, 0, w, h);
-    ctx.fillStyle = '#444'; ctx.font = '10px monospace';
+    ctx.fillStyle = '#444'; ctx.font = '10px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
     if (!env || !env.nodes || !env.nodes.length) { ctx.fillText('No ' + label + ' envelope', 10, h / 2); return; }
     ctx.fillText((env.enabled ? label + ' Envelope (ON)' : label + ' Envelope (OFF)'), 6, 12);
     const padY = 16, drawH = h - padY * 2;

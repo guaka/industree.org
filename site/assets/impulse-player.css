@@ -1,5 +1,5 @@
 .impulse-player-mount, .impulse-player-mount * { margin: 0; padding: 0; box-sizing: border-box; }
-.impulse-player-mount { font-family: 'Courier New', Consolas, monospace; background: #000; color: #b0b0b0; height: 100vh; overflow: hidden; font-size: 12px; }
+.impulse-player-mount { font-family: var(--ui-font, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif); background: #000; color: #b0b0b0; height: 100vh; overflow: hidden; font-size: 12px; }
 .impulse-player-mount .container { display: flex; flex-direction: column; height: 100vh; }
 .impulse-player-mount /* ── Top info bar (Schism-style) ─────────────── */
         .info-header {

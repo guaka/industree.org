@@ -502,9 +502,7 @@
       document.querySelector(".brand")?.setAttribute("href", "/#/");
       document.querySelector(".brand img")?.setAttribute("src", archive.site.logo);
       document.querySelector(".brand img")?.setAttribute("alt", archive.site.name);
-      const brandName = document.querySelector(".brand strong");
       const brandSlogan = document.querySelector(".brand em");
-      if (brandName) brandName.textContent = archive.site.name;
       if (brandSlogan) brandSlogan.textContent = archive.site.slogan;
       if (footer) footer.textContent = archive.site.footer;
       renderRoute();

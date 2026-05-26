@@ -3,10 +3,10 @@ set -eu
 
 PORT="${PORT:-21845}"
 ROOT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
-DOCS_DIR="$ROOT_DIR/docs"
+SITE_DIR="$ROOT_DIR/site"
 
-printf 'Serving %s at http://localhost:%s/\n' "$DOCS_DIR" "$PORT"
-exec python3 - "$DOCS_DIR" "$PORT" <<'PY'
+printf 'Serving %s at http://localhost:%s/\n' "$SITE_DIR" "$PORT"
+exec python3 - "$SITE_DIR" "$PORT" <<'PY'
 from functools import partial
 from http import HTTPStatus
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
@@ -52,14 +52,16 @@ def snapshot_version():
 class IndusTreeHandler(SimpleHTTPRequestHandler):
     def translate_path(self, path):
         path = urlsplit(path).path
-        if path == "/docs":
+        if path == "/site" or path == "/docs":
             path = "/"
+        elif path.startswith("/site/"):
+            path = path[5:] or "/"
         elif path.startswith("/docs/"):
             path = path[5:] or "/"
         return super().translate_path(path)
 
     def do_GET(self):
-        if self.redirect_docs_path():
+        if self.redirect_site_folder_path():
             return
         if urlsplit(self.path).path == "/__dev_reload/events":
             self.serve_reload_events()
@@ -72,7 +74,7 @@ class IndusTreeHandler(SimpleHTTPRequestHandler):
         super().do_GET()
 
     def do_HEAD(self):
-        if self.redirect_docs_path():
+        if self.redirect_site_folder_path():
             return
         if self.should_serve_app_shell():
             self.path = "/index.html"
@@ -81,12 +83,18 @@ class IndusTreeHandler(SimpleHTTPRequestHandler):
             return
         super().do_HEAD()
 
-    def redirect_docs_path(self):
+    def redirect_site_folder_path(self):
         parts = urlsplit(self.path)
-        if parts.path != "/docs" and not parts.path.startswith("/docs/"):
+        if (
+            parts.path != "/site"
+            and not parts.path.startswith("/site/")
+            and parts.path != "/docs"
+            and not parts.path.startswith("/docs/")
+        ):
             return False
 
-        target_path = parts.path[5:] or "/"
+        folder_prefix = "/site" if parts.path == "/site" or parts.path.startswith("/site/") else "/docs"
+        target_path = parts.path[len(folder_prefix):] or "/"
         if target_path == "/index.html":
             target_path = "/"
         target = urlunsplit(("", "", target_path, parts.query, ""))
