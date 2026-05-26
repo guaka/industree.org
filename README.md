@@ -5,15 +5,14 @@ This repository contains a static archive that can be served by GitHub Pages.
 ## Editing
 
 - `site/index.html` is the app shell.
-- `site/404.html` uses the same shell so GitHub Pages can still load the app for old deep links.
-- `site/assets/index.js` renders pages and handles hash-based internal navigation such as `/#/audio/`.
+- `site/assets/index.js` renders pages and handles clean internal navigation such as `/audio/`.
 - `site/assets/site-data.json` contains the frozen Drupal archive data plus small hand-maintained app data.
 - `site/assets/site.css` and `site/files/` contain the styling and static assets.
-- `site/assets/impulse-player.js` and `site/assets/impulse-player.css` contain the browser IT file player used by `/#/impulse/`.
+- `site/assets/impulse-player.js` and `site/assets/impulse-player.css` contain the browser IT file player used by `/impulse/`.
 
-`site/` is the source of truth. Edit these files directly; normal development does not use a generation or build step for the site.
+`site/` is the source of truth. Edit these files directly; normal development does not use a generation or build step for the site. The GitHub Pages workflow copies `site/index.html` to `404.html` in its deployment artifact so old deep links still load the app shell.
 
-The app intentionally avoids one HTML file per Drupal page. Most archive content lives in the JSON file and is rendered in the browser. Old path-style URLs are treated as a light compatibility fallback, but the preferred navigation format is hash links.
+The app intentionally avoids one HTML file per Drupal page. Most archive content lives in the JSON file and is rendered in the browser. Clean path-style URLs are preferred, and old hash URLs such as `/#/audio/` still work as compatibility links.
 
 The Music page groups playable tracks first, then lists archive entries that still do not have audio attached.
 
@@ -21,7 +20,7 @@ Audio links in `site/assets/site-data.json` point to `https://audio.industree.or
 
 ## GitHub Pages
 
-In the repository settings, set Pages to deploy from GitHub Actions. The `.github/workflows/pages.yml` workflow uploads `site/` as the Pages artifact. The `site/.nojekyll` file is included so GitHub Pages serves the archive as plain static files.
+In the repository settings, set Pages to deploy from GitHub Actions. The `.github/workflows/pages.yml` workflow prepares a Pages artifact from `site/` and generates `404.html` from `index.html`. The `site/.nojekyll` file is included so GitHub Pages serves the archive as plain static files.
 
 The Drupal database references many MP3 files, but the audio binaries are not committed to this repository. Restored tracks live on an external static host and are listed in `media/audio_manifest.json`.
 

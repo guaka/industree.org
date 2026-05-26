@@ -2,11 +2,12 @@
 set -eu
 
 PORT="${PORT:-21845}"
+HOST="${HOST:-127.0.0.1}"
 ROOT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
 SITE_DIR="$ROOT_DIR/site"
 
-printf 'Serving %s at http://localhost:%s/\n' "$SITE_DIR" "$PORT"
-exec python3 - "$SITE_DIR" "$PORT" <<'PY'
+printf 'Serving %s at http://%s:%s/\n' "$SITE_DIR" "$HOST" "$PORT"
+exec python3 - "$SITE_DIR" "$HOST" "$PORT" <<'PY'
 from functools import partial
 from http import HTTPStatus
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
@@ -16,7 +17,10 @@ import sys
 import time
 
 directory = Path(sys.argv[1]).resolve()
-port = int(sys.argv[2])
+host = sys.argv[2]
+port = int(sys.argv[3])
+FOLDER_PREFIXES = ("/site", "/docs")
+APP_SHELL_PREFIXES = ("/impulse/",)
 
 LIVE_RELOAD_SCRIPT = b"""<script>
 (() => {
@@ -49,15 +53,19 @@ def snapshot_version():
     return f"{count}:{total_size}:{latest_mtime}"
 
 
+def folder_prefix_for(path):
+    for prefix in FOLDER_PREFIXES:
+        if path == prefix or path.startswith(prefix + "/"):
+            return prefix
+    return None
+
+
 class IndusTreeHandler(SimpleHTTPRequestHandler):
     def translate_path(self, path):
         path = urlsplit(path).path
-        if path == "/site" or path == "/docs":
-            path = "/"
-        elif path.startswith("/site/"):
-            path = path[5:] or "/"
-        elif path.startswith("/docs/"):
-            path = path[5:] or "/"
+        folder_prefix = folder_prefix_for(path)
+        if folder_prefix:
+            path = path[len(folder_prefix):] or "/"
         return super().translate_path(path)
 
     def do_GET(self):
@@ -85,15 +93,10 @@ class IndusTreeHandler(SimpleHTTPRequestHandler):
 
     def redirect_site_folder_path(self):
         parts = urlsplit(self.path)
-        if (
-            parts.path != "/site"
-            and not parts.path.startswith("/site/")
-            and parts.path != "/docs"
-            and not parts.path.startswith("/docs/")
-        ):
+        folder_prefix = folder_prefix_for(parts.path)
+        if not folder_prefix:
             return False
 
-        folder_prefix = "/site" if parts.path == "/site" or parts.path.startswith("/site/") else "/docs"
         target_path = parts.path[len(folder_prefix):] or "/"
         if target_path == "/index.html":
             target_path = "/"
@@ -108,6 +111,8 @@ class IndusTreeHandler(SimpleHTTPRequestHandler):
         requested = Path(self.translate_path(self.path))
         if requested.exists():
             return False
+        if parts.path.startswith(APP_SHELL_PREFIXES):
+            return True
         return "." not in Path(parts.path).name
 
     def html_path(self):
@@ -171,7 +176,7 @@ class IndusTreeHandler(SimpleHTTPRequestHandler):
 
 
 handler = partial(IndusTreeHandler, directory=str(directory))
-server = ThreadingHTTPServer(("", port), handler)
+server = ThreadingHTTPServer((host, port), handler)
 try:
     server.serve_forever()
 except KeyboardInterrupt:

@@ -85,6 +85,15 @@ while [ "$#" -gt 0 ]; do
 done
 
 dest=${dest%/}
+target_subdir=audio
+rsync_source=$stagedir/
+rsync_dest=$dest/
+
+if [ "$mode" = "itfiles" ]; then
+  target_subdir=itfiles
+  rsync_source=$stagedir/itfiles/
+  rsync_dest=$dest/itfiles/
+fi
 
 cleanup() {
   rm -rf "$tmpdir"
@@ -199,22 +208,12 @@ if [ "$dry_run" -eq 0 ]; then
     *:*)
       host=${dest%%:*}
       remote_dir=${dest#*:}
-      remote_audio_q=$(quote_sh "$remote_dir/audio")
-      remote_itfiles_q=$(quote_sh "$remote_dir/itfiles")
-      if [ "$mode" = "itfiles" ]; then
-        ssh "$host" "mkdir -p $remote_itfiles_q && chmod 755 $remote_itfiles_q"
-      else
-        ssh "$host" "mkdir -p $remote_audio_q && chmod 755 $remote_audio_q"
-      fi
+      remote_target_q=$(quote_sh "$remote_dir/$target_subdir")
+      ssh "$host" "mkdir -p $remote_target_q && chmod 755 $remote_target_q"
       ;;
     *)
-      if [ "$mode" = "itfiles" ]; then
-        mkdir -p "$dest/itfiles"
-        chmod 755 "$dest/itfiles"
-      else
-        mkdir -p "$dest/audio"
-        chmod 755 "$dest/audio"
-      fi
+      mkdir -p "$dest/$target_subdir"
+      chmod 755 "$dest/$target_subdir"
       ;;
   esac
 fi
@@ -227,31 +226,18 @@ if [ "$delete_extra" -eq 1 ]; then
   rsync_flags="$rsync_flags --delete"
 fi
 
-if [ "$mode" = "itfiles" ]; then
-  rsync $rsync_flags -L "$stagedir/itfiles/" "$dest/itfiles/"
-else
-  rsync $rsync_flags -L "$stagedir/" "$dest/"
-fi
+rsync $rsync_flags -L "$rsync_source" "$rsync_dest"
 
 if [ "$dry_run" -eq 0 ]; then
   case "$dest" in
     *:*)
       host=${dest%%:*}
       remote_dir=${dest#*:}
-      remote_audio_q=$(quote_sh "$remote_dir/audio")
-      remote_itfiles_q=$(quote_sh "$remote_dir/itfiles")
-      if [ "$mode" = "itfiles" ]; then
-        ssh "$host" "chmod -R a+rX $remote_itfiles_q"
-      else
-        ssh "$host" "chmod -R a+rX $remote_audio_q"
-      fi
+      remote_target_q=$(quote_sh "$remote_dir/$target_subdir")
+      ssh "$host" "chmod -R a+rX $remote_target_q"
       ;;
     *)
-      if [ "$mode" = "itfiles" ]; then
-        chmod -R a+rX "$dest/itfiles"
-      else
-        chmod -R a+rX "$dest/audio"
-      fi
+      chmod -R a+rX "$dest/$target_subdir"
       ;;
   esac
 fi

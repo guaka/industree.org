@@ -1912,47 +1912,47 @@
   },
   "nav": [
     {
-      "href": "/#/audio/",
+      "href": "/audio/",
       "path": "audio",
       "title": "Music"
     },
     {
-      "href": "/#/impulse/",
+      "href": "/impulse/",
       "path": "impulse",
       "title": "Impulse"
     },
     {
-      "href": "/#/lyrics/",
+      "href": "/lyrics/",
       "path": "lyrics",
       "title": "Lyrics"
     },
     {
-      "href": "/#/archive/",
+      "href": "/archive/",
       "path": "archive",
       "title": "Archive"
     },
     {
-      "href": "/#/about/",
+      "href": "/about/",
       "path": "about",
       "title": "About"
     },
     {
-      "href": "/#/links/",
+      "href": "/links/",
       "path": "links",
       "title": "Links"
     },
     {
-      "href": "/#/causalidox/",
+      "href": "/causalidox/",
       "path": "causalidox",
       "title": "CausaliDox"
     },
     {
-      "href": "/#/buy-cds/",
+      "href": "/buy-cds/",
       "path": "buy-cds",
       "title": "Buy CD's!"
     },
     {
-      "href": "/#/contact/",
+      "href": "/contact/",
       "path": "contact",
       "title": "Contact"
     }
@@ -1989,7 +1989,7 @@
       "date": "February 5, 2010",
       "excerpt": "",
       "extra": "IndusTree / 4:51",
-      "href": "/#/audio/noisy-ii-noise-industree/",
+      "href": "/audio/noisy-ii-noise-industree/",
       "id": 2,
       "lyricsPath": "",
       "music": {
@@ -2011,12 +2011,12 @@
     },
     "3": {
       "audio": null,
-      "bodyHtml": "<p>This website is a platform for new and exciting electronic music. This site is also dedicated to experimental electronica band IndusTree. <br>Here you'll find music by IndusTree as well as other affiliated artists. <br>After 7 years (1996 - 2003) of being the weirdest outfit in the whole of East-Netherlands, IndusTree has been on hiatus. Maybe one day IndusTree  will be re-activated...</p>\n<p>IndusTree are <a href=\"http://www.marcusmoonen.com/\">Scarum</a> and <a href=\"http://guaka.org/\">Guaka</a> (as well as a host of one-time collaborators and friends).</p>\n<p>Check out the <a href=\"/#/audio/\">many live performances, jamsessions and friends</a> of IndusTree.</p>",
+      "bodyHtml": "<p>This website is a platform for new and exciting electronic music. This site is also dedicated to experimental electronica band IndusTree. <br>Here you'll find music by IndusTree as well as other affiliated artists. <br>After 7 years (1996 - 2003) of being the weirdest outfit in the whole of East-Netherlands, IndusTree has been on hiatus. Maybe one day IndusTree  will be re-activated...</p>\n<p>IndusTree are <a href=\"http://www.marcusmoonen.com/\">Scarum</a> and <a href=\"http://guaka.org/\">Guaka</a> (as well as a host of one-time collaborators and friends).</p>\n<p>Check out the <a href=\"/audio/\">many live performances, jamsessions and friends</a> of IndusTree.</p>",
       "created": 1265336142,
       "date": "February 5, 2010",
       "excerpt": "This website is a platform for new and exciting electronic music. This site is also dedicated to experimental electronica band IndusTree. Here you'll find music by IndusTree as well as other affiliated artists. After 7 years...",
       "extra": "",
-      "href": "/#/welcome/",
+      "href": "/welcome/",
       "id": 3,
       "lyricsPath": "",
       "music": null,
@@ -2033,7 +2033,7 @@
       "date": "February 5, 2010",
       "excerpt": "As clouds gather and the wind grows stronger, I feel the endless fear of being. As I watch the bird flee into the trees, not safe, in danger, in wind. I cannot deny the dreams I...",
       "extra": "",
-      "href": "/#/lyrics/noisy-ii/",
+      "href": "/lyrics/noisy-ii/",
       "id": 4,
       "lyricsPath": "",
       "music": null,
@@ -2050,7 +2050,7 @@
       "date": "February 5, 2010",
       "excerpt": "I decided to finally start working on a Drupal version of industree.org. We will probably be able to release it next month.",
       "extra": "",
-      "href": "/#/story/2010/02/05/revamping-industreeorg/",
+      "href": "/story/2010/02/05/revamping-industreeorg/",
       "id": 5,
       "lyricsPath": "",
       "music": null,
@@ -2099,7 +2099,7 @@
       "date": "February 5, 2010",
       "excerpt": "",
       "extra": "Guaka / Sourd / 6:58",
-      "href": "/#/audio/dujkwat-guaka/",
+      "href": "/audio/dujkwat-guaka/",
       "id": 6,
       "lyricsPath": "",
       "music": {
@@ -2126,7 +2126,7 @@
       "date": "February 5, 2010",
       "excerpt": "We are IndusTree We are dutch industriambiexperimenoisewave band IndusTree. There are only two people in this outfit: Guaka and Scarum. Both originating from the southeast of the Netherlands, we now live in the city of Nijmegen...",
       "extra": "",
-      "href": "/#/about/",
+      "href": "/about/",
       "id": 7,
       "lyricsPath": "",
       "music": null,
@@ -2143,7 +2143,7 @@
       "date": "February 5, 2010",
       "excerpt": "Related stuff: Videos on Archive.org - IndusTree, Scarum, ArtEfficiency, pH and much more CausaliDox Myspace Bob Knutton Myspace IndusTree music on marcusmoonen.com",
       "extra": "",
-      "href": "/#/links/",
+      "href": "/links/",
       "id": 8,
       "lyricsPath": "",
       "music": null,
@@ -2155,12 +2155,12 @@
     },
     "9": {
       "audio": null,
-      "bodyHtml": "<center> \n<tt>CausaliDox is <a href=\"http://www.scarum.com\">Scarum</a><BR> \n<a href=\"/#/buy-cds/\"><img src=\"/bobimages/CD-hoes-CD-demo-small.jpg\" border=0></a> \n \n \n \n<p align=right> \nCausality extrapolated to Paradox.\n<p align=left> \nBecoming your own antipod.\n<p align=center> \nDrowning in neurotransmitters.\n<p align=right> \nSuccumb to internal stimuli.\n<p align=left> \nSkewed interpretations.\n<p align=center> \nUnwilling to collapse the wave function.\n \nCausaliDox is a vehicle for exploration, reaching the outer limits of noise and beyond to the vast calmness of soundscapes, voyages through forests of melody and storms of percussion, driven by a fascination for the intricate undeniable bonds between causality and paradox.\n\n<br><br><a href=\"http://www.myspace.com/CausaliDox\">CausaliDox Myspace</a><BR> \n<a href=\"http://www.myspace.com/BobKnutton\">Bob Knutton Myspace</a><BR>",
+      "bodyHtml": "<center> \n<tt>CausaliDox is <a href=\"http://www.scarum.com\">Scarum</a><BR> \n<a href=\"/buy-cds/\"><img src=\"/bobimages/CD-hoes-CD-demo-small.jpg\" border=0></a> \n \n \n \n<p align=right> \nCausality extrapolated to Paradox.\n<p align=left> \nBecoming your own antipod.\n<p align=center> \nDrowning in neurotransmitters.\n<p align=right> \nSuccumb to internal stimuli.\n<p align=left> \nSkewed interpretations.\n<p align=center> \nUnwilling to collapse the wave function.\n \nCausaliDox is a vehicle for exploration, reaching the outer limits of noise and beyond to the vast calmness of soundscapes, voyages through forests of melody and storms of percussion, driven by a fascination for the intricate undeniable bonds between causality and paradox.\n\n<br><br><a href=\"http://www.myspace.com/CausaliDox\">CausaliDox Myspace</a><BR> \n<a href=\"http://www.myspace.com/BobKnutton\">Bob Knutton Myspace</a><BR>",
       "created": 1268868146,
       "date": "March 17, 2010",
       "excerpt": "CausaliDox is Scarum Causality extrapolated to Paradox. Becoming your own antipod. Drowning in neurotransmitters. Succumb to internal stimuli. Skewed interpretations. Unwilling to collapse the wave function.",
       "extra": "",
-      "href": "/#/causalidox/",
+      "href": "/causalidox/",
       "id": 9,
       "lyricsPath": "",
       "music": null,
@@ -2177,7 +2177,7 @@
       "date": "March 17, 2010",
       "excerpt": "Scroll down for more! CausaliDox - \"Mini-Album (Promo 2008)\" (ltd 100 pcs.) Tracklist: Bright Ideas Darkly In Hindsight Dark Country Blues Limited Assumption Second Orgasm Cottonhead",
       "extra": "",
-      "href": "/#/buy-cds/",
+      "href": "/buy-cds/",
       "id": 10,
       "lyricsPath": "",
       "music": null,
@@ -2194,7 +2194,7 @@
       "date": "November 2, 2010",
       "excerpt": "My eyes and the rain fell onto the floor I hoped for summer but you asked for even more So I left you right understand that we're all alone the beats and her breath the answering...",
       "extra": "",
-      "href": "/#/lyrics/metro-mind/",
+      "href": "/lyrics/metro-mind/",
       "id": 11,
       "lyricsPath": "",
       "music": null,
@@ -2239,7 +2239,7 @@
       "date": "November 2, 2010",
       "excerpt": "",
       "extra": "IndusTree / 4:59",
-      "href": "/#/audio/metro-mind-industree/",
+      "href": "/audio/metro-mind-industree/",
       "id": 12,
       "lyricsPath": "lyrics/metro-mind",
       "music": {
@@ -2290,7 +2290,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "IndusTree / 4:20",
-      "href": "/#/audio/ameracsumic-industree/",
+      "href": "/audio/ameracsumic-industree/",
       "id": 13,
       "lyricsPath": "",
       "music": {
@@ -2349,7 +2349,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "IndusTree / 4:22",
-      "href": "/#/audio/7-ameracs-sumic-industree/",
+      "href": "/audio/7-ameracs-sumic-industree/",
       "id": 14,
       "lyricsPath": "",
       "music": {
@@ -2408,7 +2408,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "IndusTree / NAY / 3:27",
-      "href": "/#/audio/bombit-industree/",
+      "href": "/audio/bombit-industree/",
       "id": 15,
       "lyricsPath": "",
       "music": {
@@ -2459,7 +2459,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "IndusTree / 3:26",
-      "href": "/#/audio/eekwackwackwere-industree/",
+      "href": "/audio/eekwackwackwere-industree/",
       "id": 16,
       "lyricsPath": "",
       "music": {
@@ -2522,7 +2522,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "IndusTree / ChinChilla Recordings (Of Shit / 8:27",
-      "href": "/#/audio/homesick-industree/",
+      "href": "/audio/homesick-industree/",
       "id": 17,
       "lyricsPath": "",
       "music": {
@@ -2581,7 +2581,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "IndusTree / 3:42",
-      "href": "/#/audio/id-like-shower-industree/",
+      "href": "/audio/id-like-shower-industree/",
       "id": 18,
       "lyricsPath": "",
       "music": {
@@ -2636,7 +2636,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "IndusTree / 5:35",
-      "href": "/#/audio/leftalone-industree/",
+      "href": "/audio/leftalone-industree/",
       "id": 19,
       "lyricsPath": "",
       "music": {
@@ -2691,7 +2691,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "IndusTree / 3:31",
-      "href": "/#/audio/sick-industree/",
+      "href": "/audio/sick-industree/",
       "id": 20,
       "lyricsPath": "",
       "music": {
@@ -2742,7 +2742,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "IndusTree / 2:09",
-      "href": "/#/audio/fuzzy-industree/",
+      "href": "/audio/fuzzy-industree/",
       "id": 21,
       "lyricsPath": "",
       "music": {
@@ -2769,7 +2769,7 @@
       "date": "November 3, 2010",
       "excerpt": "Nothing's worth the trouble Everything will be ok Don't worry bout a thing It'll end one day soon You told me you're tired of waiting Well, I understand Behold the endangered species Crawling across the land...",
       "extra": "",
-      "href": "/#/lyrics/vacuum-incognito/",
+      "href": "/lyrics/vacuum-incognito/",
       "id": 22,
       "lyricsPath": "",
       "music": null,
@@ -2786,7 +2786,7 @@
       "date": "November 3, 2010",
       "excerpt": "the white blue sky ceiling shimmers through trembling air the fan whirling back time times now gone when you were still here to get into my head into you the air trembles white blue sky ceiling...",
       "extra": "",
-      "href": "/#/lyrics/left-alone/",
+      "href": "/lyrics/left-alone/",
       "id": 23,
       "lyricsPath": "",
       "music": null,
@@ -2803,7 +2803,7 @@
       "date": "November 3, 2010",
       "excerpt": "Lovely brain machine you bring about such lovely views you entertain so well you plague the eye with things unseen and harrass the ear with sounds that have never been Lovely brain machine You spawn your...",
       "extra": "",
-      "href": "/#/lyrics/buzzz/",
+      "href": "/lyrics/buzzz/",
       "id": 24,
       "lyricsPath": "",
       "music": null,
@@ -2848,7 +2848,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "Guaka / 9:35",
-      "href": "/#/audio/allomany-guaka/",
+      "href": "/audio/allomany-guaka/",
       "id": 25,
       "lyricsPath": "",
       "music": {
@@ -2903,7 +2903,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "2L84US / 6:13",
-      "href": "/#/audio/butter-fun-2l84us/",
+      "href": "/audio/butter-fun-2l84us/",
       "id": 26,
       "lyricsPath": "",
       "music": {
@@ -2966,7 +2966,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "Guaka / Juck The Fury / 3:10",
-      "href": "/#/audio/eons-nothing-guaka/",
+      "href": "/audio/eons-nothing-guaka/",
       "id": 27,
       "lyricsPath": "",
       "music": {
@@ -3017,7 +3017,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "guaka / 39:33",
-      "href": "/#/audio/equimania-guaka/",
+      "href": "/audio/equimania-guaka/",
       "id": 28,
       "lyricsPath": "",
       "music": {
@@ -3044,7 +3044,7 @@
       "date": "November 3, 2010",
       "excerpt": "There is no escape There is no path out of his life of this death all you had clouds and sun since it begun Till the end tell your friends don't cry don't lie don't be...",
       "extra": "",
-      "href": "/#/lyrics/fuzzy/",
+      "href": "/lyrics/fuzzy/",
       "id": 29,
       "lyricsPath": "",
       "music": null,
@@ -3085,7 +3085,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "IndusTree / 5:54",
-      "href": "/#/audio/fuck-industree/",
+      "href": "/audio/fuck-industree/",
       "id": 30,
       "lyricsPath": "",
       "music": {
@@ -3140,7 +3140,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "guaka / 1:38",
-      "href": "/#/audio/fibonacci-fm-noise-guaka/",
+      "href": "/audio/fibonacci-fm-noise-guaka/",
       "id": 31,
       "lyricsPath": "",
       "music": {
@@ -3203,7 +3203,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "Guaka / Juck The Fury / 5:11",
-      "href": "/#/audio/finalnoise-guaka/",
+      "href": "/audio/finalnoise-guaka/",
       "id": 32,
       "lyricsPath": "",
       "music": {
@@ -3258,7 +3258,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "2L84US / 9:19",
-      "href": "/#/audio/gtrshv-2l84us/",
+      "href": "/audio/gtrshv-2l84us/",
       "id": 33,
       "lyricsPath": "",
       "music": {
@@ -3313,7 +3313,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "Guaka / 14:15",
-      "href": "/#/audio/28032000-1-ft-guy-guaka/",
+      "href": "/audio/28032000-1-ft-guy-guaka/",
       "id": 34,
       "lyricsPath": "",
       "music": {
@@ -3372,7 +3372,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "Guaka / 7:59",
-      "href": "/#/audio/ich-bin-nicht-bloed-ft-guy-jerry-guaka/",
+      "href": "/audio/ich-bin-nicht-bloed-ft-guy-jerry-guaka/",
       "id": 35,
       "lyricsPath": "",
       "music": {
@@ -3431,7 +3431,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "Guaka / 6:19",
-      "href": "/#/audio/koneda-guaka/",
+      "href": "/audio/koneda-guaka/",
       "id": 36,
       "lyricsPath": "",
       "music": {
@@ -3490,7 +3490,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "Guaka / 6:31",
-      "href": "/#/audio/lastobeer-guaka/",
+      "href": "/audio/lastobeer-guaka/",
       "id": 37,
       "lyricsPath": "",
       "music": {
@@ -3553,7 +3553,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "Guaka / Juck The Fury / 1:21",
-      "href": "/#/audio/lofi-goa-guaka/",
+      "href": "/audio/lofi-goa-guaka/",
       "id": 38,
       "lyricsPath": "",
       "music": {
@@ -3604,7 +3604,7 @@
       "date": "November 3, 2010",
       "excerpt": "The sound of formatting a broken hard drive. Heavily processed.",
       "extra": "Guaka / 6:00",
-      "href": "/#/audio/lowlevelformat-guaka/",
+      "href": "/audio/lowlevelformat-guaka/",
       "id": 39,
       "lyricsPath": "",
       "music": {
@@ -3659,7 +3659,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "2L84US / 1:45",
-      "href": "/#/audio/populars-tunepad-2l84us/",
+      "href": "/audio/populars-tunepad-2l84us/",
       "id": 40,
       "lyricsPath": "",
       "music": {
@@ -3722,7 +3722,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "Guaka / Juck The Fury / 5:39",
-      "href": "/#/audio/pret-tyfuc-kedu-pyeh-guaka/",
+      "href": "/audio/pret-tyfuc-kedu-pyeh-guaka/",
       "id": 41,
       "lyricsPath": "",
       "music": {
@@ -3773,7 +3773,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "Guaka / 29:17",
-      "href": "/#/audio/waklery-guaka/",
+      "href": "/audio/waklery-guaka/",
       "id": 42,
       "lyricsPath": "",
       "music": {
@@ -3828,7 +3828,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "Guaka / 4:43",
-      "href": "/#/audio/wastedtimeandspace-ft-guy-scarum-smaids-guaka/",
+      "href": "/audio/wastedtimeandspace-ft-guy-scarum-smaids-guaka/",
       "id": 43,
       "lyricsPath": "",
       "music": {
@@ -3883,7 +3883,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "Guaka / 26:22",
-      "href": "/#/audio/guaprabagasca-ft-scarum-others-guaka/",
+      "href": "/audio/guaprabagasca-ft-scarum-others-guaka/",
       "id": 45,
       "lyricsPath": "",
       "music": {
@@ -3942,7 +3942,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "2L84US / 2:09",
-      "href": "/#/audio/smaids-2l84us/",
+      "href": "/audio/smaids-2l84us/",
       "id": 47,
       "lyricsPath": "",
       "music": {
@@ -4001,7 +4001,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "2L84US / 1:48",
-      "href": "/#/audio/jeannie-2l84us/",
+      "href": "/audio/jeannie-2l84us/",
       "id": 48,
       "lyricsPath": "",
       "music": {
@@ -4052,7 +4052,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "IndusTree / 2:39",
-      "href": "/#/audio/23-09-2003-smilecocorbokocomestoblowyohoho-industree/",
+      "href": "/audio/23-09-2003-smilecocorbokocomestoblowyohoho-industree/",
       "id": 49,
       "lyricsPath": "",
       "music": {
@@ -4111,7 +4111,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "guaka / 1:32",
-      "href": "/#/audio/01-smicocoit-guaka/",
+      "href": "/audio/01-smicocoit-guaka/",
       "id": 50,
       "lyricsPath": "",
       "music": {
@@ -4162,7 +4162,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "Scarum / 2:08",
-      "href": "/#/audio/25-12-1998-yeah2-scarum/",
+      "href": "/audio/25-12-1998-yeah2-scarum/",
       "id": 51,
       "lyricsPath": "",
       "music": {
@@ -4217,7 +4217,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "2L84US / 1:31",
-      "href": "/#/audio/chyckchyck-2l84us/",
+      "href": "/audio/chyckchyck-2l84us/",
       "id": 52,
       "lyricsPath": "",
       "music": {
@@ -4244,7 +4244,7 @@
       "date": "November 3, 2010",
       "excerpt": "She drives me crazy crazy childhood eroticism she's so young I can smell her from here She walks my playground Brushing her hair back Pushing her breasts forward Now she's slowly walking home She's walking kinda...",
       "extra": "",
-      "href": "/#/lyrics/buzzz-ii/",
+      "href": "/lyrics/buzzz-ii/",
       "id": 53,
       "lyricsPath": "",
       "music": null,
@@ -4261,7 +4261,7 @@
       "date": "November 3, 2010",
       "excerpt": "Open doors can lead you to places you never pictured yourself to be a strain on the mind the thinking of the free She opened her face and swallowed the doubt she left no room for...",
       "extra": "",
-      "href": "/#/lyrics/did-you-have-name/",
+      "href": "/lyrics/did-you-have-name/",
       "id": 54,
       "lyricsPath": "",
       "music": null,
@@ -4278,7 +4278,7 @@
       "date": "November 3, 2010",
       "excerpt": "So who told you I was here? Oh, she did, did she now? She was still crying when I left her Did you see her eyes? Yeah, man, exactely she was on something wasn't she She...",
       "extra": "",
-      "href": "/#/lyrics/quorny/",
+      "href": "/lyrics/quorny/",
       "id": 55,
       "lyricsPath": "",
       "music": null,
@@ -4295,7 +4295,7 @@
       "date": "November 3, 2010",
       "excerpt": "I walked alongside the river I walked slowly the air was humid the air was cold and a strong wind beat against my resistance I walked along the river cold windy night wind beating against my...",
       "extra": "",
-      "href": "/#/lyrics/sick/",
+      "href": "/lyrics/sick/",
       "id": 56,
       "lyricsPath": "",
       "music": null,
@@ -4312,7 +4312,7 @@
       "date": "November 3, 2010",
       "excerpt": "I sat behind the screen last night Thinking of your faces and the little time I had to sleep I knew I 'd know some of you even entertained the thought that.... but let's drop the...",
       "extra": "",
-      "href": "/#/lyrics/amerac-sumic/",
+      "href": "/lyrics/amerac-sumic/",
       "id": 57,
       "lyricsPath": "",
       "music": null,
@@ -4329,7 +4329,7 @@
       "date": "November 3, 2010",
       "excerpt": "You're waiting for me All alone in the rain The wind blows Chimney sound Come out and prlay The darkest game There's noone else around we're waiting for you At the edge of the woods Leave...",
       "extra": "",
-      "href": "/#/lyrics/eekwackwackwere/",
+      "href": "/lyrics/eekwackwackwere/",
       "id": 58,
       "lyricsPath": "",
       "music": null,
@@ -4346,7 +4346,7 @@
       "date": "November 3, 2010",
       "excerpt": "Going Going up Going up the stairs Coming Coming into Coming into her Coming into her room coming all over her bed Trust me I'm a doctor she said As she pinned me to her bed...",
       "extra": "",
-      "href": "/#/lyrics/love-inthe-grass/",
+      "href": "/lyrics/love-inthe-grass/",
       "id": 59,
       "lyricsPath": "",
       "music": null,
@@ -4363,7 +4363,7 @@
       "date": "November 3, 2010",
       "excerpt": "You know what you want you know how to get it Do you know the pain you cause?",
       "extra": "",
-      "href": "/#/lyrics/kasmo/",
+      "href": "/lyrics/kasmo/",
       "id": 65,
       "lyricsPath": "",
       "music": null,
@@ -4380,7 +4380,7 @@
       "date": "November 3, 2010",
       "excerpt": "It's been a long time since I concsiously breathed cold, autumn air too long I have been inside my head looking out into a hostile world drawn back...resisting...a forcefull world my own strength has dimished any...",
       "extra": "",
-      "href": "/#/lyrics/gaszz/",
+      "href": "/lyrics/gaszz/",
       "id": 66,
       "lyricsPath": "",
       "music": null,
@@ -4397,7 +4397,7 @@
       "date": "November 3, 2010",
       "excerpt": "As clouds gather and the wind grows stronger, I feel the endless fear of being. As I watch the bird flee into the trees, not safe, in danger, in wind. I cannot deny the dreams I...",
       "extra": "",
-      "href": "/#/lyrics/noisy-ii-0/",
+      "href": "/lyrics/noisy-ii-0/",
       "id": 67,
       "lyricsPath": "",
       "music": null,
@@ -4414,7 +4414,7 @@
       "date": "November 3, 2010",
       "excerpt": "Love Life death Standards society Friends leave alone Warm home Never snow falling vagina Like men penis rubber Exploitation * Bill Tell me Bill, * I know it's somewhere, Where's the gate * somewhere Future worse...",
       "extra": "",
-      "href": "/#/lyrics/fuck/",
+      "href": "/lyrics/fuck/",
       "id": 68,
       "lyricsPath": "",
       "music": null,
@@ -4431,7 +4431,7 @@
       "date": "November 3, 2010",
       "excerpt": "What can I say, my dear everything in my head I don't want you to hear Only for once, could you talk to me, instead? A final thought in night's distance I feel like going home...",
       "extra": "",
-      "href": "/#/lyrics/livira/",
+      "href": "/lyrics/livira/",
       "id": 69,
       "lyricsPath": "",
       "music": null,
@@ -4448,7 +4448,7 @@
       "date": "November 3, 2010",
       "excerpt": "Been waiting so long for that call But I've got nothing to say I've got nothing to say at all WHY DON'T YOU CALL And then, when I least expect it in the middle of the...",
       "extra": "",
-      "href": "/#/lyrics/nothing/",
+      "href": "/lyrics/nothing/",
       "id": 70,
       "lyricsPath": "",
       "music": null,
@@ -4465,7 +4465,7 @@
       "date": "November 3, 2010",
       "excerpt": "The sky opens up",
       "extra": "",
-      "href": "/#/lyrics/homesick/",
+      "href": "/lyrics/homesick/",
       "id": 71,
       "lyricsPath": "",
       "music": null,
@@ -4482,7 +4482,7 @@
       "date": "November 3, 2010",
       "excerpt": "We are lonely We are lonely We are lonely We are lonely We are lonely We are lonely We are lonely We are lonely We are lonely, lonely, lonely We are lonely, lonely, lonely We are...",
       "extra": "",
-      "href": "/#/lyrics/id-shower/",
+      "href": "/lyrics/id-shower/",
       "id": 72,
       "lyricsPath": "",
       "music": null,
@@ -4499,7 +4499,7 @@
       "date": "November 3, 2010",
       "excerpt": "Scrutinized by everyone Eyes dining on despair The heartburn bad acid trip The nightly visions horrorclip These things take time, she said Two months And all the heartache in the world Wouldn't stop him now Laugh...",
       "extra": "",
-      "href": "/#/lyrics/diggin-lou/",
+      "href": "/lyrics/diggin-lou/",
       "id": 73,
       "lyricsPath": "",
       "music": null,
@@ -4516,7 +4516,7 @@
       "date": "November 3, 2010",
       "excerpt": "Past glory hangs like rain in a fog a past a mirage no time to waste in the slogan shop secret feelings soaring into fantasy fabric time kill me in that night kill me in that...",
       "extra": "",
-      "href": "/#/lyrics/bluesoxymorningyearbible/",
+      "href": "/lyrics/bluesoxymorningyearbible/",
       "id": 74,
       "lyricsPath": "",
       "music": null,
@@ -4533,7 +4533,7 @@
       "date": "November 3, 2010",
       "excerpt": "jumping teddybears all around jumping teddybears oh that sound jump now teddybear, up and down jumping teddybears (joy joy joy) and young fingers fiddling with sticks Joy! (jump) Joy! (jump) Joy! (jump) Oh boy... Oh boy......",
       "extra": "",
-      "href": "/#/lyrics/zoxymorning/",
+      "href": "/lyrics/zoxymorning/",
       "id": 75,
       "lyricsPath": "",
       "music": null,
@@ -4574,7 +4574,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "IndusTree / 72:41",
-      "href": "/#/audio/ahcrap-not-aphex-twin-industree/",
+      "href": "/audio/ahcrap-not-aphex-twin-industree/",
       "id": 76,
       "lyricsPath": "",
       "music": {
@@ -4625,7 +4625,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "IndusTree / 72:41",
-      "href": "/#/audio/ahcrap-industree/",
+      "href": "/audio/ahcrap-industree/",
       "id": 77,
       "lyricsPath": "",
       "music": {
@@ -4684,7 +4684,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "IndusTree / The Metro Mind EP (1997) / 5:12",
-      "href": "/#/audio/01-metro-mind-industree/",
+      "href": "/audio/01-metro-mind-industree/",
       "id": 78,
       "lyricsPath": "lyrics/metro-mind",
       "music": {
@@ -4747,7 +4747,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "IndusTree / The Metro Mind EP (1997) / 6:14",
-      "href": "/#/audio/left-alone-industree/",
+      "href": "/audio/left-alone-industree/",
       "id": 79,
       "lyricsPath": "lyrics/left-alone",
       "music": {
@@ -4806,7 +4806,7 @@
       "date": "November 3, 2010",
       "excerpt": "",
       "extra": "IndusTree / The Metro Mind EP (1997) / 5:39",
-      "href": "/#/audio/03-noisy-ii-noise-industree/",
+      "href": "/audio/03-noisy-ii-noise-industree/",
       "id": 80,
       "lyricsPath": "",
       "music": {
@@ -4833,7 +4833,7 @@
       "date": "November 13, 2010",
       "excerpt": "We'll probably put some pictures here.",
       "extra": "",
-      "href": "/#/pictures/",
+      "href": "/pictures/",
       "id": 81,
       "lyricsPath": "",
       "music": null,
@@ -4850,7 +4850,7 @@
       "date": "November 14, 2010",
       "excerpt": "Next month become half a year, but we did switch our 10 year old PHP garble to Drupal. Not all tracks are available yet but we'll put up everything that was once around. Plus all the...",
       "extra": "",
-      "href": "/#/story/2010/11/14/finally-online/",
+      "href": "/story/2010/11/14/finally-online/",
       "id": 82,
       "lyricsPath": "",
       "music": null,
@@ -4899,7 +4899,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "BJ / 5:06",
-      "href": "/#/audio/analog-hell-jamsession-bj/",
+      "href": "/audio/analog-hell-jamsession-bj/",
       "id": 84,
       "lyricsPath": "",
       "music": {
@@ -4958,7 +4958,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 3:50",
-      "href": "/#/audio/cause-concern-first-draft-bob-knutton/",
+      "href": "/audio/cause-concern-first-draft-bob-knutton/",
       "id": 85,
       "lyricsPath": "",
       "music": {
@@ -5005,7 +5005,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 2:03",
-      "href": "/#/audio/new-way-sketch-bob-knutton/",
+      "href": "/audio/new-way-sketch-bob-knutton/",
       "id": 86,
       "lyricsPath": "",
       "music": {
@@ -5064,7 +5064,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 12:51",
-      "href": "/#/audio/acidjam-bob-knutton/",
+      "href": "/audio/acidjam-bob-knutton/",
       "id": 87,
       "lyricsPath": "",
       "music": {
@@ -5119,7 +5119,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 17:32",
-      "href": "/#/audio/another-fucking-nightmare-bob-knutton/",
+      "href": "/audio/another-fucking-nightmare-bob-knutton/",
       "id": 88,
       "lyricsPath": "",
       "music": {
@@ -5178,7 +5178,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 3:08",
-      "href": "/#/audio/baby-come-down-bob-knutton/",
+      "href": "/audio/baby-come-down-bob-knutton/",
       "id": 89,
       "lyricsPath": "",
       "music": {
@@ -5237,7 +5237,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 4:05",
-      "href": "/#/audio/bad-feelings-slowly-fading-bob-knutton/",
+      "href": "/audio/bad-feelings-slowly-fading-bob-knutton/",
       "id": 90,
       "lyricsPath": "",
       "music": {
@@ -5296,7 +5296,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 4:07",
-      "href": "/#/audio/bassickly-bob-knutton/",
+      "href": "/audio/bassickly-bob-knutton/",
       "id": 91,
       "lyricsPath": "",
       "music": {
@@ -5343,7 +5343,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 2:57",
-      "href": "/#/audio/bledtirgleta-bob-knutton/",
+      "href": "/audio/bledtirgleta-bob-knutton/",
       "id": 92,
       "lyricsPath": "",
       "music": {
@@ -5402,7 +5402,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 3:32",
-      "href": "/#/audio/blood-snow-demo-bob-knutton/",
+      "href": "/audio/blood-snow-demo-bob-knutton/",
       "id": 93,
       "lyricsPath": "",
       "music": {
@@ -5461,7 +5461,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 4:41",
-      "href": "/#/audio/blue-eyes-sunrise-bob-knutton/",
+      "href": "/audio/blue-eyes-sunrise-bob-knutton/",
       "id": 94,
       "lyricsPath": "",
       "music": {
@@ -5520,7 +5520,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 3:46",
-      "href": "/#/audio/bobs-nightmare-bob-knutton/",
+      "href": "/audio/bobs-nightmare-bob-knutton/",
       "id": 95,
       "lyricsPath": "",
       "music": {
@@ -5579,7 +5579,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 5:04",
-      "href": "/#/audio/bye-bye-girl-bob-knutton/",
+      "href": "/audio/bye-bye-girl-bob-knutton/",
       "id": 96,
       "lyricsPath": "",
       "music": {
@@ -5638,7 +5638,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 3:58",
-      "href": "/#/audio/charred-memories-bob-knutton/",
+      "href": "/audio/charred-memories-bob-knutton/",
       "id": 97,
       "lyricsPath": "",
       "music": {
@@ -5685,7 +5685,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 2:04",
-      "href": "/#/audio/choose-me-sketch-bob-knutton/",
+      "href": "/audio/choose-me-sketch-bob-knutton/",
       "id": 98,
       "lyricsPath": "",
       "music": {
@@ -5732,7 +5732,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 2:12",
-      "href": "/#/audio/conflict-arises-sketch-bob-knutton/",
+      "href": "/audio/conflict-arises-sketch-bob-knutton/",
       "id": 99,
       "lyricsPath": "",
       "music": {
@@ -5791,7 +5791,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 8:30",
-      "href": "/#/audio/cottonhead-bob-knutton/",
+      "href": "/audio/cottonhead-bob-knutton/",
       "id": 100,
       "lyricsPath": "",
       "music": {
@@ -5850,7 +5850,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 3:12",
-      "href": "/#/audio/crocketts-ass-bob-knutton/",
+      "href": "/audio/crocketts-ass-bob-knutton/",
       "id": 101,
       "lyricsPath": "",
       "music": {
@@ -5909,7 +5909,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 4:57",
-      "href": "/#/audio/debajo-del-cielo-del-fuego-demo-first-take-vocals-bob-knutton/",
+      "href": "/audio/debajo-del-cielo-del-fuego-demo-first-take-vocals-bob-knutton/",
       "id": 102,
       "lyricsPath": "",
       "music": {
@@ -5956,7 +5956,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 1:11",
-      "href": "/#/audio/dirtysid-sketch-bob-knutton/",
+      "href": "/audio/dirtysid-sketch-bob-knutton/",
       "id": 103,
       "lyricsPath": "",
       "music": {
@@ -6007,7 +6007,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 10:13",
-      "href": "/#/audio/discarded-bob-knutton/",
+      "href": "/audio/discarded-bob-knutton/",
       "id": 104,
       "lyricsPath": "",
       "music": {
@@ -6066,7 +6066,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 5:00",
-      "href": "/#/audio/dont-fuck-your-friends-bob-knutton/",
+      "href": "/audio/dont-fuck-your-friends-bob-knutton/",
       "id": 105,
       "lyricsPath": "",
       "music": {
@@ -6125,7 +6125,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 6:57",
-      "href": "/#/audio/exercise-my-demon-bob-knutton/",
+      "href": "/audio/exercise-my-demon-bob-knutton/",
       "id": 106,
       "lyricsPath": "",
       "music": {
@@ -6180,7 +6180,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 4:57",
-      "href": "/#/audio/fake-passion-want-you-baby-bob-knutton/",
+      "href": "/audio/fake-passion-want-you-baby-bob-knutton/",
       "id": 107,
       "lyricsPath": "",
       "music": {
@@ -6227,7 +6227,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 2:04",
-      "href": "/#/audio/flutterby-kiss-draft-bob-knutton/",
+      "href": "/audio/flutterby-kiss-draft-bob-knutton/",
       "id": 108,
       "lyricsPath": "",
       "music": {
@@ -6274,7 +6274,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 4:04",
-      "href": "/#/audio/forget-demo-bob-knutton/",
+      "href": "/audio/forget-demo-bob-knutton/",
       "id": 109,
       "lyricsPath": "",
       "music": {
@@ -6333,7 +6333,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 2:50",
-      "href": "/#/audio/fridaynight-dinner-bob-knutton/",
+      "href": "/audio/fridaynight-dinner-bob-knutton/",
       "id": 110,
       "lyricsPath": "",
       "music": {
@@ -6388,7 +6388,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 5:39",
-      "href": "/#/audio/goodbye-demo-bob-knutton/",
+      "href": "/audio/goodbye-demo-bob-knutton/",
       "id": 111,
       "lyricsPath": "",
       "music": {
@@ -6447,7 +6447,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 2:40",
-      "href": "/#/audio/hayfever-bob-knutton/",
+      "href": "/audio/hayfever-bob-knutton/",
       "id": 112,
       "lyricsPath": "",
       "music": {
@@ -6506,7 +6506,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 2:41",
-      "href": "/#/audio/i-am-jacks-impacted-colon-bob-knutton/",
+      "href": "/audio/i-am-jacks-impacted-colon-bob-knutton/",
       "id": 113,
       "lyricsPath": "",
       "music": {
@@ -6561,7 +6561,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 5:37",
-      "href": "/#/audio/im-dizzy-might-be-your-face-bob-knutton/",
+      "href": "/audio/im-dizzy-might-be-your-face-bob-knutton/",
       "id": 114,
       "lyricsPath": "",
       "music": {
@@ -6620,7 +6620,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 7:01",
-      "href": "/#/audio/interference-bob-knutton/",
+      "href": "/audio/interference-bob-knutton/",
       "id": 115,
       "lyricsPath": "",
       "music": {
@@ -6675,7 +6675,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 2:46",
-      "href": "/#/audio/it-never-ends-bob-knutton/",
+      "href": "/audio/it-never-ends-bob-knutton/",
       "id": 116,
       "lyricsPath": "",
       "music": {
@@ -6734,7 +6734,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 2:53",
-      "href": "/#/audio/last-man-demo-wastelands-mix-bob-knutton/",
+      "href": "/audio/last-man-demo-wastelands-mix-bob-knutton/",
       "id": 117,
       "lyricsPath": "",
       "music": {
@@ -6793,7 +6793,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 4:37",
-      "href": "/#/audio/life-such-bitch-demo-bob-knutton/",
+      "href": "/audio/life-such-bitch-demo-bob-knutton/",
       "id": 118,
       "lyricsPath": "",
       "music": {
@@ -6852,7 +6852,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 6:30",
-      "href": "/#/audio/losing-my-religion-bob-knutton/",
+      "href": "/audio/losing-my-religion-bob-knutton/",
       "id": 119,
       "lyricsPath": "",
       "music": {
@@ -6911,7 +6911,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 5:20",
-      "href": "/#/audio/love-filthy-demo-no-vocals-bob-knutton/",
+      "href": "/audio/love-filthy-demo-no-vocals-bob-knutton/",
       "id": 120,
       "lyricsPath": "",
       "music": {
@@ -6970,7 +6970,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 3:10",
-      "href": "/#/audio/lovesong-bob-knutton/",
+      "href": "/audio/lovesong-bob-knutton/",
       "id": 121,
       "lyricsPath": "",
       "music": {
@@ -7021,7 +7021,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 9:48",
-      "href": "/#/audio/machines-love-take-two-live-foreplay-bob-knutton/",
+      "href": "/audio/machines-love-take-two-live-foreplay-bob-knutton/",
       "id": 122,
       "lyricsPath": "",
       "music": {
@@ -7080,7 +7080,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 10:41",
-      "href": "/#/audio/machines-love-bob-knutton/",
+      "href": "/audio/machines-love-bob-knutton/",
       "id": 123,
       "lyricsPath": "",
       "music": {
@@ -7135,7 +7135,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 5:21",
-      "href": "/#/audio/money-and-jazz-bob-knutton/",
+      "href": "/audio/money-and-jazz-bob-knutton/",
       "id": 124,
       "lyricsPath": "",
       "music": {
@@ -7194,7 +7194,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 15:01",
-      "href": "/#/audio/morning-headcase-jam-bob-knutton/",
+      "href": "/audio/morning-headcase-jam-bob-knutton/",
       "id": 125,
       "lyricsPath": "",
       "music": {
@@ -7249,7 +7249,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 5:50",
-      "href": "/#/audio/mr-come-bob-knutton/",
+      "href": "/audio/mr-come-bob-knutton/",
       "id": 126,
       "lyricsPath": "",
       "music": {
@@ -7308,7 +7308,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 3:57",
-      "href": "/#/audio/nervous-laughter-bob-knutton/",
+      "href": "/audio/nervous-laughter-bob-knutton/",
       "id": 127,
       "lyricsPath": "",
       "music": {
@@ -7367,7 +7367,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 6:33",
-      "href": "/#/audio/pda-workout-bob-knutton/",
+      "href": "/audio/pda-workout-bob-knutton/",
       "id": 128,
       "lyricsPath": "",
       "music": {
@@ -7414,7 +7414,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 4:27",
-      "href": "/#/audio/quick-and-dirty-bob-knutton/",
+      "href": "/audio/quick-and-dirty-bob-knutton/",
       "id": 129,
       "lyricsPath": "",
       "music": {
@@ -7473,7 +7473,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 2:35",
-      "href": "/#/audio/rock-me-rough-demo-bob-knutton/",
+      "href": "/audio/rock-me-rough-demo-bob-knutton/",
       "id": 130,
       "lyricsPath": "",
       "music": {
@@ -7524,7 +7524,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 4:22",
-      "href": "/#/audio/rules-bob-knutton/",
+      "href": "/audio/rules-bob-knutton/",
       "id": 131,
       "lyricsPath": "",
       "music": {
@@ -7583,7 +7583,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 6:16",
-      "href": "/#/audio/sub-tle-bob-knutton/",
+      "href": "/audio/sub-tle-bob-knutton/",
       "id": 132,
       "lyricsPath": "",
       "music": {
@@ -7642,7 +7642,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 4:35",
-      "href": "/#/audio/shared-point-view-bob-knutton/",
+      "href": "/audio/shared-point-view-bob-knutton/",
       "id": 133,
       "lyricsPath": "",
       "music": {
@@ -7701,7 +7701,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 3:22",
-      "href": "/#/audio/smalltown-fucked-blues-bob-knutton/",
+      "href": "/audio/smalltown-fucked-blues-bob-knutton/",
       "id": 134,
       "lyricsPath": "",
       "music": {
@@ -7760,7 +7760,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 2:23",
-      "href": "/#/audio/stuck-drug-bob-knutton/",
+      "href": "/audio/stuck-drug-bob-knutton/",
       "id": 135,
       "lyricsPath": "",
       "music": {
@@ -7819,7 +7819,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 3:30",
-      "href": "/#/audio/talented-lazy-life-bob-knutton/",
+      "href": "/audio/talented-lazy-life-bob-knutton/",
       "id": 136,
       "lyricsPath": "",
       "music": {
@@ -7878,7 +7878,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 4:17",
-      "href": "/#/audio/talking-strangers-bob-knutton/",
+      "href": "/audio/talking-strangers-bob-knutton/",
       "id": 137,
       "lyricsPath": "",
       "music": {
@@ -7937,7 +7937,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 3:02",
-      "href": "/#/audio/curse-bob-knutton/",
+      "href": "/audio/curse-bob-knutton/",
       "id": 138,
       "lyricsPath": "",
       "music": {
@@ -7996,7 +7996,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 8:57",
-      "href": "/#/audio/journey-demo-bob-knutton/",
+      "href": "/audio/journey-demo-bob-knutton/",
       "id": 139,
       "lyricsPath": "",
       "music": {
@@ -8055,7 +8055,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 8:32",
-      "href": "/#/audio/melancholy-disease-bob-knutton/",
+      "href": "/audio/melancholy-disease-bob-knutton/",
       "id": 140,
       "lyricsPath": "",
       "music": {
@@ -8114,7 +8114,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 7:22",
-      "href": "/#/audio/terrible-year-bob-knutton/",
+      "href": "/audio/terrible-year-bob-knutton/",
       "id": 141,
       "lyricsPath": "",
       "music": {
@@ -8173,7 +8173,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 3:44",
-      "href": "/#/audio/trancegression-bob-knutton/",
+      "href": "/audio/trancegression-bob-knutton/",
       "id": 142,
       "lyricsPath": "",
       "music": {
@@ -8232,7 +8232,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 2:21",
-      "href": "/#/audio/twice-ass-nice-bob-knutton/",
+      "href": "/audio/twice-ass-nice-bob-knutton/",
       "id": 143,
       "lyricsPath": "",
       "music": {
@@ -8291,7 +8291,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 9:23",
-      "href": "/#/audio/virusfight-bob-knutton/",
+      "href": "/audio/virusfight-bob-knutton/",
       "id": 144,
       "lyricsPath": "",
       "music": {
@@ -8350,7 +8350,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 3:55",
-      "href": "/#/audio/whats-your-name-again-bob-knutton/",
+      "href": "/audio/whats-your-name-again-bob-knutton/",
       "id": 145,
       "lyricsPath": "",
       "music": {
@@ -8405,7 +8405,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 1:33",
-      "href": "/#/audio/2005-02-14-newele-causalidox/",
+      "href": "/audio/2005-02-14-newele-causalidox/",
       "id": 229,
       "lyricsPath": "",
       "music": {
@@ -8464,7 +8464,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 0:19",
-      "href": "/#/audio/2005-03-16-firstloop-causalidox/",
+      "href": "/audio/2005-03-16-firstloop-causalidox/",
       "id": 230,
       "lyricsPath": "",
       "music": {
@@ -8523,7 +8523,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 4:24",
-      "href": "/#/audio/2005-03-17-m-e-n-d-3-causalidox/",
+      "href": "/audio/2005-03-17-m-e-n-d-3-causalidox/",
       "id": 231,
       "lyricsPath": "",
       "music": {
@@ -8582,7 +8582,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 3:33",
-      "href": "/#/audio/2005-03-20-sunday-pudding-causalidox/",
+      "href": "/audio/2005-03-20-sunday-pudding-causalidox/",
       "id": 232,
       "lyricsPath": "",
       "music": {
@@ -8641,7 +8641,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 2:21",
-      "href": "/#/audio/2005-03-23-downtrodden-20-causalidox/",
+      "href": "/audio/2005-03-23-downtrodden-20-causalidox/",
       "id": 233,
       "lyricsPath": "",
       "music": {
@@ -8700,7 +8700,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 3:12",
-      "href": "/#/audio/2005-03-30-zweikinderoder-20-causalidox/",
+      "href": "/audio/2005-03-30-zweikinderoder-20-causalidox/",
       "id": 234,
       "lyricsPath": "",
       "music": {
@@ -8759,7 +8759,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 4:57",
-      "href": "/#/audio/2005-04-04-noodlethreading-causalidox/",
+      "href": "/audio/2005-04-04-noodlethreading-causalidox/",
       "id": 235,
       "lyricsPath": "",
       "music": {
@@ -8818,7 +8818,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 6:10",
-      "href": "/#/audio/2005-04-07-animaldoubts-causalidox/",
+      "href": "/audio/2005-04-07-animaldoubts-causalidox/",
       "id": 236,
       "lyricsPath": "",
       "music": {
@@ -8877,7 +8877,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 2:51",
-      "href": "/#/audio/2005-04-13-sordid-causalidox/",
+      "href": "/audio/2005-04-13-sordid-causalidox/",
       "id": 237,
       "lyricsPath": "",
       "music": {
@@ -8936,7 +8936,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 4:14",
-      "href": "/#/audio/2005-04-16-binocturnally-challenged-horsefucker-causalidox/",
+      "href": "/audio/2005-04-16-binocturnally-challenged-horsefucker-causalidox/",
       "id": 238,
       "lyricsPath": "",
       "music": {
@@ -8995,7 +8995,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 4:14",
-      "href": "/#/audio/2005-04-16b-binocturnally-challenged-blind-and-bored-mix-causalidox/",
+      "href": "/audio/2005-04-16b-binocturnally-challenged-blind-and-bored-mix-causalidox/",
       "id": 239,
       "lyricsPath": "",
       "music": {
@@ -9054,7 +9054,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 7:00",
-      "href": "/#/audio/2005-04-17-over-my-left-shoulder-causalidox/",
+      "href": "/audio/2005-04-17-over-my-left-shoulder-causalidox/",
       "id": 240,
       "lyricsPath": "",
       "music": {
@@ -9113,7 +9113,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 2:38",
-      "href": "/#/audio/2005-04-17b-harshorid-causalidox/",
+      "href": "/audio/2005-04-17b-harshorid-causalidox/",
       "id": 241,
       "lyricsPath": "",
       "music": {
@@ -9168,7 +9168,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 8:03",
-      "href": "/#/audio/2005-04-28-mausemarch-early-version-raw-pre-mix-causalidox/",
+      "href": "/audio/2005-04-28-mausemarch-early-version-raw-pre-mix-causalidox/",
       "id": 242,
       "lyricsPath": "",
       "music": {
@@ -9223,7 +9223,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 8:01",
-      "href": "/#/audio/2005-04-30-mausemarch-lowdowndirtyrichbyepartyblues-mix-causalidox/",
+      "href": "/audio/2005-04-30-mausemarch-lowdowndirtyrichbyepartyblues-mix-causalidox/",
       "id": 243,
       "lyricsPath": "",
       "music": {
@@ -9278,7 +9278,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 8:01",
-      "href": "/#/audio/2005-05-01-mausemarch-terra-incognita-mix-causalidox/",
+      "href": "/audio/2005-05-01-mausemarch-terra-incognita-mix-causalidox/",
       "id": 244,
       "lyricsPath": "",
       "music": {
@@ -9337,7 +9337,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 10:48",
-      "href": "/#/audio/2005-05-06-phonerratic-aristocrats-mix-causalidox/",
+      "href": "/audio/2005-05-06-phonerratic-aristocrats-mix-causalidox/",
       "id": 245,
       "lyricsPath": "",
       "music": {
@@ -9384,7 +9384,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 11:53",
-      "href": "/#/audio/2005-05-07-fluffertje-ziegsamenspiel-premix-ft-zieg-causalidox/",
+      "href": "/audio/2005-05-07-fluffertje-ziegsamenspiel-premix-ft-zieg-causalidox/",
       "id": 246,
       "lyricsPath": "",
       "music": {
@@ -9443,7 +9443,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 2:05",
-      "href": "/#/audio/2005-05-12-soft-decay-next-nothing-mix-causalidox/",
+      "href": "/audio/2005-05-12-soft-decay-next-nothing-mix-causalidox/",
       "id": 247,
       "lyricsPath": "",
       "music": {
@@ -9502,7 +9502,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 5:08",
-      "href": "/#/audio/2005-05-12b-sunfrost-friday-13th-mix-so-close-causalidox/",
+      "href": "/audio/2005-05-12b-sunfrost-friday-13th-mix-so-close-causalidox/",
       "id": 248,
       "lyricsPath": "",
       "music": {
@@ -9561,7 +9561,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 3:13",
-      "href": "/#/audio/2005-05-16-after-dreams-end-sm-mix-causalidox/",
+      "href": "/audio/2005-05-16-after-dreams-end-sm-mix-causalidox/",
       "id": 249,
       "lyricsPath": "",
       "music": {
@@ -9620,7 +9620,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 3:42",
-      "href": "/#/audio/2005-05-21-motherfuckin-lightnin-crunches-causalidox/",
+      "href": "/audio/2005-05-21-motherfuckin-lightnin-crunches-causalidox/",
       "id": 250,
       "lyricsPath": "",
       "music": {
@@ -9679,7 +9679,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 3:18",
-      "href": "/#/audio/2005-05-22-endorphinology-lack-thereof-causalidox/",
+      "href": "/audio/2005-05-22-endorphinology-lack-thereof-causalidox/",
       "id": 251,
       "lyricsPath": "",
       "music": {
@@ -9738,7 +9738,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 3:18",
-      "href": "/#/audio/2005-05-24-endorphinology-so-empty-causalidox/",
+      "href": "/audio/2005-05-24-endorphinology-so-empty-causalidox/",
       "id": 252,
       "lyricsPath": "",
       "music": {
@@ -9797,7 +9797,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 2:28",
-      "href": "/#/audio/2005-06-08-salty-hormonized-h2o-causalidox/",
+      "href": "/audio/2005-06-08-salty-hormonized-h2o-causalidox/",
       "id": 253,
       "lyricsPath": "",
       "music": {
@@ -9856,7 +9856,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 8:55",
-      "href": "/#/audio/2005-07-09-touching-nothing-causalidox/",
+      "href": "/audio/2005-07-09-touching-nothing-causalidox/",
       "id": 254,
       "lyricsPath": "",
       "music": {
@@ -9911,7 +9911,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 6:48",
-      "href": "/#/audio/what-if-really-rough-version-plopmusick19-causalidox/",
+      "href": "/audio/what-if-really-rough-version-plopmusick19-causalidox/",
       "id": 255,
       "lyricsPath": "",
       "music": {
@@ -9962,7 +9962,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 3:52",
-      "href": "/#/audio/what-if-new-version-causalidox/",
+      "href": "/audio/what-if-new-version-causalidox/",
       "id": 256,
       "lyricsPath": "",
       "music": {
@@ -10021,7 +10021,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 1:50",
-      "href": "/#/audio/2005-07-19-scared-light-so-ugly-causalidox/",
+      "href": "/audio/2005-07-19-scared-light-so-ugly-causalidox/",
       "id": 257,
       "lyricsPath": "",
       "music": {
@@ -10080,7 +10080,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 4:26",
-      "href": "/#/audio/2005-07-27-day-sky-fell-causalidox/",
+      "href": "/audio/2005-07-27-day-sky-fell-causalidox/",
       "id": 258,
       "lyricsPath": "",
       "music": {
@@ -10139,7 +10139,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 4:08",
-      "href": "/#/audio/2005-07-28-gods-trip-pre-mix-causalidox/",
+      "href": "/audio/2005-07-28-gods-trip-pre-mix-causalidox/",
       "id": 259,
       "lyricsPath": "",
       "music": {
@@ -10198,7 +10198,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 1:26",
-      "href": "/#/audio/2005-10-06-harmful-mmmix-causalidox/",
+      "href": "/audio/2005-10-06-harmful-mmmix-causalidox/",
       "id": 260,
       "lyricsPath": "",
       "music": {
@@ -10257,7 +10257,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 3:51",
-      "href": "/#/audio/2005-10-08-fields-fornication-causalidox/",
+      "href": "/audio/2005-10-08-fields-fornication-causalidox/",
       "id": 261,
       "lyricsPath": "",
       "music": {
@@ -10312,7 +10312,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 10:17",
-      "href": "/#/audio/2005-10-22-kool-aid-karneval-pre-mix-normalized-causalidox/",
+      "href": "/audio/2005-10-22-kool-aid-karneval-pre-mix-normalized-causalidox/",
       "id": 262,
       "lyricsPath": "",
       "music": {
@@ -10371,7 +10371,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 7:55",
-      "href": "/#/audio/2005-10-29-starry-solitude-over-mix-causalidox/",
+      "href": "/audio/2005-10-29-starry-solitude-over-mix-causalidox/",
       "id": 263,
       "lyricsPath": "",
       "music": {
@@ -10430,7 +10430,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 3:17",
-      "href": "/#/audio/2005-12-28-jeffs-coming-first-draft-causalidox/",
+      "href": "/audio/2005-12-28-jeffs-coming-first-draft-causalidox/",
       "id": 264,
       "lyricsPath": "",
       "music": {
@@ -10481,7 +10481,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 4:00",
-      "href": "/#/audio/jeffs-coming-causalidox/",
+      "href": "/audio/jeffs-coming-causalidox/",
       "id": 265,
       "lyricsPath": "",
       "music": {
@@ -10540,7 +10540,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 4:06",
-      "href": "/#/audio/2006-01-03-bad-jazz-causalidox/",
+      "href": "/audio/2006-01-03-bad-jazz-causalidox/",
       "id": 266,
       "lyricsPath": "",
       "music": {
@@ -10599,7 +10599,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 3:57",
-      "href": "/#/audio/2006-01-04-bad-jazz-infected-causalidox/",
+      "href": "/audio/2006-01-04-bad-jazz-infected-causalidox/",
       "id": 267,
       "lyricsPath": "",
       "music": {
@@ -10658,7 +10658,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 3:06",
-      "href": "/#/audio/2006-02-01-last-straw-causalidox/",
+      "href": "/audio/2006-02-01-last-straw-causalidox/",
       "id": 268,
       "lyricsPath": "",
       "music": {
@@ -10717,7 +10717,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 2:48",
-      "href": "/#/audio/2006-03-02-snowslide-d-couch-causalidox/",
+      "href": "/audio/2006-03-02-snowslide-d-couch-causalidox/",
       "id": 269,
       "lyricsPath": "",
       "music": {
@@ -10776,7 +10776,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 1:59",
-      "href": "/#/audio/2006-03-14-prison-conga-causalidox/",
+      "href": "/audio/2006-03-14-prison-conga-causalidox/",
       "id": 270,
       "lyricsPath": "",
       "music": {
@@ -10835,7 +10835,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 3:48",
-      "href": "/#/audio/2006-03-14-welcome-colony-causalidox/",
+      "href": "/audio/2006-03-14-welcome-colony-causalidox/",
       "id": 271,
       "lyricsPath": "",
       "music": {
@@ -10894,7 +10894,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 5:35",
-      "href": "/#/audio/2006-03-23-numinous-worst-case-scenario-causalidox/",
+      "href": "/audio/2006-03-23-numinous-worst-case-scenario-causalidox/",
       "id": 272,
       "lyricsPath": "",
       "music": {
@@ -10953,7 +10953,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 1:52",
-      "href": "/#/audio/2006-03-25-slithered-causalidox/",
+      "href": "/audio/2006-03-25-slithered-causalidox/",
       "id": 273,
       "lyricsPath": "",
       "music": {
@@ -11012,7 +11012,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 1:14",
-      "href": "/#/audio/2006-04-01-rotor-low-no-mix-causalidox/",
+      "href": "/audio/2006-04-01-rotor-low-no-mix-causalidox/",
       "id": 274,
       "lyricsPath": "",
       "music": {
@@ -11071,7 +11071,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 1:56",
-      "href": "/#/audio/2006-04-03-euphoric-ennui-fragment-causalidox/",
+      "href": "/audio/2006-04-03-euphoric-ennui-fragment-causalidox/",
       "id": 275,
       "lyricsPath": "",
       "music": {
@@ -11130,7 +11130,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 16:23",
-      "href": "/#/audio/2006-04-08-tryout-causalidox/",
+      "href": "/audio/2006-04-08-tryout-causalidox/",
       "id": 276,
       "lyricsPath": "",
       "music": {
@@ -11189,7 +11189,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 4:55",
-      "href": "/#/audio/2006-04-14-eyeful-sketch-live-causalidox/",
+      "href": "/audio/2006-04-14-eyeful-sketch-live-causalidox/",
       "id": 277,
       "lyricsPath": "",
       "music": {
@@ -11248,7 +11248,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 3:55",
-      "href": "/#/audio/2006-04-26-whats-your-name-again-causalidox/",
+      "href": "/audio/2006-04-26-whats-your-name-again-causalidox/",
       "id": 278,
       "lyricsPath": "",
       "music": {
@@ -11299,7 +11299,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / Promo - Electronic Music For Your Mind / 3:59",
-      "href": "/#/audio/in-hindsight-by-causalidox/",
+      "href": "/audio/in-hindsight-by-causalidox/",
       "id": 279,
       "lyricsPath": "",
       "music": {
@@ -11342,7 +11342,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 48:10",
-      "href": "/#/audio/in-hindsight-played-live-on-elektroland-81-by-causalidox/",
+      "href": "/audio/in-hindsight-played-live-on-elektroland-81-by-causalidox/",
       "id": 280,
       "lyricsPath": "",
       "music": {
@@ -11401,7 +11401,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / Promo - Electronic Music For Your Mind / 4:49",
-      "href": "/#/audio/dark-country-blues-by-causalidox/",
+      "href": "/audio/dark-country-blues-by-causalidox/",
       "id": 281,
       "lyricsPath": "",
       "music": {
@@ -11460,7 +11460,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / Promo - Electronic Music For Your Mind / 5:00",
-      "href": "/#/audio/limited-assumption-by-causalidox/",
+      "href": "/audio/limited-assumption-by-causalidox/",
       "id": 282,
       "lyricsPath": "",
       "music": {
@@ -11511,7 +11511,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / Promo - Electronic Music For Your Mind / 7:33",
-      "href": "/#/audio/second-orgasm-by-causalidox/",
+      "href": "/audio/second-orgasm-by-causalidox/",
       "id": 283,
       "lyricsPath": "",
       "music": {
@@ -11570,7 +11570,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / Promo - Electronic Music For Your Mind / 8:30",
-      "href": "/#/audio/cottonhead-by-causalidox/",
+      "href": "/audio/cottonhead-by-causalidox/",
       "id": 284,
       "lyricsPath": "",
       "music": {
@@ -11613,7 +11613,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "6:25",
-      "href": "/#/audio/causalidox-brutish-it-a-b/",
+      "href": "/audio/causalidox-brutish-it-a-b/",
       "id": 285,
       "lyricsPath": "",
       "music": {
@@ -11664,7 +11664,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 4:34",
-      "href": "/#/audio/sensory-deprivation-session-221-14-causalidox/",
+      "href": "/audio/sensory-deprivation-session-221-14-causalidox/",
       "id": 286,
       "lyricsPath": "",
       "music": {
@@ -11711,7 +11711,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 4:00",
-      "href": "/#/audio/hindsight-discrete-suggestion-mix-ft-purcell-causalidox/",
+      "href": "/audio/hindsight-discrete-suggestion-mix-ft-purcell-causalidox/",
       "id": 287,
       "lyricsPath": "",
       "music": {
@@ -11762,7 +11762,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 16:25",
-      "href": "/#/audio/live-soundlab-2-may-17th-2007-enschedenl-causalidox/",
+      "href": "/audio/live-soundlab-2-may-17th-2007-enschedenl-causalidox/",
       "id": 288,
       "lyricsPath": "",
       "music": {
@@ -11809,7 +11809,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 17:31",
-      "href": "/#/audio/live-veel-arnhemse-meisjes-kultuurhuis-bosch-arnhem-nl-19-04-08-causalidox/",
+      "href": "/audio/live-veel-arnhemse-meisjes-kultuurhuis-bosch-arnhem-nl-19-04-08-causalidox/",
       "id": 289,
       "lyricsPath": "",
       "music": {
@@ -11868,7 +11868,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 2:32",
-      "href": "/#/audio/what-if-causalidox/",
+      "href": "/audio/what-if-causalidox/",
       "id": 290,
       "lyricsPath": "",
       "music": {
@@ -11915,7 +11915,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 3:20",
-      "href": "/#/audio/dave-clarke-plays-causalidox-bright-ideas-darkly-white-noise-vpro-18-10-2008-causalidox/",
+      "href": "/audio/dave-clarke-plays-causalidox-bright-ideas-darkly-white-noise-vpro-18-10-2008-causalidox/",
       "id": 291,
       "lyricsPath": "",
       "music": {
@@ -11966,7 +11966,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 4:11",
-      "href": "/#/audio/between-condom-remix-hubird-causalidox/",
+      "href": "/audio/between-condom-remix-hubird-causalidox/",
       "id": 292,
       "lyricsPath": "",
       "music": {
@@ -12017,7 +12017,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 3:12",
-      "href": "/#/audio/what-if-alternate-crappy-new-lyrics-version-causalidox/",
+      "href": "/audio/what-if-alternate-crappy-new-lyrics-version-causalidox/",
       "id": 293,
       "lyricsPath": "",
       "music": {
@@ -12080,7 +12080,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / Sleep Deprivation Sessions I / 52:38",
-      "href": "/#/audio/sleep-deprivation-session-013-731m-3fu-causalidox/",
+      "href": "/audio/sleep-deprivation-session-013-731m-3fu-causalidox/",
       "id": 294,
       "lyricsPath": "",
       "music": {
@@ -12143,7 +12143,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / Sensory Deprivation Sessions I / 46:52",
-      "href": "/#/audio/sensory-deprivation-session-5543-155u-causalidox/",
+      "href": "/audio/sensory-deprivation-session-5543-155u-causalidox/",
       "id": 295,
       "lyricsPath": "",
       "music": {
@@ -12198,7 +12198,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 4:32",
-      "href": "/#/audio/throb-causalidox/",
+      "href": "/audio/throb-causalidox/",
       "id": 296,
       "lyricsPath": "",
       "music": {
@@ -12257,7 +12257,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 4:50",
-      "href": "/#/audio/dark-country-blues-causalidox/",
+      "href": "/audio/dark-country-blues-causalidox/",
       "id": 297,
       "lyricsPath": "",
       "music": {
@@ -12316,7 +12316,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 5:00",
-      "href": "/#/audio/limited-assumption-causalidox/",
+      "href": "/audio/limited-assumption-causalidox/",
       "id": 298,
       "lyricsPath": "",
       "music": {
@@ -12375,7 +12375,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 5:04",
-      "href": "/#/audio/bright-ideas-darkly-causalidox/",
+      "href": "/audio/bright-ideas-darkly-causalidox/",
       "id": 299,
       "lyricsPath": "",
       "music": {
@@ -12434,7 +12434,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 6:54",
-      "href": "/#/audio/little-something-about-hurt-causalidox/",
+      "href": "/audio/little-something-about-hurt-causalidox/",
       "id": 300,
       "lyricsPath": "",
       "music": {
@@ -12493,7 +12493,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 6:35",
-      "href": "/#/audio/caress-airborne-nightmonster-causalidox/",
+      "href": "/audio/caress-airborne-nightmonster-causalidox/",
       "id": 301,
       "lyricsPath": "",
       "music": {
@@ -12544,7 +12544,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 8:00",
-      "href": "/#/audio/flight-swallows-ft-mikey-causalidox/",
+      "href": "/audio/flight-swallows-ft-mikey-causalidox/",
       "id": 302,
       "lyricsPath": "",
       "music": {
@@ -12603,7 +12603,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 4:34",
-      "href": "/#/audio/anatomy-scream-causalidox/",
+      "href": "/audio/anatomy-scream-causalidox/",
       "id": 303,
       "lyricsPath": "",
       "music": {
@@ -12662,7 +12662,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 9:00",
-      "href": "/#/audio/helium-causalidox/",
+      "href": "/audio/helium-causalidox/",
       "id": 304,
       "lyricsPath": "",
       "music": {
@@ -12721,7 +12721,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 47:38",
-      "href": "/#/audio/mycelial-growth-causalidox/",
+      "href": "/audio/mycelial-growth-causalidox/",
       "id": 305,
       "lyricsPath": "",
       "music": {
@@ -12780,7 +12780,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 14:26",
-      "href": "/#/audio/g-duq-causalidox/",
+      "href": "/audio/g-duq-causalidox/",
       "id": 306,
       "lyricsPath": "",
       "music": {
@@ -12839,7 +12839,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 11:46",
-      "href": "/#/audio/pain-i-cannot-explain-first-symptom-causalidox/",
+      "href": "/audio/pain-i-cannot-explain-first-symptom-causalidox/",
       "id": 307,
       "lyricsPath": "",
       "music": {
@@ -12898,7 +12898,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 7:16",
-      "href": "/#/audio/far-flung-thought-causalidox/",
+      "href": "/audio/far-flung-thought-causalidox/",
       "id": 308,
       "lyricsPath": "",
       "music": {
@@ -12957,7 +12957,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 8:11",
-      "href": "/#/audio/life-less-lived-causalidox/",
+      "href": "/audio/life-less-lived-causalidox/",
       "id": 309,
       "lyricsPath": "",
       "music": {
@@ -13008,7 +13008,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 4:16",
-      "href": "/#/audio/future-retro-causalidox/",
+      "href": "/audio/future-retro-causalidox/",
       "id": 310,
       "lyricsPath": "",
       "music": {
@@ -13067,7 +13067,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 8:26",
-      "href": "/#/audio/oxytocin-party-causalidox/",
+      "href": "/audio/oxytocin-party-causalidox/",
       "id": 311,
       "lyricsPath": "",
       "music": {
@@ -13126,7 +13126,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 5:55",
-      "href": "/#/audio/your-loss-causalidox/",
+      "href": "/audio/your-loss-causalidox/",
       "id": 312,
       "lyricsPath": "",
       "music": {
@@ -13185,7 +13185,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 8:46",
-      "href": "/#/audio/almost-died-today-causalidox/",
+      "href": "/audio/almost-died-today-causalidox/",
       "id": 313,
       "lyricsPath": "",
       "music": {
@@ -13244,7 +13244,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 7:30",
-      "href": "/#/audio/every-word-she-ever-spoke-causalidox/",
+      "href": "/audio/every-word-she-ever-spoke-causalidox/",
       "id": 314,
       "lyricsPath": "",
       "music": {
@@ -13303,7 +13303,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 7:32",
-      "href": "/#/audio/sweat-causalidox/",
+      "href": "/audio/sweat-causalidox/",
       "id": 315,
       "lyricsPath": "",
       "music": {
@@ -13362,7 +13362,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 10:35",
-      "href": "/#/audio/mindful-journey-causalidox/",
+      "href": "/audio/mindful-journey-causalidox/",
       "id": 316,
       "lyricsPath": "",
       "music": {
@@ -13421,7 +13421,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 8:08",
-      "href": "/#/audio/there-no-looking-back-causalidox/",
+      "href": "/audio/there-no-looking-back-causalidox/",
       "id": 317,
       "lyricsPath": "",
       "music": {
@@ -13480,7 +13480,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 17:49",
-      "href": "/#/audio/requiem-causalidox/",
+      "href": "/audio/requiem-causalidox/",
       "id": 318,
       "lyricsPath": "",
       "music": {
@@ -13531,7 +13531,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 7:30",
-      "href": "/#/audio/bledtirgleta-extended-no-mix-causalidox/",
+      "href": "/audio/bledtirgleta-extended-no-mix-causalidox/",
       "id": 319,
       "lyricsPath": "",
       "music": {
@@ -13578,7 +13578,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 5:52",
-      "href": "/#/audio/when-rivers-swell-concept-causalidox/",
+      "href": "/audio/when-rivers-swell-concept-causalidox/",
       "id": 320,
       "lyricsPath": "",
       "music": {
@@ -13633,7 +13633,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 6:51",
-      "href": "/#/audio/mimetic-technocracies-rail-mists-causalidox/",
+      "href": "/audio/mimetic-technocracies-rail-mists-causalidox/",
       "id": 321,
       "lyricsPath": "",
       "music": {
@@ -13684,7 +13684,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 4:45",
-      "href": "/#/audio/turn-around-causalidox/",
+      "href": "/audio/turn-around-causalidox/",
       "id": 322,
       "lyricsPath": "",
       "music": {
@@ -13739,7 +13739,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 9:00",
-      "href": "/#/audio/nonlinear-test-slow-causalidox/",
+      "href": "/audio/nonlinear-test-slow-causalidox/",
       "id": 323,
       "lyricsPath": "",
       "music": {
@@ -13794,7 +13794,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 12:00",
-      "href": "/#/audio/pain-i-cannot-explain-2010-version-causalidox/",
+      "href": "/audio/pain-i-cannot-explain-2010-version-causalidox/",
       "id": 324,
       "lyricsPath": "",
       "music": {
@@ -13857,7 +13857,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / Sensory / Sleep Deprivation Sessions / 13:08",
-      "href": "/#/audio/sleep-deprivation-session-1946-bw7-causalidox/",
+      "href": "/audio/sleep-deprivation-session-1946-bw7-causalidox/",
       "id": 325,
       "lyricsPath": "",
       "music": {
@@ -13912,7 +13912,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / The Oxytocin Party / 7:30",
-      "href": "/#/audio/bledtirgleta-causalidox/",
+      "href": "/audio/bledtirgleta-causalidox/",
       "id": 326,
       "lyricsPath": "",
       "music": {
@@ -13975,7 +13975,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / Sensory / Sleep Deprivation Sessions / 13:49",
-      "href": "/#/audio/sensory-deprivation-session-ch-17s-causalidox/",
+      "href": "/audio/sensory-deprivation-session-ch-17s-causalidox/",
       "id": 327,
       "lyricsPath": "",
       "music": {
@@ -14038,7 +14038,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / The Oxytocin Party / 8:26",
-      "href": "/#/audio/oxytocin-party-causalidox-0/",
+      "href": "/audio/oxytocin-party-causalidox-0/",
       "id": 328,
       "lyricsPath": "",
       "music": {
@@ -14101,7 +14101,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / Sensory / Sleep Deprivation Sessions / 52:35",
-      "href": "/#/audio/sleep-deprivation-session-013-731m-3fu-causalidox-0/",
+      "href": "/audio/sleep-deprivation-session-013-731m-3fu-causalidox-0/",
       "id": 329,
       "lyricsPath": "",
       "music": {
@@ -14164,7 +14164,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / The Oxytocin Party / 7:30",
-      "href": "/#/audio/every-word-she-ever-spoke-causalidox-0/",
+      "href": "/audio/every-word-she-ever-spoke-causalidox-0/",
       "id": 330,
       "lyricsPath": "",
       "music": {
@@ -14227,7 +14227,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / Sensory / Sleep Deprivation Sessions / 46:50",
-      "href": "/#/audio/sensory-deprivation-session-5543-155u-causalidox-0/",
+      "href": "/audio/sensory-deprivation-session-5543-155u-causalidox-0/",
       "id": 331,
       "lyricsPath": "",
       "music": {
@@ -14290,7 +14290,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / The Oxytocin Party / 8:11",
-      "href": "/#/audio/life-less-lived-causalidox-0/",
+      "href": "/audio/life-less-lived-causalidox-0/",
       "id": 332,
       "lyricsPath": "",
       "music": {
@@ -14353,7 +14353,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / The Oxytocin Party / 5:55",
-      "href": "/#/audio/your-loss-causalidox-0/",
+      "href": "/audio/your-loss-causalidox-0/",
       "id": 333,
       "lyricsPath": "",
       "music": {
@@ -14416,7 +14416,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / The Oxytocin Party / 10:35",
-      "href": "/#/audio/mindful-journey-causalidox-0/",
+      "href": "/audio/mindful-journey-causalidox-0/",
       "id": 334,
       "lyricsPath": "",
       "music": {
@@ -14475,7 +14475,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / The Oxytocin Party / 9:00",
-      "href": "/#/audio/nonlinear-test-slow-causalidox-0/",
+      "href": "/audio/nonlinear-test-slow-causalidox-0/",
       "id": 335,
       "lyricsPath": "",
       "music": {
@@ -14534,7 +14534,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / The Oxytocin Party / 6:51",
-      "href": "/#/audio/mimetic-technocracies-rail-mists-causalidox-0/",
+      "href": "/audio/mimetic-technocracies-rail-mists-causalidox-0/",
       "id": 336,
       "lyricsPath": "",
       "music": {
@@ -14597,7 +14597,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / The Oxytocin Party / 8:08",
-      "href": "/#/audio/there-no-looking-back-causalidox-0/",
+      "href": "/audio/there-no-looking-back-causalidox-0/",
       "id": 337,
       "lyricsPath": "",
       "music": {
@@ -14652,7 +14652,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / The Oxytocin Party / 2:41",
-      "href": "/#/audio/i-am-jacks-impacted-colon-bonustrack-causalidox/",
+      "href": "/audio/i-am-jacks-impacted-colon-bonustrack-causalidox/",
       "id": 338,
       "lyricsPath": "",
       "music": {
@@ -14715,7 +14715,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / Autumnland / 6:18",
-      "href": "/#/audio/dusk-approaches-causalidox/",
+      "href": "/audio/dusk-approaches-causalidox/",
       "id": 339,
       "lyricsPath": "",
       "music": {
@@ -14778,7 +14778,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / Autumnland / 4:58",
-      "href": "/#/audio/metal-forest-whispers-causalidox/",
+      "href": "/audio/metal-forest-whispers-causalidox/",
       "id": 340,
       "lyricsPath": "",
       "music": {
@@ -14841,7 +14841,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / Autumnland / 46:06",
-      "href": "/#/audio/true-dissolve-causalidox/",
+      "href": "/audio/true-dissolve-causalidox/",
       "id": 341,
       "lyricsPath": "",
       "music": {
@@ -14900,7 +14900,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 9:50",
-      "href": "/#/audio/somewhere-streets-ft-d-i-s-t-e-l-causalidox/",
+      "href": "/audio/somewhere-streets-ft-d-i-s-t-e-l-causalidox/",
       "id": 342,
       "lyricsPath": "",
       "music": {
@@ -14959,7 +14959,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / Promo - Electronic Music For Your Mind / 5:02",
-      "href": "/#/audio/bright-ideas-darkly-by-causalidox/",
+      "href": "/audio/bright-ideas-darkly-by-causalidox/",
       "id": 343,
       "lyricsPath": "",
       "music": {
@@ -15018,7 +15018,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 3:12",
-      "href": "/#/audio/2006-05-26-crocketts-ass-causalidox/",
+      "href": "/audio/2006-05-26-crocketts-ass-causalidox/",
       "id": 344,
       "lyricsPath": "",
       "music": {
@@ -15077,7 +15077,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 2:01",
-      "href": "/#/audio/2006-05-26-running-causalidox/",
+      "href": "/audio/2006-05-26-running-causalidox/",
       "id": 345,
       "lyricsPath": "",
       "music": {
@@ -15132,7 +15132,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 5:02",
-      "href": "/#/audio/2006-06-05-lament-rough-draft-causalidox/",
+      "href": "/audio/2006-06-05-lament-rough-draft-causalidox/",
       "id": 346,
       "lyricsPath": "",
       "music": {
@@ -15183,7 +15183,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 1:49",
-      "href": "/#/audio/2006-06-23-snake-charmer-unfinished-rough-draft-causalidox/",
+      "href": "/audio/2006-06-23-snake-charmer-unfinished-rough-draft-causalidox/",
       "id": 347,
       "lyricsPath": "",
       "music": {
@@ -15234,7 +15234,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 0:52",
-      "href": "/#/audio/2006-07-05-jamsession-live-key-action-excerpt-too-noisy-too-hot-causalidox/",
+      "href": "/audio/2006-07-05-jamsession-live-key-action-excerpt-too-noisy-too-hot-causalidox/",
       "id": 348,
       "lyricsPath": "",
       "music": {
@@ -15293,7 +15293,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 2:03",
-      "href": "/#/audio/2006-07-22-srl33tfh-causalidox/",
+      "href": "/audio/2006-07-22-srl33tfh-causalidox/",
       "id": 349,
       "lyricsPath": "",
       "music": {
@@ -15352,7 +15352,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 11:37",
-      "href": "/#/audio/2006-07-27-na20270607nna25200706-causalidox/",
+      "href": "/audio/2006-07-27-na20270607nna25200706-causalidox/",
       "id": 350,
       "lyricsPath": "",
       "music": {
@@ -15395,7 +15395,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "2:08",
-      "href": "/#/audio/2006-08-18-nighbard/",
+      "href": "/audio/2006-08-18-nighbard/",
       "id": 351,
       "lyricsPath": "",
       "music": {
@@ -15454,7 +15454,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 3:39",
-      "href": "/#/audio/2006-08-19-unannounced-first-draft-causalidox/",
+      "href": "/audio/2006-08-19-unannounced-first-draft-causalidox/",
       "id": 352,
       "lyricsPath": "",
       "music": {
@@ -15505,7 +15505,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 15:16",
-      "href": "/#/audio/2006-08-24-ii-and-its-getting-colder-causalidox/",
+      "href": "/audio/2006-08-24-ii-and-its-getting-colder-causalidox/",
       "id": 353,
       "lyricsPath": "",
       "music": {
@@ -15564,7 +15564,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 7:38",
-      "href": "/#/audio/2006-08-24-138-miles-bass-causalidox/",
+      "href": "/audio/2006-08-24-138-miles-bass-causalidox/",
       "id": 354,
       "lyricsPath": "",
       "music": {
@@ -15623,7 +15623,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 4:37",
-      "href": "/#/audio/2006-09-08-droplets-causalidox/",
+      "href": "/audio/2006-09-08-droplets-causalidox/",
       "id": 355,
       "lyricsPath": "",
       "music": {
@@ -15682,7 +15682,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 2:03",
-      "href": "/#/audio/2006-09-10-unlikable-guy-causalidox/",
+      "href": "/audio/2006-09-10-unlikable-guy-causalidox/",
       "id": 356,
       "lyricsPath": "",
       "music": {
@@ -15741,7 +15741,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 1:11",
-      "href": "/#/audio/wildness-causalidox/",
+      "href": "/audio/wildness-causalidox/",
       "id": 357,
       "lyricsPath": "",
       "music": {
@@ -15804,7 +15804,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / Album / 1:11",
-      "href": "/#/audio/kurz-und-sauer-causalidox/",
+      "href": "/audio/kurz-und-sauer-causalidox/",
       "id": 358,
       "lyricsPath": "",
       "music": {
@@ -15859,7 +15859,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / Album / 2:49",
-      "href": "/#/audio/tittilating-causalidox/",
+      "href": "/audio/tittilating-causalidox/",
       "id": 359,
       "lyricsPath": "",
       "music": {
@@ -15918,7 +15918,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 12:40",
-      "href": "/#/audio/anafix-causalidox/",
+      "href": "/audio/anafix-causalidox/",
       "id": 360,
       "lyricsPath": "",
       "music": {
@@ -15981,7 +15981,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / Autumnland / 6:18",
-      "href": "/#/audio/dusk-approaches-causalidox-0/",
+      "href": "/audio/dusk-approaches-causalidox-0/",
       "id": 361,
       "lyricsPath": "",
       "music": {
@@ -16044,7 +16044,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / Album / 4:10",
-      "href": "/#/audio/shitstorm-causalidox/",
+      "href": "/audio/shitstorm-causalidox/",
       "id": 362,
       "lyricsPath": "",
       "music": {
@@ -16107,7 +16107,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / Album / 3:35",
-      "href": "/#/audio/what-im-gonna-do-you-causalidox/",
+      "href": "/audio/what-im-gonna-do-you-causalidox/",
       "id": 363,
       "lyricsPath": "",
       "music": {
@@ -16170,7 +16170,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / Album / 3:37",
-      "href": "/#/audio/broken-thrusts-causalidox/",
+      "href": "/audio/broken-thrusts-causalidox/",
       "id": 364,
       "lyricsPath": "",
       "music": {
@@ -16221,7 +16221,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 3:43",
-      "href": "/#/audio/die-fucking-yuppie-scum-causalidox/",
+      "href": "/audio/die-fucking-yuppie-scum-causalidox/",
       "id": 365,
       "lyricsPath": "",
       "music": {
@@ -16284,7 +16284,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / Autumnland / 4:58",
-      "href": "/#/audio/metal-forest-whispers-causalidox-0/",
+      "href": "/audio/metal-forest-whispers-causalidox-0/",
       "id": 366,
       "lyricsPath": "",
       "music": {
@@ -16347,7 +16347,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / Autumnland / 46:06",
-      "href": "/#/audio/true-dissolve-causalidox-0/",
+      "href": "/audio/true-dissolve-causalidox-0/",
       "id": 367,
       "lyricsPath": "",
       "music": {
@@ -16406,7 +16406,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 12:07",
-      "href": "/#/audio/fate-nations-jam-causalidox/",
+      "href": "/audio/fate-nations-jam-causalidox/",
       "id": 368,
       "lyricsPath": "",
       "music": {
@@ -16457,7 +16457,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 4:09",
-      "href": "/#/audio/n-between-causalidox/",
+      "href": "/audio/n-between-causalidox/",
       "id": 369,
       "lyricsPath": "",
       "music": {
@@ -16516,7 +16516,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 16:02",
-      "href": "/#/audio/fate-nations-causalidox/",
+      "href": "/audio/fate-nations-causalidox/",
       "id": 370,
       "lyricsPath": "",
       "music": {
@@ -16575,7 +16575,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 3:00",
-      "href": "/#/audio/enemies-causalidox/",
+      "href": "/audio/enemies-causalidox/",
       "id": 371,
       "lyricsPath": "",
       "music": {
@@ -16634,7 +16634,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 7:09",
-      "href": "/#/audio/g7u913-causalidox/",
+      "href": "/audio/g7u913-causalidox/",
       "id": 372,
       "lyricsPath": "",
       "music": {
@@ -16693,7 +16693,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 4:08",
-      "href": "/#/audio/shiny-tiny-holes-causalidox/",
+      "href": "/audio/shiny-tiny-holes-causalidox/",
       "id": 373,
       "lyricsPath": "",
       "music": {
@@ -16752,7 +16752,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 17:52",
-      "href": "/#/audio/fuck-shit-live-motherfucker-causalidox/",
+      "href": "/audio/fuck-shit-live-motherfucker-causalidox/",
       "id": 374,
       "lyricsPath": "",
       "music": {
@@ -16811,7 +16811,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 9:10",
-      "href": "/#/audio/drunk-melancholic-monk-live-lousy-recording-causalidox/",
+      "href": "/audio/drunk-melancholic-monk-live-lousy-recording-causalidox/",
       "id": 375,
       "lyricsPath": "",
       "music": {
@@ -16862,7 +16862,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 10:28",
-      "href": "/#/audio/past-tense-tryout-based-count-souvenirs-junior-boys-causalidox/",
+      "href": "/audio/past-tense-tryout-based-count-souvenirs-junior-boys-causalidox/",
       "id": 376,
       "lyricsPath": "",
       "music": {
@@ -16913,7 +16913,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 9:48",
-      "href": "/#/audio/last-fucking-laugh-causalidox/",
+      "href": "/audio/last-fucking-laugh-causalidox/",
       "id": 377,
       "lyricsPath": "",
       "music": {
@@ -16972,7 +16972,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 3:51",
-      "href": "/#/audio/m1v1-orthomyxo-battlefield-dawn-causalidox/",
+      "href": "/audio/m1v1-orthomyxo-battlefield-dawn-causalidox/",
       "id": 378,
       "lyricsPath": "",
       "music": {
@@ -17031,7 +17031,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 7:11",
-      "href": "/#/audio/candy-says-like-velvet-causalidox/",
+      "href": "/audio/candy-says-like-velvet-causalidox/",
       "id": 379,
       "lyricsPath": "",
       "music": {
@@ -17090,7 +17090,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 5:42",
-      "href": "/#/audio/dusk-approaches-live-rm1x-first-take-causalidox/",
+      "href": "/audio/dusk-approaches-live-rm1x-first-take-causalidox/",
       "id": 380,
       "lyricsPath": "",
       "music": {
@@ -17141,7 +17141,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 4:55",
-      "href": "/#/audio/mixed-fucked-b3282a-causalidox/",
+      "href": "/audio/mixed-fucked-b3282a-causalidox/",
       "id": 381,
       "lyricsPath": "",
       "music": {
@@ -17192,7 +17192,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 3:14",
-      "href": "/#/audio/after-dreams-end-seq-version-1st-take-causalidox/",
+      "href": "/audio/after-dreams-end-seq-version-1st-take-causalidox/",
       "id": 382,
       "lyricsPath": "",
       "music": {
@@ -17251,7 +17251,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 3:28",
-      "href": "/#/audio/euphoric-ennui-remake-causalidox/",
+      "href": "/audio/euphoric-ennui-remake-causalidox/",
       "id": 383,
       "lyricsPath": "",
       "music": {
@@ -17310,7 +17310,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 8:54",
-      "href": "/#/audio/spit-it-jam-causalidox/",
+      "href": "/audio/spit-it-jam-causalidox/",
       "id": 384,
       "lyricsPath": "",
       "music": {
@@ -17369,7 +17369,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 4:03",
-      "href": "/#/audio/euphoric-ennui-realization-mix-causalidox/",
+      "href": "/audio/euphoric-ennui-realization-mix-causalidox/",
       "id": 385,
       "lyricsPath": "",
       "music": {
@@ -17432,7 +17432,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / Sensory Deprivation Sessions I / 13:47",
-      "href": "/#/audio/sensory-deprivation-session-ch-17s-causalidox-0/",
+      "href": "/audio/sensory-deprivation-session-ch-17s-causalidox-0/",
       "id": 386,
       "lyricsPath": "",
       "music": {
@@ -17495,7 +17495,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / Sleep Deprivation Sessions I / 13:10",
-      "href": "/#/audio/sleep-deprivation-session-1946-bw7-causalidox-0/",
+      "href": "/audio/sleep-deprivation-session-1946-bw7-causalidox-0/",
       "id": 387,
       "lyricsPath": "",
       "music": {
@@ -17546,7 +17546,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 12:35",
-      "href": "/#/audio/drunk-melancholic-monk-ii-sermon-cave-causalidox/",
+      "href": "/audio/drunk-melancholic-monk-ii-sermon-cave-causalidox/",
       "id": 388,
       "lyricsPath": "",
       "music": {
@@ -17605,7 +17605,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 7:33",
-      "href": "/#/audio/second-orgasm-theme-sketch-causalidox/",
+      "href": "/audio/second-orgasm-theme-sketch-causalidox/",
       "id": 389,
       "lyricsPath": "",
       "music": {
@@ -17664,7 +17664,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 7:40",
-      "href": "/#/audio/bash-causalidox/",
+      "href": "/audio/bash-causalidox/",
       "id": 390,
       "lyricsPath": "",
       "music": {
@@ -17723,7 +17723,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 6:12",
-      "href": "/#/audio/assertive-causalidox/",
+      "href": "/audio/assertive-causalidox/",
       "id": 391,
       "lyricsPath": "",
       "music": {
@@ -17782,7 +17782,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 8:09",
-      "href": "/#/audio/le-bal-des-endorphines-causalidox/",
+      "href": "/audio/le-bal-des-endorphines-causalidox/",
       "id": 392,
       "lyricsPath": "",
       "music": {
@@ -17833,7 +17833,7 @@
       "date": "July 20, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 3:34",
-      "href": "/#/audio/un-r%C3%AAve-des-automnes-pass%C3%A9s-causalidox/",
+      "href": "/audio/un-r%C3%AAve-des-automnes-pass%C3%A9s-causalidox/",
       "id": 393,
       "lyricsPath": "",
       "music": {
@@ -17888,7 +17888,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "Bob Knutton / 3:31",
-      "href": "/#/audio/ld50-bob-knutton/",
+      "href": "/audio/ld50-bob-knutton/",
       "id": 394,
       "lyricsPath": "",
       "music": {
@@ -17947,7 +17947,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "Guaka / Sourd / 21:56",
-      "href": "/#/audio/ameraksu-guaka/",
+      "href": "/audio/ameraksu-guaka/",
       "id": 396,
       "lyricsPath": "",
       "music": {
@@ -18006,7 +18006,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "Guaka / Sourd / 1:48",
-      "href": "/#/audio/wathoeheethet-guaka/",
+      "href": "/audio/wathoeheethet-guaka/",
       "id": 397,
       "lyricsPath": "",
       "music": {
@@ -18057,7 +18057,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "Guaka / Sourd / 11:24",
-      "href": "/#/audio/bruits-dune-minute-%C3%A0-minuit-guaka/",
+      "href": "/audio/bruits-dune-minute-%C3%A0-minuit-guaka/",
       "id": 398,
       "lyricsPath": "",
       "music": {
@@ -18116,7 +18116,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "Guaka / Sourd / 4:10",
-      "href": "/#/audio/belef-guaka/",
+      "href": "/audio/belef-guaka/",
       "id": 399,
       "lyricsPath": "",
       "music": {
@@ -18163,7 +18163,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "Causalidox / 57:45",
-      "href": "/#/audio/live-glaxclock-night-6-merleyn-nijmegen-11-07-08-causalidox/",
+      "href": "/audio/live-glaxclock-night-6-merleyn-nijmegen-11-07-08-causalidox/",
       "id": 400,
       "lyricsPath": "",
       "music": {
@@ -18206,7 +18206,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "Grimm Limbo / 28:29",
-      "href": "/#/audio/live-glaxclock-night-6-merleyn-nijmegen-11-07-08-grimm-limbo/",
+      "href": "/audio/live-glaxclock-night-6-merleyn-nijmegen-11-07-08-grimm-limbo/",
       "id": 401,
       "lyricsPath": "",
       "music": {
@@ -18249,7 +18249,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "Mr Botak / 29:33",
-      "href": "/#/audio/live-glaxclock-night-6-merleyn-nijmegen-11-07-08-mr-botak/",
+      "href": "/audio/live-glaxclock-night-6-merleyn-nijmegen-11-07-08-mr-botak/",
       "id": 402,
       "lyricsPath": "",
       "music": {
@@ -18300,7 +18300,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "NME / 5:47",
-      "href": "/#/audio/lectro-jamin-nme/",
+      "href": "/audio/lectro-jamin-nme/",
       "id": 403,
       "lyricsPath": "",
       "music": {
@@ -18347,7 +18347,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "Protocol Novikov / 30:51",
-      "href": "/#/audio/live-glaxclock-night-6-merleyn-nijmegen-11-07-08-protocol-novikov/",
+      "href": "/audio/live-glaxclock-night-6-merleyn-nijmegen-11-07-08-protocol-novikov/",
       "id": 404,
       "lyricsPath": "",
       "music": {
@@ -18410,7 +18410,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "303.nu / http://303.nu / 45:34",
-      "href": "/#/audio/radio-303nu-1000-xyz-303nu/",
+      "href": "/audio/radio-303nu-1000-xyz-303nu/",
       "id": 405,
       "lyricsPath": "",
       "music": {
@@ -18461,7 +18461,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "303.nu / 7:01",
-      "href": "/#/audio/radio303nu060900tape1-303nu/",
+      "href": "/audio/radio303nu060900tape1-303nu/",
       "id": 406,
       "lyricsPath": "",
       "music": {
@@ -18524,7 +18524,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "303.nu / http://303.nu/radio / 28:18",
-      "href": "/#/audio/radio-303-nu-100500-5th-hour-303nu/",
+      "href": "/audio/radio-303-nu-100500-5th-hour-303nu/",
       "id": 407,
       "lyricsPath": "",
       "music": {
@@ -18587,7 +18587,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "303.nu / http://303.nu/radio / 47:45",
-      "href": "/#/audio/radio-303nu-27400-3rd-hour-303nu/",
+      "href": "/audio/radio-303nu-27400-3rd-hour-303nu/",
       "id": 408,
       "lyricsPath": "",
       "music": {
@@ -18650,7 +18650,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "303.nu / http://303.nu/radio / 47:40",
-      "href": "/#/audio/radio-303nu-27400-4th-hour-303nu/",
+      "href": "/audio/radio-303nu-27400-4th-hour-303nu/",
       "id": 409,
       "lyricsPath": "",
       "music": {
@@ -18713,7 +18713,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "303.nu / http://303.nu / 22:43",
-      "href": "/#/audio/090700k2phmp3-303nu/",
+      "href": "/audio/090700k2phmp3-303nu/",
       "id": 410,
       "lyricsPath": "",
       "music": {
@@ -18776,7 +18776,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "pH and Guaka / http://303.nu / 2:41",
-      "href": "/#/audio/phindustreeliveexcerpt-ph-and-guaka/",
+      "href": "/audio/phindustreeliveexcerpt-ph-and-guaka/",
       "id": 411,
       "lyricsPath": "",
       "music": {
@@ -18839,7 +18839,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "pH / live @ Roos / 4:20",
-      "href": "/#/audio/phroos-excerpt-ph/",
+      "href": "/audio/phroos-excerpt-ph/",
       "id": 412,
       "lyricsPath": "",
       "music": {
@@ -18890,7 +18890,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "pH / 69:24",
-      "href": "/#/audio/roos-van-nijmegen-ph/",
+      "href": "/audio/roos-van-nijmegen-ph/",
       "id": 413,
       "lyricsPath": "",
       "music": {
@@ -18941,7 +18941,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "pH / 4:34",
-      "href": "/#/audio/phroosrevamped-ph/",
+      "href": "/audio/phroosrevamped-ph/",
       "id": 414,
       "lyricsPath": "",
       "music": {
@@ -19000,7 +19000,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "pH / 1:09",
-      "href": "/#/audio/vlororbeeld-1-ph/",
+      "href": "/audio/vlororbeeld-1-ph/",
       "id": 415,
       "lyricsPath": "",
       "music": {
@@ -19051,7 +19051,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "pH and Guaka / 8:43",
-      "href": "/#/audio/wazig-acid-ph-and-guaka/",
+      "href": "/audio/wazig-acid-ph-and-guaka/",
       "id": 416,
       "lyricsPath": "",
       "music": {
@@ -19110,7 +19110,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "pH / 1:22",
-      "href": "/#/audio/wazige-acid-ph-re-edit-ft-guaka-ph/",
+      "href": "/audio/wazige-acid-ph-re-edit-ft-guaka-ph/",
       "id": 417,
       "lyricsPath": "",
       "music": {
@@ -19157,7 +19157,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "3:31",
-      "href": "/#/audio/01-2-sleepy-fucks/",
+      "href": "/audio/01-2-sleepy-fucks/",
       "id": 418,
       "lyricsPath": "",
       "music": {
@@ -19204,7 +19204,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "0:30",
-      "href": "/#/audio/01-ag-fibonacci-fm-noise-intro/",
+      "href": "/audio/01-ag-fibonacci-fm-noise-intro/",
       "id": 419,
       "lyricsPath": "",
       "music": {
@@ -19251,7 +19251,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "0:17",
-      "href": "/#/audio/01-intro/",
+      "href": "/audio/01-intro/",
       "id": 420,
       "lyricsPath": "",
       "music": {
@@ -19298,7 +19298,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "4:39",
-      "href": "/#/audio/01-metro-mind/",
+      "href": "/audio/01-metro-mind/",
       "id": 421,
       "lyricsPath": "",
       "music": {
@@ -19345,7 +19345,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "1:15",
-      "href": "/#/audio/02-alisando-reticolo-break-my-bones/",
+      "href": "/audio/02-alisando-reticolo-break-my-bones/",
       "id": 422,
       "lyricsPath": "",
       "music": {
@@ -19392,7 +19392,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "5:55",
-      "href": "/#/audio/02-did-you-have-a-name/",
+      "href": "/audio/02-did-you-have-a-name/",
       "id": 423,
       "lyricsPath": "",
       "music": {
@@ -19439,7 +19439,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "0:59",
-      "href": "/#/audio/02-intro-ii-fucking-lights/",
+      "href": "/audio/02-intro-ii-fucking-lights/",
       "id": 424,
       "lyricsPath": "",
       "music": {
@@ -19486,7 +19486,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "6:21",
-      "href": "/#/audio/02-left-alone/",
+      "href": "/audio/02-left-alone/",
       "id": 425,
       "lyricsPath": "",
       "music": {
@@ -19533,7 +19533,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "3:34",
-      "href": "/#/audio/03-bluesoxyearbible/",
+      "href": "/audio/03-bluesoxyearbible/",
       "id": 426,
       "lyricsPath": "",
       "music": {
@@ -19580,7 +19580,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "5:10",
-      "href": "/#/audio/03-metro-mind/",
+      "href": "/audio/03-metro-mind/",
       "id": 427,
       "lyricsPath": "",
       "music": {
@@ -19639,7 +19639,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "IndusTree / The Metro Mind EP (1997) / 5:39",
-      "href": "/#/audio/03-noisy-ii-noise-industree-0/",
+      "href": "/audio/03-noisy-ii-noise-industree-0/",
       "id": 428,
       "lyricsPath": "",
       "music": {
@@ -19686,7 +19686,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "3:50",
-      "href": "/#/audio/03-sick/",
+      "href": "/audio/03-sick/",
       "id": 429,
       "lyricsPath": "",
       "music": {
@@ -19733,7 +19733,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "3:20",
-      "href": "/#/audio/04-eekwackwackwere/",
+      "href": "/audio/04-eekwackwackwere/",
       "id": 430,
       "lyricsPath": "",
       "music": {
@@ -19780,7 +19780,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "2:20",
-      "href": "/#/audio/04-gaszzz/",
+      "href": "/audio/04-gaszzz/",
       "id": 431,
       "lyricsPath": "",
       "music": {
@@ -19827,7 +19827,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "4:57",
-      "href": "/#/audio/04-noisy-ii-this-is-noise/",
+      "href": "/audio/04-noisy-ii-this-is-noise/",
       "id": 432,
       "lyricsPath": "",
       "music": {
@@ -19874,7 +19874,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "2:37",
-      "href": "/#/audio/04-sick-my-duck/",
+      "href": "/audio/04-sick-my-duck/",
       "id": 433,
       "lyricsPath": "",
       "music": {
@@ -19921,7 +19921,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "5:24",
-      "href": "/#/audio/05-dyever-go-to-bed/",
+      "href": "/audio/05-dyever-go-to-bed/",
       "id": 434,
       "lyricsPath": "",
       "music": {
@@ -19968,7 +19968,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "1:55",
-      "href": "/#/audio/05-jeannie-come-to-me/",
+      "href": "/audio/05-jeannie-come-to-me/",
       "id": 435,
       "lyricsPath": "",
       "music": {
@@ -20015,7 +20015,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "5:50",
-      "href": "/#/audio/05-left-alone/",
+      "href": "/audio/05-left-alone/",
       "id": 436,
       "lyricsPath": "",
       "music": {
@@ -20062,7 +20062,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "5:07",
-      "href": "/#/audio/05-loveinthegrass/",
+      "href": "/audio/05-loveinthegrass/",
       "id": 437,
       "lyricsPath": "",
       "music": {
@@ -20109,7 +20109,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "1:25",
-      "href": "/#/audio/06-chemcrap-we-are-odd/",
+      "href": "/audio/06-chemcrap-we-are-odd/",
       "id": 438,
       "lyricsPath": "",
       "music": {
@@ -20156,7 +20156,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "6:23",
-      "href": "/#/audio/06-fuck/",
+      "href": "/audio/06-fuck/",
       "id": 439,
       "lyricsPath": "",
       "music": {
@@ -20203,7 +20203,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "3:47",
-      "href": "/#/audio/06-life-and-bananas/",
+      "href": "/audio/06-life-and-bananas/",
       "id": 440,
       "lyricsPath": "",
       "music": {
@@ -20250,7 +20250,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "4:54",
-      "href": "/#/audio/06-vacuum-incognito/",
+      "href": "/audio/06-vacuum-incognito/",
       "id": 441,
       "lyricsPath": "",
       "music": {
@@ -20297,7 +20297,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "4:15",
-      "href": "/#/audio/07-eekwackwackwere/",
+      "href": "/audio/07-eekwackwackwere/",
       "id": 442,
       "lyricsPath": "",
       "music": {
@@ -20344,7 +20344,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "6:12",
-      "href": "/#/audio/07-left-alone/",
+      "href": "/audio/07-left-alone/",
       "id": 443,
       "lyricsPath": "",
       "music": {
@@ -20391,7 +20391,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "4:49",
-      "href": "/#/audio/07-metro-mind/",
+      "href": "/audio/07-metro-mind/",
       "id": 444,
       "lyricsPath": "",
       "music": {
@@ -20438,7 +20438,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "3:39",
-      "href": "/#/audio/07-sick/",
+      "href": "/audio/07-sick/",
       "id": 445,
       "lyricsPath": "",
       "music": {
@@ -20485,7 +20485,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "3:12",
-      "href": "/#/audio/08-dreamt-in-space/",
+      "href": "/audio/08-dreamt-in-space/",
       "id": 446,
       "lyricsPath": "",
       "music": {
@@ -20532,7 +20532,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "4:51",
-      "href": "/#/audio/08-noisy-ii-this-is-noise/",
+      "href": "/audio/08-noisy-ii-this-is-noise/",
       "id": 447,
       "lyricsPath": "",
       "music": {
@@ -20579,7 +20579,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "3:45",
-      "href": "/#/audio/08-sick/",
+      "href": "/audio/08-sick/",
       "id": 448,
       "lyricsPath": "",
       "music": {
@@ -20626,7 +20626,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "4:56",
-      "href": "/#/audio/09-amerac-sumic/",
+      "href": "/audio/09-amerac-sumic/",
       "id": 449,
       "lyricsPath": "",
       "music": {
@@ -20673,7 +20673,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "7:35",
-      "href": "/#/audio/09-diggin-up-lou/",
+      "href": "/audio/09-diggin-up-lou/",
       "id": 450,
       "lyricsPath": "",
       "music": {
@@ -20724,7 +20724,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "IndusTree / 3:55",
-      "href": "/#/audio/09-livira-industree/",
+      "href": "/audio/09-livira-industree/",
       "id": 451,
       "lyricsPath": "",
       "music": {
@@ -20775,7 +20775,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "IndusTree / 2:01",
-      "href": "/#/audio/10-dyever-go-bed-vs-qqsaaas-industree/",
+      "href": "/audio/10-dyever-go-bed-vs-qqsaaas-industree/",
       "id": 452,
       "lyricsPath": "",
       "music": {
@@ -20826,7 +20826,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "IndusTree / 5:03",
-      "href": "/#/audio/10-quorny-industree/",
+      "href": "/audio/10-quorny-industree/",
       "id": 453,
       "lyricsPath": "",
       "music": {
@@ -20873,7 +20873,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "3:36",
-      "href": "/#/audio/11-big-far-tiny-our-face/",
+      "href": "/audio/11-big-far-tiny-our-face/",
       "id": 454,
       "lyricsPath": "",
       "music": {
@@ -20920,7 +20920,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "5:04",
-      "href": "/#/audio/11-loveinthegrass/",
+      "href": "/audio/11-loveinthegrass/",
       "id": 455,
       "lyricsPath": "",
       "music": {
@@ -20967,7 +20967,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "4:39",
-      "href": "/#/audio/11-noisy-ii-this-is-noise/",
+      "href": "/audio/11-noisy-ii-this-is-noise/",
       "id": 456,
       "lyricsPath": "",
       "music": {
@@ -21014,7 +21014,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "1:46",
-      "href": "/#/audio/12-ketama-s-theme-in-absentia/",
+      "href": "/audio/12-ketama-s-theme-in-absentia/",
       "id": 457,
       "lyricsPath": "",
       "music": {
@@ -21061,7 +21061,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "4:18",
-      "href": "/#/audio/12-loveinthegrass/",
+      "href": "/audio/12-loveinthegrass/",
       "id": 458,
       "lyricsPath": "",
       "music": {
@@ -21108,7 +21108,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "5:01",
-      "href": "/#/audio/12-vacuum-incognito/",
+      "href": "/audio/12-vacuum-incognito/",
       "id": 459,
       "lyricsPath": "",
       "music": {
@@ -21155,7 +21155,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "2:44",
-      "href": "/#/audio/13-boxes/",
+      "href": "/audio/13-boxes/",
       "id": 460,
       "lyricsPath": "",
       "music": {
@@ -21202,7 +21202,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "1:38",
-      "href": "/#/audio/13-outro-go-down-on-me-bitch/",
+      "href": "/audio/13-outro-go-down-on-me-bitch/",
       "id": 461,
       "lyricsPath": "",
       "music": {
@@ -21249,7 +21249,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "8:09",
-      "href": "/#/audio/14-homesick/",
+      "href": "/audio/14-homesick/",
       "id": 462,
       "lyricsPath": "",
       "music": {
@@ -21296,7 +21296,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "5:23",
-      "href": "/#/audio/15-noisy-ii-this-is-noise/",
+      "href": "/audio/15-noisy-ii-this-is-noise/",
       "id": 463,
       "lyricsPath": "",
       "music": {
@@ -21343,7 +21343,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "1:48",
-      "href": "/#/audio/16-kure-for-lure/",
+      "href": "/audio/16-kure-for-lure/",
       "id": 464,
       "lyricsPath": "",
       "music": {
@@ -21390,7 +21390,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "3:55",
-      "href": "/#/audio/17-eokwok/",
+      "href": "/audio/17-eokwok/",
       "id": 465,
       "lyricsPath": "",
       "music": {
@@ -21437,7 +21437,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "6:29",
-      "href": "/#/audio/18-massfuck-vs-obdistandu/",
+      "href": "/audio/18-massfuck-vs-obdistandu/",
       "id": 466,
       "lyricsPath": "",
       "music": {
@@ -21484,7 +21484,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "3:14",
-      "href": "/#/audio/19-eekwackwackwere/",
+      "href": "/audio/19-eekwackwackwere/",
       "id": 467,
       "lyricsPath": "",
       "music": {
@@ -21531,7 +21531,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "5:39",
-      "href": "/#/audio/20-left-alone-with-special-guest-p-ziekenheiner-on-bass/",
+      "href": "/audio/20-left-alone-with-special-guest-p-ziekenheiner-on-bass/",
       "id": 468,
       "lyricsPath": "",
       "music": {
@@ -21578,7 +21578,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "2:22",
-      "href": "/#/audio/21-nothing-md-ends-md-starts/",
+      "href": "/audio/21-nothing-md-ends-md-starts/",
       "id": 469,
       "lyricsPath": "",
       "music": {
@@ -21625,7 +21625,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "1:58",
-      "href": "/#/audio/22-bark-on-brok/",
+      "href": "/audio/22-bark-on-brok/",
       "id": 470,
       "lyricsPath": "",
       "music": {
@@ -21676,7 +21676,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "IndusTree / 2:19",
-      "href": "/#/audio/23-seismographic-reques-industree/",
+      "href": "/audio/23-seismographic-reques-industree/",
       "id": 471,
       "lyricsPath": "",
       "music": {
@@ -21723,7 +21723,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "2:34",
-      "href": "/#/audio/24-pylisandro/",
+      "href": "/audio/24-pylisandro/",
       "id": 472,
       "lyricsPath": "",
       "music": {
@@ -21774,7 +21774,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "IndusTree / 1:51",
-      "href": "/#/audio/25-kasmo-industree/",
+      "href": "/audio/25-kasmo-industree/",
       "id": 473,
       "lyricsPath": "",
       "music": {
@@ -21825,7 +21825,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "IndusTree / 4:16",
-      "href": "/#/audio/26-bleazikalla-industree/",
+      "href": "/audio/26-bleazikalla-industree/",
       "id": 474,
       "lyricsPath": "",
       "music": {
@@ -21876,7 +21876,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "IndusTree / 4:41",
-      "href": "/#/audio/27-zoxymorning-industree/",
+      "href": "/audio/27-zoxymorning-industree/",
       "id": 475,
       "lyricsPath": "",
       "music": {
@@ -21927,7 +21927,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "IndusTree / 7:35",
-      "href": "/#/audio/28-buzzz-special-guest-p-ziekenheiner-bass-industree/",
+      "href": "/audio/28-buzzz-special-guest-p-ziekenheiner-bass-industree/",
       "id": 476,
       "lyricsPath": "",
       "music": {
@@ -21974,7 +21974,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "2:27",
-      "href": "/#/audio/29-bombit-2001-version/",
+      "href": "/audio/29-bombit-2001-version/",
       "id": 477,
       "lyricsPath": "",
       "music": {
@@ -22021,7 +22021,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "1:38",
-      "href": "/#/audio/30-turtlett-condom/",
+      "href": "/audio/30-turtlett-condom/",
       "id": 478,
       "lyricsPath": "",
       "music": {
@@ -22068,7 +22068,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "1:10",
-      "href": "/#/audio/31-ag-fibonacci-fm-noise-excerpt/",
+      "href": "/audio/31-ag-fibonacci-fm-noise-excerpt/",
       "id": 479,
       "lyricsPath": "",
       "music": {
@@ -22115,7 +22115,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "2:54",
-      "href": "/#/audio/32-bombit-2001-version-part-ii/",
+      "href": "/audio/32-bombit-2001-version-part-ii/",
       "id": 480,
       "lyricsPath": "",
       "music": {
@@ -22162,7 +22162,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "5:44",
-      "href": "/#/audio/33-fuzzy/",
+      "href": "/audio/33-fuzzy/",
       "id": 481,
       "lyricsPath": "",
       "music": {
@@ -22209,7 +22209,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "3:38",
-      "href": "/#/audio/34-sick/",
+      "href": "/audio/34-sick/",
       "id": 482,
       "lyricsPath": "",
       "music": {
@@ -22256,7 +22256,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "4:05",
-      "href": "/#/audio/35-amerac-sumic/",
+      "href": "/audio/35-amerac-sumic/",
       "id": 483,
       "lyricsPath": "",
       "music": {
@@ -22303,7 +22303,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "5:17",
-      "href": "/#/audio/36-vacuum-incognito/",
+      "href": "/audio/36-vacuum-incognito/",
       "id": 484,
       "lyricsPath": "",
       "music": {
@@ -22350,7 +22350,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "4:20",
-      "href": "/#/audio/ameracsumic/",
+      "href": "/audio/ameracsumic/",
       "id": 485,
       "lyricsPath": "",
       "music": {
@@ -22405,7 +22405,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "4:22",
-      "href": "/#/audio/7-ameracs-sumic/",
+      "href": "/audio/7-ameracs-sumic/",
       "id": 486,
       "lyricsPath": "",
       "music": {
@@ -22464,7 +22464,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "IndusTree / NAY / 3:27",
-      "href": "/#/audio/bombit-industree-0/",
+      "href": "/audio/bombit-industree-0/",
       "id": 487,
       "lyricsPath": "",
       "music": {
@@ -22511,7 +22511,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "9:11",
-      "href": "/#/audio/diggin-up-lou-i-love-you/",
+      "href": "/audio/diggin-up-lou-i-love-you/",
       "id": 488,
       "lyricsPath": "",
       "music": {
@@ -22558,7 +22558,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "3:26",
-      "href": "/#/audio/eekwackwackwere/",
+      "href": "/audio/eekwackwackwere/",
       "id": 489,
       "lyricsPath": "",
       "music": {
@@ -22621,7 +22621,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "IndusTree / ChinChilla Recordings (Of Shit / 8:27",
-      "href": "/#/audio/homesick-industree-0/",
+      "href": "/audio/homesick-industree-0/",
       "id": 490,
       "lyricsPath": "",
       "music": {
@@ -22680,7 +22680,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "IndusTree / 3:42",
-      "href": "/#/audio/id-like-shower-industree-0/",
+      "href": "/audio/id-like-shower-industree-0/",
       "id": 491,
       "lyricsPath": "",
       "music": {
@@ -22743,7 +22743,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "IndusTree / Live! @ FLexival / 3:17",
-      "href": "/#/audio/live-flexival-industree/",
+      "href": "/audio/live-flexival-industree/",
       "id": 492,
       "lyricsPath": "",
       "music": {
@@ -22790,7 +22790,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "5:35",
-      "href": "/#/audio/leftalone/",
+      "href": "/audio/leftalone/",
       "id": 493,
       "lyricsPath": "",
       "music": {
@@ -22845,7 +22845,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "IndusTree / 4:59",
-      "href": "/#/audio/metro-mind-industree-0/",
+      "href": "/audio/metro-mind-industree-0/",
       "id": 494,
       "lyricsPath": "",
       "music": {
@@ -22900,7 +22900,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "IndusTree / 3:31",
-      "href": "/#/audio/sick-industree-0/",
+      "href": "/audio/sick-industree-0/",
       "id": 495,
       "lyricsPath": "",
       "music": {
@@ -22947,7 +22947,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "3:27",
-      "href": "/#/audio/sick-live-diogenes-nijmegen-30-10-97-studio/",
+      "href": "/audio/sick-live-diogenes-nijmegen-30-10-97-studio/",
       "id": 496,
       "lyricsPath": "",
       "music": {
@@ -23002,7 +23002,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "IndusTree / 4:40",
-      "href": "/#/audio/vacuum-incognito-live-merleyn-20598-studio-industree/",
+      "href": "/audio/vacuum-incognito-live-merleyn-20598-studio-industree/",
       "id": 497,
       "lyricsPath": "",
       "music": {
@@ -23053,7 +23053,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "IndusTree / 2:09",
-      "href": "/#/audio/fuzzy-industree-0/",
+      "href": "/audio/fuzzy-industree-0/",
       "id": 498,
       "lyricsPath": "lyrics/fuzzy",
       "music": {
@@ -23112,7 +23112,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "IndusTree / 5:48",
-      "href": "/#/audio/left-alone-live-kitche-industree/",
+      "href": "/audio/left-alone-live-kitche-industree/",
       "id": 499,
       "lyricsPath": "",
       "music": {
@@ -23159,7 +23159,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "2:06",
-      "href": "/#/audio/w1m-01-fuzzy/",
+      "href": "/audio/w1m-01-fuzzy/",
       "id": 500,
       "lyricsPath": "",
       "music": {
@@ -23206,7 +23206,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "7:04",
-      "href": "/#/audio/w1m-02-digginuplou/",
+      "href": "/audio/w1m-02-digginuplou/",
       "id": 501,
       "lyricsPath": "",
       "music": {
@@ -23253,7 +23253,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "4:56",
-      "href": "/#/audio/w1m-04-noisy/",
+      "href": "/audio/w1m-04-noisy/",
       "id": 502,
       "lyricsPath": "",
       "music": {
@@ -23300,7 +23300,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "3:57",
-      "href": "/#/audio/w1m-05-ameracsumic/",
+      "href": "/audio/w1m-05-ameracsumic/",
       "id": 503,
       "lyricsPath": "",
       "music": {
@@ -23347,7 +23347,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "4:56",
-      "href": "/#/audio/w1m-06-noisy/",
+      "href": "/audio/w1m-06-noisy/",
       "id": 504,
       "lyricsPath": "",
       "music": {
@@ -23394,7 +23394,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "4:42",
-      "href": "/#/audio/w1m-07-vacuum/",
+      "href": "/audio/w1m-07-vacuum/",
       "id": 505,
       "lyricsPath": "",
       "music": {
@@ -23441,7 +23441,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "3:37",
-      "href": "/#/audio/w1m-08-bluesoxymorning/",
+      "href": "/audio/w1m-08-bluesoxymorning/",
       "id": 506,
       "lyricsPath": "",
       "music": {
@@ -23488,7 +23488,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "3:17",
-      "href": "/#/audio/w1m-09-eekwackwackwere/",
+      "href": "/audio/w1m-09-eekwackwackwere/",
       "id": 507,
       "lyricsPath": "",
       "music": {
@@ -23535,7 +23535,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "4:41",
-      "href": "/#/audio/w1m-10-loveinthegrass/",
+      "href": "/audio/w1m-10-loveinthegrass/",
       "id": 508,
       "lyricsPath": "",
       "music": {
@@ -23582,7 +23582,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "4:52",
-      "href": "/#/audio/w1m-11-metromind/",
+      "href": "/audio/w1m-11-metromind/",
       "id": 509,
       "lyricsPath": "",
       "music": {
@@ -23629,7 +23629,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "5:10",
-      "href": "/#/audio/w1m-12-quorny/",
+      "href": "/audio/w1m-12-quorny/",
       "id": 510,
       "lyricsPath": "",
       "music": {
@@ -23676,7 +23676,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "3:26",
-      "href": "/#/audio/w1m-13-zoxy/",
+      "href": "/audio/w1m-13-zoxy/",
       "id": 511,
       "lyricsPath": "",
       "music": {
@@ -23731,7 +23731,7 @@
       "date": "July 21, 2011",
       "excerpt": "",
       "extra": "IndusTree / 7:09",
-      "href": "/#/audio/w1m14bombit-industree/",
+      "href": "/audio/w1m14bombit-industree/",
       "id": 512,
       "lyricsPath": "",
       "music": {
@@ -23786,7 +23786,7 @@
       "date": "August 11, 2011",
       "excerpt": "",
       "extra": "CausaliDox / 1:58",
-      "href": "/#/audio/clint-causalidox/",
+      "href": "/audio/clint-causalidox/",
       "id": 513,
       "lyricsPath": "",
       "music": {
@@ -23837,7 +23837,7 @@
       "date": "July 21, 2012",
       "excerpt": "",
       "extra": "CausaliDox / 2:56",
-      "href": "/#/audio/verge-major-breakthrough-causalidox/",
+      "href": "/audio/verge-major-breakthrough-causalidox/",
       "id": 514,
       "lyricsPath": "",
       "music": {
@@ -23896,7 +23896,7 @@
       "date": "July 28, 2012",
       "excerpt": "",
       "extra": "CausaliDox / 4:14",
-      "href": "/#/audio/and-along-waterline-causalidox/",
+      "href": "/audio/and-along-waterline-causalidox/",
       "id": 515,
       "lyricsPath": "",
       "music": {

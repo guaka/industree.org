@@ -35,7 +35,7 @@
 
   const routeHref = (path) => {
     const clean = normalizePath(path);
-    return clean ? `/#/${clean}/` : "/#/";
+    return clean ? `/${clean}/` : "/";
   };
 
   const canonicalPath = (path) => {
@@ -60,6 +60,25 @@
     const meta = document.querySelector('meta[name="description"]');
     if (meta) meta.setAttribute("content", description || archive.site.description);
   };
+
+  const nodeById = (id) => archive.nodes[String(id)];
+
+  const nodesForIds = (ids = []) => ids
+    .map(nodeById)
+    .filter(Boolean);
+
+  const nodesForList = (key) => nodesForIds(archive.lists[key] || []);
+
+  const countLabel = (label, count) => `${label} (${count})`;
+
+  const optionHtml = ([label, key, count], selected) =>
+    `<option value="${escapeHtml(key)}"${selected === key ? " selected" : ""}>${escapeHtml(countLabel(label, count))}</option>`;
+
+  const musicFilterHtml = ([label, key, count]) =>
+    `<button class="music-filter" type="button" data-music-status="${escapeHtml(key)}" aria-pressed="${musicState.status === key}">${escapeHtml(countLabel(label, count))}</button>`;
+
+  const musicStatHtml = (label, count) =>
+    `<span class="music-stat"><strong>${count}</strong>${escapeHtml(label)}</span>`;
 
   let impulseRuntimePromise;
 
@@ -93,7 +112,7 @@
     return impulseRuntimePromise;
   };
 
-  const impulseFileHref = (file) => `/#/impulse/${encodeURIComponent(file)}`;
+  const impulseFileHref = (file) => routeHref(`impulse/${encodeURIComponent(file)}`);
 
   const mountImpulsePlayer = (initialFile, files, autoplay = false) => {
     ensureImpulseRuntime()
@@ -106,7 +125,7 @@
           autoplay,
           onFileSelect(file) {
             const next = impulseFileHref(file);
-            if (location.hash !== next.slice(1)) {
+            if (normalizePath(location.pathname) !== normalizePath(next)) {
               history.pushState({}, "", next);
             }
             const selected = files.find((entry) => entry.name === file);
@@ -180,10 +199,8 @@
 
   const renderHome = () => {
     const home = archive.lists.home;
-    const welcome = archive.nodes[String(home.welcomeId)];
-    const featured = home.featuredIds
-      .map((id) => archive.nodes[String(id)])
-      .filter(Boolean)
+    const welcome = nodeById(home.welcomeId);
+    const featured = nodesForIds(home.featuredIds)
       .map((node) => cardHtml(node))
       .join("\n");
     setMeta(archive.site.name, archive.site.description);
@@ -193,9 +210,7 @@
   };
 
   const renderList = (key, title, lede = "") => {
-    const nodes = (archive.lists[key] || [])
-      .map((id) => archive.nodes[String(id)])
-      .filter(Boolean);
+    const nodes = nodesForList(key);
     setMeta(title);
     app.innerHTML = `<section class="page">
   <h1>${escapeHtml(title)}</h1>
@@ -279,9 +294,7 @@
   };
 
   const renderAudioList = () => {
-    const nodes = (archive.lists.audio || [])
-      .map((id) => archive.nodes[String(id)])
-      .filter(Boolean);
+    const nodes = nodesForList("audio");
     const playable = nodes.filter((node) => Boolean(node.audio?.source));
     const unavailable = nodes.filter((node) => !node.audio?.source);
     const filtered = nodes.filter(nodeMatchesMusicState);
@@ -307,9 +320,9 @@
       <p class="lede">Restored tracks and archive entries from the IndusTree orbit.</p>
     </div>
     <div class="music-stats" aria-label="Music archive stats">
-      <span class="music-stat"><strong>${playable.length}</strong>Playable</span>
-      <span class="music-stat"><strong>${unavailable.length}</strong>Missing</span>
-      <span class="music-stat"><strong>${artists.length}</strong>Artists</span>
+      ${musicStatHtml("Playable", playable.length)}
+      ${musicStatHtml("Missing", unavailable.length)}
+      ${musicStatHtml("Artists", artists.length)}
     </div>
   </div>
   <div class="music-tools">
@@ -318,12 +331,12 @@
       <input type="search" value="${escapeHtml(musicState.query)}" placeholder="Search tracks, artists, years..." data-music-search>
     </label>
     <div class="music-filter-row" aria-label="Track status">
-      ${statusButtons.map(([label, key, count]) => `<button class="music-filter" type="button" data-music-status="${escapeHtml(key)}" aria-pressed="${musicState.status === key}">${escapeHtml(label)} (${count})</button>`).join("\n")}
+      ${statusButtons.map(musicFilterHtml).join("\n")}
     </div>
     <label class="music-artist-select">
       <span class="visually-hidden">Artist</span>
       <select data-music-artist-select>
-        ${artistOptions.map(([label, key, count]) => `<option value="${escapeHtml(key)}"${musicState.artist === key ? " selected" : ""}>${escapeHtml(label)} (${count})</option>`).join("\n")}
+        ${artistOptions.map((option) => optionHtml(option, musicState.artist)).join("\n")}
       </select>
     </label>
   </div>
@@ -378,7 +391,7 @@
     app.innerHTML = `<section class="page">
   <h1>Page not found</h1>
   <p>This static archive may have a different path than the old Drupal site.</p>
-  <p><a href="/#/">Return to the archive home</a></p>
+  <p><a href="/">Return to the archive home</a></p>
 </section>`;
   };
 
@@ -480,11 +493,11 @@
     const url = new URL(link.href, location.href);
     if (url.origin !== location.origin) return;
     if (url.pathname.startsWith("/assets/") || url.pathname.startsWith("/files/") || url.pathname.startsWith("/bobimages/")) return;
-    if (/\.[a-z0-9]{2,5}$/i.test(url.pathname) && !url.pathname.endsWith("/index.html")) return;
+    if (!url.pathname.startsWith("/impulse/") && /\.[a-z0-9]{2,5}$/i.test(url.pathname) && !url.pathname.endsWith("/index.html")) return;
 
     event.preventDefault();
     if (url.hash.startsWith("#/")) {
-      history.pushState({}, "", `/${url.hash}`);
+      history.pushState({}, "", routeHref(url.hash.slice(1)));
     } else {
       history.pushState({}, "", routeHref(url.pathname));
     }
@@ -499,7 +512,7 @@
     })
     .then((data) => {
       archive = data;
-      document.querySelector(".brand")?.setAttribute("href", "/#/");
+      document.querySelector(".brand")?.setAttribute("href", "/");
       document.querySelector(".brand img")?.setAttribute("src", archive.site.logo);
       document.querySelector(".brand img")?.setAttribute("alt", archive.site.name);
       const brandSlogan = document.querySelector(".brand em");
