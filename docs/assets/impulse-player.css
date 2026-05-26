@@ -35,6 +35,7 @@
 .impulse-player-mount .file-list h3 { font-size: 9px; color: #444; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px; }
 .impulse-player-mount .file-list a { display: block; padding: 2px 4px; color: #556; text-decoration: none; font-size: 10px; }
 .impulse-player-mount .file-list a:hover { background: #151520; color: #8a8; }
+.impulse-player-mount .file-list a.active { background: #0c0c20; color: #8c8; }
 .impulse-player-mount .editor-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
 .impulse-player-mount /* ── Tabs ─────────────────────────────────── */
         .tabs { display: flex; background: #0a0a12; border-bottom: 1px solid #333; flex-shrink: 0; }
@@ -254,6 +255,11 @@
 .impulse-player-mount .file-list a:hover {
   color: #ffffff;
   background: #202038;
+}
+
+.impulse-player-mount .file-list a.active {
+  color: #d7f7d7;
+  background: #163016;
 }
 
 .impulse-player-mount .tabs {

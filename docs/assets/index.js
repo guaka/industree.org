@@ -93,7 +93,9 @@
     return impulseRuntimePromise;
   };
 
-  const mountImpulsePlayer = (initialFile, files) => {
+  const impulseFileHref = (file) => `/#/impulse/${encodeURIComponent(file)}/`;
+
+  const mountImpulsePlayer = (initialFile, files, autoplay = false) => {
     ensureImpulseRuntime()
       .then(() => {
         window.initIndusTreeImpulsePlayer?.({
@@ -101,6 +103,19 @@
           baseUrl: archive.impulse?.baseUrl,
           files,
           initialFile,
+          autoplay,
+          onFileSelect(file) {
+            const next = impulseFileHref(file);
+            if (location.hash !== next.slice(1)) {
+              history.pushState({}, "", next);
+            }
+            const selected = files.find((entry) => entry.name === file);
+            const download = document.querySelector("[data-impulse-download]");
+            if (selected && download) {
+              download.setAttribute("href", selected.url);
+              download.textContent = `Download ${selected.name}`;
+            }
+          },
         });
       })
       .catch((error) => {
@@ -323,13 +338,17 @@
 </section>`;
   };
 
-  const renderImpulse = () => {
+  const renderImpulse = (path = "impulse") => {
     const impulse = archive.impulse || { files: [] };
     const files = impulse.files || [];
+    const requestedFile = path.startsWith("impulse/")
+      ? path.slice("impulse/".length).replace(/\/+$/g, "")
+      : "";
     const first = files[0] || {
       name: "1-2sleepy.it",
       url: "https://audio.industree.org/itfiles/1-2sleepy.it",
     };
+    const selected = files.find((file) => file.name === requestedFile) || first;
     const template = document.getElementById("impulse-player-template");
     const playerMarkup = template ? template.innerHTML : "";
     setMeta("Impulse");
@@ -339,11 +358,11 @@
       <h1>Impulse</h1>
       <p class="lede">Original Impulse Tracker files, playable in the browser with the Chasm IT player.</p>
     </div>
-    <a class="button" href="${escapeHtml(first.url)}">Download ${escapeHtml(first.name)}</a>
+    <a class="button" href="${escapeHtml(selected.url)}" data-impulse-download>Download ${escapeHtml(selected.name)}</a>
   </div>
   <div class="impulse-player-mount" id="impulsePlayerMount">${playerMarkup}</div>
 </section>`;
-    mountImpulsePlayer(first.name, files);
+    mountImpulsePlayer(selected.name, files, Boolean(requestedFile));
   };
 
   const renderContact = () => {
@@ -366,7 +385,7 @@
   const renderRoute = () => {
     const path = canonicalPath(currentRoutePath());
     const isMusicPage = path === "audio" || path === "music";
-    const isImpulsePage = path === "impulse";
+    const isImpulsePage = path === "impulse" || path.startsWith("impulse/");
     document.body.classList.toggle("has-mixtape-player", isMusicPage);
     if (!isImpulsePage && window.__industreeImpulseStop) {
       try { window.__industreeImpulseStop(); } catch (_) {}
@@ -377,7 +396,7 @@
     if (isMusicPage) {
       return renderAudioList();
     }
-    if (isImpulsePage) return renderImpulse();
+    if (isImpulsePage) return renderImpulse(path);
     if (path === "lyrics") return renderList("lyrics", "Lyrics");
     if (path === "archive") {
       return renderList("archive", "Archive", "{count} published nodes converted from Drupal 6.");
@@ -401,7 +420,8 @@
       const itemPath = canonicalPath(item.path);
       const active = itemPath === currentPath
         || (!itemPath && !currentPath)
-        || (itemPath === "audio" && (currentPath === "music" || currentPath.startsWith("audio/") || currentNode?.type === "audio"));
+        || (itemPath === "audio" && (currentPath === "music" || currentPath.startsWith("audio/") || currentNode?.type === "audio"))
+        || (itemPath === "impulse" && currentPath.startsWith("impulse/"));
       return `<li><a href="${routeHref(item.path)}"${active ? ' aria-current="page"' : ""}>${escapeHtml(item.title)}</a></li>`;
     });
     nav.innerHTML = `<ul>${items.join("\n")}</ul>`;

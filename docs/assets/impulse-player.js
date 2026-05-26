@@ -13,6 +13,9 @@ const IT_FILES = (options.files || ['1-2sleepy.it']).map(file => typeof file ===
 const DEFAULT_IT_BASE_URL = 'https://audio.industree.org/itfiles/';
 const IT_BASE_URL = (options.baseUrl || DEFAULT_IT_BASE_URL).replace(/\/?$/, '/');
 const INITIAL_FILE = options.initialFile || IT_FILES[0];
+const AUTOPLAY_INITIAL_FILE = Boolean(options.autoplay);
+const onFileSelect = typeof options.onFileSelect === 'function' ? options.onFileSelect : null;
+let currentItFile = INITIAL_FILE;
 
 function noteStr(n) {
     if (n == null) return '...';
@@ -26,11 +29,19 @@ function hex3(v) { return ('00' + (v || 0).toString(16)).slice(-3).toUpperCase()
 function pad3(v) { return ('00' + v).slice(-3); }
 function readStr(dv, off, len) { let s = ''; for (let i = 0; i < len; i++) { const c = dv.getUint8(off + i); if (!c) break; s += String.fromCharCode(c); } return s.trim(); }
 function itFileUrl(name) { return IT_BASE_URL + encodeURIComponent(name); }
-function loadItFile(name) {
+function itFileHash(name) { return '#/impulse/' + encodeURIComponent(name) + '/'; }
+function loadItFile(name, config) {
+    const loadOptions = config || {};
     if (!name) return;
+    currentItFile = name;
+    updateFileListSelection();
+    if (loadOptions.updateLocation && onFileSelect) onFileSelect(name);
     toast('Loading ' + name + '...');
     fetch(itFileUrl(name)).then(r => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); })
-        .then(loadModule).catch(err => toast('Failed: ' + name + ' (' + err.message + ')'));
+        .then(buf => {
+            loadModule(buf);
+            if (loadOptions.autoplay) startPlay(true);
+        }).catch(err => toast('Failed: ' + name + ' (' + err.message + ')'));
 }
 
 // ── IT Parser ──────────────────────────────────────────────────
@@ -980,12 +991,22 @@ function buildFileList() {
     el.innerHTML = ''; el.appendChild(h3);
     IT_FILES.forEach(f => {
         const a = document.createElement('a');
-        a.href = '#'; a.textContent = f;
+        a.href = itFileHash(f); a.textContent = f;
+        a.dataset.itFile = f;
         a.onclick = (e) => {
             e.preventDefault();
-            loadItFile(f);
+            loadItFile(f, { autoplay: true, updateLocation: true });
         };
         el.appendChild(a);
+    });
+    updateFileListSelection();
+}
+
+function updateFileListSelection() {
+    const el = document.getElementById('fileListPanel');
+    if (!el) return;
+    el.querySelectorAll('[data-it-file]').forEach(link => {
+        link.classList.toggle('active', link.dataset.itFile === currentItFile);
     });
 }
 
@@ -1021,7 +1042,7 @@ function startPlay(fromStart) {
     if (!state.mod) return;
     if (fromStart) { state.ordIdx = 0; state.row = 0; }
     state.patternLoop = false;
-    initAudio().then(() => {
+    return initAudio().then(() => {
         state.mod.samples.forEach(s => { s._abuf = null; });
         state.playing = true;
         state.tick = state.speed - 1;
@@ -1030,7 +1051,7 @@ function startPlay(fromStart) {
         state.lastDisplayRow = -1; state.lastDisplayOrd = -1;
         state.displayRow = state.row; state.displayOrd = state.ordIdx;
         loop();
-    });
+    }).catch(() => toast('Press F5 or Play to start audio'));
 }
 
 function startPlayPattern() {
@@ -1207,18 +1228,17 @@ function editPatternKey(e) {
 }
 
 buildFileList();
-if (INITIAL_FILE) loadItFile(INITIAL_FILE);
+if (INITIAL_FILE) loadItFile(INITIAL_FILE, { autoplay: AUTOPLAY_INITIAL_FILE });
 else if (!loadFromStorage()) toast('Open an .it file or click one from the sidebar');
 
 // ── Keyboard Shortcuts ────────────────────────────────────────
 function loadFileByIndex(idx) {
     if (idx < 0 || idx >= IT_FILES.length) return;
-    loadItFile(IT_FILES[idx]);
+    loadItFile(IT_FILES[idx], { autoplay: true, updateLocation: true });
 }
 
 function currentFileIndex() {
-    if (!state.mod) return -1;
-    return IT_FILES.findIndex(f => state.mod.songName && f.toLowerCase().includes(state.mod.songName.trim().toLowerCase().slice(0, 8)));
+    return IT_FILES.findIndex(f => f === currentItFile);
 }
 
 const HELP_HTML = '<div style="position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:200;display:flex;align-items:center;justify-content:center" id="helpOverlay" onclick="this.remove()">' +

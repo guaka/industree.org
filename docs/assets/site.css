@@ -563,11 +563,11 @@ h2 { font-size: 24px; }
   .music-tools {
     position: static;
     grid-template-columns: 1fr;
-    gap: 8px;
+    gap: 6px;
     margin-right: -16px;
     margin-bottom: 16px;
     margin-left: -16px;
-    padding: 10px 16px;
+    padding: 8px 16px;
   }
 
   .music-filter-row {
@@ -606,13 +606,12 @@ h2 { font-size: 24px; }
   }
 
   .bottom-player-inner {
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 6px 12px;
+    grid-template-columns: minmax(70px, 1fr) minmax(130px, 150px) auto;
+    gap: 8px;
   }
 
   .bottom-player audio {
-    grid-column: 1 / -1;
-    height: 32px;
+    height: 30px;
   }
 
   .bottom-player-title {
