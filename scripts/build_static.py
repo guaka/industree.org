@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build a static GitHub Pages version of the Drupal 6 site."""
+"""Build a DRY static app version of the Drupal 6 site."""
 
 from __future__ import annotations
 
@@ -12,7 +12,7 @@ import re
 import shutil
 import sys
 from collections import defaultdict
-from datetime import datetime, UTC
+from datetime import UTC, datetime
 from pathlib import Path
 from urllib.parse import quote, urlparse
 
@@ -22,10 +22,11 @@ SQL_DUMP = ROOT / "industree.sql.gz"
 OUT = ROOT / "docs"
 MEDIA_MANIFEST = ROOT / "media" / "audio_manifest.json"
 DEFAULT_MEDIA_BASE_URL = "https://audio.industree.org"
+CUSTOM_DOMAIN = "industree.org"
+CONTACT_URL = "https://marcusmoonen.com/contact/"
 TARGET_TABLES = {
     "audio",
     "audio_metadata",
-    "boxes",
     "content_type_audio",
     "files",
     "menu_links",
@@ -163,8 +164,18 @@ def clean_path(path: str) -> str:
     path = (path or "").strip().strip("/")
     if not path or path == "<front>":
         return ""
-    path = re.sub(r"/+", "/", path)
-    return path
+    return re.sub(r"/+", "/", path)
+
+
+def app_url(path: str) -> str:
+    path = clean_path(path)
+    if not path:
+        return "/"
+    return "/" + quote(path, safe="/#?=&.:@%+-_~") + "/"
+
+
+def asset_url(path: str) -> str:
+    return "/" + quote(clean_path(path), safe="/#?=&.:@%+-_~")
 
 
 def pretty_date(timestamp) -> str:
@@ -197,9 +208,9 @@ class SiteBuilder:
         }
         self.site_name = self.variables.get("site_name", "IndusTree")
         self.site_slogan = self.variables.get(
-            "site_slogan", "ambient experimental industrial wave noise music from Nijmegen"
+            "site_slogan",
+            "ambient experimental industrial wave noise music from Nijmegen",
         )
-        self.site_mail = self.variables.get("site_mail", "")
         self.audio_manifest, manifest_media_base_url = load_audio_manifest()
         self.media_base_url = os.environ.get(
             "MEDIA_BASE_URL", manifest_media_base_url or DEFAULT_MEDIA_BASE_URL
@@ -215,7 +226,7 @@ class SiteBuilder:
             for row in data["node_revisions"]
         }
         self.aliases = {
-            row["src"]: clean_path(row["dst"])
+            clean_path(row["src"]): clean_path(row["dst"])
             for row in data["url_alias"]
             if row["src"] and row["dst"] and not row["src"].endswith("/feed")
         }
@@ -231,9 +242,9 @@ class SiteBuilder:
         for row in data["audio_metadata"]:
             self.audio_meta[int(row["vid"])][row["tag"]] = row["value"]
 
-        self.audio_fields_by_nid = {}
-        for row in data["content_type_audio"]:
-            self.audio_fields_by_nid[int(row["nid"])] = row
+        self.audio_fields_by_nid = {
+            int(row["nid"]): row for row in data["content_type_audio"]
+        }
 
         self.primary_links = [
             row
@@ -250,40 +261,18 @@ class SiteBuilder:
     def node_path(self, nid: int) -> str:
         return self.aliases.get(f"node/{nid}") or f"node/{nid}"
 
-    def page_dir(self, path: str) -> str:
-        path = clean_path(path)
-        return path
-
-    def rel_url(self, from_path: str, target: str, directory: bool = True) -> str:
-        from_dir = self.page_dir(from_path)
-        target = clean_path(target)
-        if directory:
-            if target == "":
-                target_ref = "."
-            else:
-                target_ref = target
-        else:
-            target_ref = target
-        rel = posixpath.relpath(target_ref or ".", from_dir or ".")
-        if rel == "." and directory:
-            rel = "."
-        if directory and rel != "." and not rel.endswith("/"):
-            rel += "/"
-        if directory and rel == ".":
-            rel = "./"
-        return quote(rel, safe="/#?=&.:@%+-_~")
-
     def media_url(self, server_path: str) -> str:
         path = (server_path or "").replace("\\", "/").lstrip("/")
         return f"{self.media_base_url}/{quote(path, safe='/._-~')}"
 
-    def resolve_drupal_path(self, raw_path: str, from_path: str, attr: str = "href") -> str:
+    def resolve_drupal_path(self, raw_path: str, attr: str = "href") -> str:
         if not raw_path:
             return raw_path
-        original_path = raw_path
-        external_original = None
         if raw_path.startswith(("#", "mailto:", "tel:", "javascript:")):
             return raw_path
+
+        original_path = raw_path
+        external_original = None
         parsed = urlparse(raw_path)
         if parsed.scheme in {"http", "https"}:
             host = parsed.netloc.lower()
@@ -295,53 +284,49 @@ class SiteBuilder:
         else:
             suffix = ""
 
-        if raw_path.startswith("/"):
-            path = clean_path(raw_path)
-        else:
-            path = clean_path(raw_path)
-
+        path = clean_path(raw_path)
         if path in {"audio", "music", "contact", "archive", "lyrics"}:
             target = "audio" if path == "music" else path
         elif path.startswith("node/") and path in self.aliases:
             target = self.aliases[path]
         elif path in self.aliases.values():
             target = path
-        elif path.startswith("files/"):
-            return self.rel_url(from_path, path, directory=False) + suffix
-        elif (OUT / path).exists():
-            return self.rel_url(from_path, path, directory=False) + suffix
+        elif path.startswith(("files/", "bobimages/")):
+            return asset_url(path) + suffix
         elif external_original:
             return external_original
         else:
             target = path
-        is_file = attr.lower() == "src" or bool(Path(target).suffix)
-        return self.rel_url(from_path, target, directory=not is_file) + suffix
 
-    def rewrite_body_links(self, body: str, from_path: str) -> str:
+        is_file = attr.lower() == "src" or bool(Path(target).suffix)
+        return (asset_url(target) if is_file else app_url(target)) + suffix
+
+    def rewrite_body_links(self, body: str) -> str:
         def replace_attr(match):
             attr, quote_char, value = match.groups()
-            return f'{attr}={quote_char}{self.resolve_drupal_path(value, from_path, attr)}{quote_char}'
+            resolved = self.resolve_drupal_path(value, attr)
+            return f'{attr}={quote_char}{html.escape(resolved, quote=True)}{quote_char}'
 
         body = re.sub(r'\b(href|src)=([\'"])([^\'"]+)\2', replace_attr, body, flags=re.I)
 
         def replace_unquoted(match):
             attr, value = match.groups()
-            return f'{attr}="{self.resolve_drupal_path(value, from_path, attr)}"'
+            resolved = self.resolve_drupal_path(value, attr)
+            return f'{attr}="{html.escape(resolved, quote=True)}"'
 
         return re.sub(r"\b(href|src)=([^'\"\s>]+)", replace_unquoted, body, flags=re.I)
 
-    def render_body(self, body: str, from_path: str) -> str:
+    def render_body(self, body: str) -> str:
         body = (body or "").replace("\r\n", "\n").replace("\r", "\n").strip()
         if not body:
             return ""
-        body = self.rewrite_body_links(body, from_path)
+        body = self.rewrite_body_links(body)
         if re.search(r"</?(p|ul|ol|li|h[1-6]|blockquote|div|center|table|form|br|img|audio)\b", body, re.I):
             return body
         paragraphs = [part.strip() for part in re.split(r"\n\s*\n", body) if part.strip()]
         return "\n".join(f"<p>{part.replace(chr(10), '<br>')}</p>" for part in paragraphs)
 
-    def nav_html(self, from_path: str) -> str:
-        items = []
+    def nav_items(self):
         fallback = [
             ("Welcome", ""),
             ("Music", "audio"),
@@ -356,116 +341,29 @@ class SiteBuilder:
             target = clean_path(row["link_path"])
             if target == "<front>" or row["link_title"] == "Welcome":
                 target = ""
-            if target == "node/7" and 7 in self.nodes:
-                target = self.node_path(7)
-            elif target == "node/8" and 8 in self.nodes:
-                target = self.node_path(8)
-            elif target == "node/9" and 9 in self.nodes:
-                target = self.node_path(9)
-            elif target == "node/10" and 10 in self.nodes:
-                target = self.node_path(10)
-            elif target == "audio":
+            elif target.startswith("node/") and target in self.aliases:
+                target = self.aliases[target]
+            elif target == "music":
                 target = "audio"
             source.append((row["link_title"], target))
+
         deduped = []
         seen = set()
-        for title, target in source:
+        for title, target in source or fallback:
             key = (title.lower(), target)
             title_key = title.lower()
             if key in seen or title_key in seen:
                 continue
             seen.add(key)
             seen.add(title_key)
-            deduped.append((title, target))
-        for title, target in deduped or fallback:
-            href = self.rel_url(from_path, target, directory=True)
-            items.append(f'<li><a href="{href}">{html.escape(title)}</a></li>')
-        return "<ul>" + "\n".join(items) + "</ul>"
+            deduped.append({"title": title, "path": clean_path(target), "href": app_url(target)})
+        return deduped
 
-    def layout(self, title: str, body: str, from_path: str, *, description: str = "") -> str:
-        css = self.rel_url(from_path, "assets/site.css", directory=False)
-        logo = self.rel_url(from_path, "files/logo.gif", directory=False)
-        page_title = self.site_name if title == self.site_name else f"{title} | {self.site_name}"
-        description = description or self.site_slogan
-        return f"""<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{html.escape(page_title)}</title>
-  <meta name="description" content="{html.escape(description)}">
-  <link rel="stylesheet" href="{css}">
-</head>
-<body>
-  <header class="site-header">
-    <div class="wrap header-inner">
-      <a class="brand" href="{self.rel_url(from_path, '', directory=True)}">
-        <img src="{logo}" alt="{html.escape(self.site_name)}">
-        <span>
-          <strong>{html.escape(self.site_name)}</strong>
-          <em>{html.escape(self.site_slogan)}</em>
-        </span>
-      </a>
-      <nav class="primary-nav" aria-label="Primary navigation">
-        {self.nav_html(from_path)}
-      </nav>
-    </div>
-  </header>
-  <main class="wrap">
-    {body}
-  </main>
-  <footer class="site-footer">
-    <div class="wrap">
-      <p>IndusTree was an experimental noise music band from Nijmegen. Static archive generated from the Drupal 6 export. <a href="https://github.com/guaka/industree.org">View the repository</a>.</p>
-    </div>
-  </footer>
-</body>
-</html>
-"""
-
-    def write_page(self, path: str, title: str, body: str, *, description: str = ""):
-        path = clean_path(path)
-        out_dir = OUT / path
-        out_dir.mkdir(parents=True, exist_ok=True)
-        (out_dir / "index.html").write_text(
-            self.layout(title, body, path, description=description),
-            encoding="utf-8",
-        )
-
-    def write_file(self, path: str, content: str):
-        target = OUT / path
-        target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_text(content, encoding="utf-8")
-
-    def node_content_html(self, nid: int, path: str) -> str:
-        node = self.nodes[nid]
-        revision = self.revisions_by_vid.get(int(node["vid"]), {})
-        body = revision.get("body", "")
-        meta = pretty_date(node.get("created"))
-        chunks = [
-            f'<article class="node node-{html.escape(node["type"])}">',
-            f"<h1>{html.escape(node['title'])}</h1>",
-        ]
-        if meta:
-            chunks.append(f'<p class="meta">{meta}</p>')
-        if node["type"] == "audio":
-            chunks.append(self.audio_panel(nid, path))
-        rendered = self.render_body(body, path)
-        if rendered:
-            chunks.append(f'<div class="content">{rendered}</div>')
-        if node["type"] == "audio":
-            fields = self.audio_fields_by_nid.get(nid) or {}
-            lyrics_nid = fields.get("field_lyrics_link_nid")
-            if lyrics_nid and int(lyrics_nid) in self.nodes:
-                href = self.rel_url(path, self.node_path(int(lyrics_nid)), directory=True)
-                chunks.append(f'<p class="related"><a href="{href}">Lyrics</a></p>')
-        chunks.append("</article>")
-        return "\n".join(chunks)
-
-    def audio_panel(self, nid: int, from_path: str) -> str:
+    def audio_details(self, nid: int):
         row = self.audio_by_nid.get(nid)
         if not row:
-            return '<div class="audio-panel"><p>No audio metadata found.</p></div>'
+            return None
+
         vid = int(row["vid"])
         meta = self.audio_meta.get(vid, {})
         fid = int(row.get("fid") or 0)
@@ -473,8 +371,8 @@ class SiteBuilder:
         original_path = file_row.get("filepath", "")
         filename = file_row.get("filename") or Path(original_path).name
         expected = posixpath.join("files/audio", Path(original_path).name or filename)
-        expected_local = OUT / expected
         manifest_entry = self.audio_manifest.get(nid)
+
         details = []
         for key, label in [
             ("artist", "Artist"),
@@ -483,207 +381,235 @@ class SiteBuilder:
             ("year", "Year"),
         ]:
             if meta.get(key):
-                details.append(f"<dt>{label}</dt><dd>{html.escape(str(meta[key]))}</dd>")
+                details.append({"label": label, "value": str(meta[key])})
         if row.get("playtime"):
-            details.append(f"<dt>Length</dt><dd>{html.escape(str(row['playtime']))}</dd>")
+            details.append({"label": "Length", "value": str(row["playtime"])})
+
+        panel = {
+            "details": details,
+            "expectedPath": expected if filename else "",
+            "source": "",
+            "download": "",
+            "mediaNote": "",
+            "missingMessage": "",
+        }
         if manifest_entry:
             media_format = (manifest_entry.get("format") or "").upper()
-            match_type = (manifest_entry.get("match_type") or "manual").replace("_", " ").title()
-            if media_format:
-                details.append(f"<dt>Restored format</dt><dd>{html.escape(media_format)}</dd>")
-            details.append(f"<dt>Restored match</dt><dd>{html.escape(match_type)}</dd>")
-        body = ['<div class="audio-panel">']
-        if manifest_entry and self.media_base_url:
-            src = self.media_url(manifest_entry.get("server_path", ""))
-            media_format = (manifest_entry.get("format") or Path(src).suffix.lstrip(".") or "audio").upper()
+            match_type_title = (manifest_entry.get("match_type") or "manual").replace("_", " ").title()
             match_type = (manifest_entry.get("match_type") or "manual").lower()
-            escaped_src = html.escape(src)
-            body.append(f'<audio controls preload="metadata" src="{escaped_src}"></audio>')
-            body.append(f'<p><a class="button" href="{escaped_src}">Download audio</a></p>')
-            if media_format != "MP3" or match_type != "exact":
-                body.append(
-                    f'<p class="media-note">Restored as {html.escape(media_format)} '
-                    'from the external audio archive.</p>'
+            if media_format:
+                details.append({"label": "Restored format", "value": media_format})
+            details.append({"label": "Restored match", "value": match_type_title})
+            if self.media_base_url:
+                src = self.media_url(manifest_entry.get("server_path", ""))
+                panel["source"] = src
+                panel["download"] = src
+                if media_format != "MP3" or match_type != "exact":
+                    panel["mediaNote"] = f"Restored as {media_format or 'audio'} from the external audio archive."
+            else:
+                server_path = manifest_entry.get("server_path", "")
+                panel["missingMessage"] = (
+                    "Audio recovered in media/audio_manifest.json. "
+                    f"Set MEDIA_BASE_URL to publish external audio from {server_path}."
                 )
-        elif manifest_entry:
-            server_path = manifest_entry.get("server_path", "")
-            body.append(
-                '<p class="missing-media">Audio recovered in '
-                '<code>media/audio_manifest.json</code>. Set <code>MEDIA_BASE_URL</code> '
-                f'to publish external audio from <code>{html.escape(server_path)}</code>.</p>'
-            )
-        elif expected_local.exists():
-            src = self.rel_url(from_path, expected, directory=False)
-            body.append(f'<audio controls preload="metadata" src="{src}"></audio>')
-            body.append(f'<p><a class="button" href="{src}">Download audio</a></p>')
+        elif filename and (ROOT / expected).exists():
+            panel["source"] = asset_url(expected)
+            panel["download"] = asset_url(expected)
         elif filename:
-            body.append(
-                '<p class="missing-media">Audio file not included in this repository yet. '
-                f'Expected static path: <code>{html.escape(expected)}</code>.</p>'
-            )
-        if details:
-            body.append("<dl>" + "".join(details) + "</dl>")
-        body.append("</div>")
-        return "\n".join(body)
+            panel["missingMessage"] = f"Audio file not included in this repository yet. Expected static path: {expected}."
 
-    def node_card(self, nid: int, from_path: str, *, compact: bool = False) -> str:
+        return panel
+
+    def node_extra(self, nid: int) -> str:
+        node = self.nodes[nid]
+        if node["type"] != "audio":
+            return ""
+        audio = self.audio_by_nid.get(nid) or {}
+        meta = self.audio_meta.get(int(audio.get("vid") or 0), {})
+        parts = [meta.get("artist"), meta.get("album"), audio.get("playtime")]
+        return " / ".join(str(part) for part in parts if part)
+
+    def node_payload(self, nid: int):
         node = self.nodes[nid]
         revision = self.revisions_by_vid.get(int(node["vid"]), {})
-        href = self.rel_url(from_path, self.node_path(nid), directory=True)
-        body = revision.get("teaser") or revision.get("body") or ""
-        date = pretty_date(node.get("created"))
-        type_label = node["type"].replace("_", " ").title()
-        extra = ""
+        body = revision.get("body", "")
+        path = self.node_path(nid)
+        payload = {
+            "id": nid,
+            "type": node["type"],
+            "typeLabel": node["type"].replace("_", " ").title(),
+            "title": node["title"],
+            "path": path,
+            "href": app_url(path),
+            "created": int(node.get("created") or 0),
+            "date": pretty_date(node.get("created")),
+            "promoted": int(node.get("promote") or 0) == 1,
+            "bodyHtml": self.render_body(body),
+            "excerpt": excerpt(revision.get("teaser") or body),
+            "extra": self.node_extra(nid),
+            "audio": None,
+            "lyricsPath": "",
+        }
         if node["type"] == "audio":
-            audio = self.audio_by_nid.get(nid) or {}
-            meta = self.audio_meta.get(int(audio.get("vid") or 0), {})
-            parts = [meta.get("artist"), meta.get("album"), audio.get("playtime")]
-            extra = " / ".join(str(part) for part in parts if part)
-        summary = "" if compact else f"<p>{html.escape(excerpt(body))}</p>"
-        return f"""<article class="card">
-  <h2><a href="{href}">{html.escape(node["title"])}</a></h2>
-  <p class="meta">{html.escape(type_label)}{f" / {html.escape(date)}" if date else ""}{f" / {html.escape(extra)}" if extra else ""}</p>
-  {summary}
-</article>"""
+            payload["audio"] = self.audio_details(nid)
+            fields = self.audio_fields_by_nid.get(nid) or {}
+            lyrics_nid = fields.get("field_lyrics_link_nid")
+            if lyrics_nid and int(lyrics_nid) in self.nodes:
+                payload["lyricsPath"] = self.node_path(int(lyrics_nid))
+        return payload
 
-    def build_node_pages(self):
-        for nid in sorted(self.nodes):
-            path = self.node_path(nid)
-            node = self.nodes[nid]
-            content = self.node_content_html(nid, path)
-            revision = self.revisions_by_vid.get(int(node["vid"]), {})
-            self.write_page(path, node["title"], content, description=excerpt(revision.get("body", "")))
-            node_path = f"node/{nid}"
-            if clean_path(path) != node_path:
-                self.write_redirect(node_path, path)
-
-    def write_redirect(self, path: str, target_path: str):
-        path = clean_path(path)
-        href = self.rel_url(path, target_path, directory=True)
-        title = "Redirecting"
-        body = f"""<section class="page">
-  <h1>Redirecting</h1>
-  <p><a href="{href}">Continue to the archived page.</a></p>
-  <script>window.location.replace({href!r});</script>
-</section>"""
-        self.write_page(path, title, body)
-
-    def build_home(self):
+    def app_data(self):
         welcome_nid = 3 if 3 in self.nodes else min(self.nodes)
-        welcome = self.node_content_html(welcome_nid, "")
         featured_ids = [
             nid
             for nid, node in self.nodes.items()
             if int(node.get("promote") or 0) == 1 and nid != welcome_nid
         ]
         featured_ids.sort(key=lambda nid: int(self.nodes[nid]["created"]), reverse=True)
-        cards = "\n".join(self.node_card(nid, "", compact=False) for nid in featured_ids[:8])
-        body = welcome
-        if cards:
-            body += f'\n<section class="listing"><h1>Featured archive</h1>{cards}</section>'
-        self.write_page("", self.site_name, body, description=self.site_slogan)
 
-    def build_audio_index(self, path: str = "audio", title: str = "Music"):
-        audio_ids = [
-            nid for nid, node in self.nodes.items()
-            if node["type"] == "audio"
-        ]
+        audio_ids = [nid for nid, node in self.nodes.items() if node["type"] == "audio"]
         audio_ids.sort(key=lambda nid: (
             (self.audio_meta.get(int((self.audio_by_nid.get(nid) or {}).get("vid") or 0), {}).get("artist") or "").lower(),
             self.nodes[nid]["title"].lower(),
         ))
-        cards = "\n".join(self.node_card(nid, path, compact=True) for nid in audio_ids)
-        body = f"""<section class="page">
-  <h1>{html.escape(title)}</h1>
-  <p class="lede">A static archive of {len(audio_ids)} audio entries from the original Drupal site.</p>
-  <div class="cards compact">{cards}</div>
-</section>"""
-        self.write_page(path, title, body)
 
-    def build_lyrics_index(self):
         lyric_ids = [nid for nid, node in self.nodes.items() if node["type"] == "lyrics"]
         lyric_ids.sort(key=lambda nid: self.nodes[nid]["title"].lower())
-        cards = "\n".join(self.node_card(nid, "lyrics", compact=True) for nid in lyric_ids)
-        body = f"""<section class="page">
-  <h1>Lyrics</h1>
-  <div class="cards compact">{cards}</div>
-</section>"""
-        self.write_page("lyrics", "Lyrics", body)
+        archive_ids = sorted(self.nodes, key=lambda nid: int(self.nodes[nid]["created"]), reverse=True)
 
-    def build_archive(self):
-        ids = sorted(self.nodes, key=lambda nid: int(self.nodes[nid]["created"]), reverse=True)
-        cards = "\n".join(self.node_card(nid, "archive", compact=True) for nid in ids)
-        body = f"""<section class="page">
-  <h1>Archive</h1>
-  <p class="lede">{len(ids)} published nodes converted from Drupal 6.</p>
-  <div class="cards compact">{cards}</div>
-</section>"""
-        self.write_page("archive", "Archive", body)
+        aliases = {clean_path(src): clean_path(dst) for src, dst in self.aliases.items()}
+        aliases.update({"music": "audio"})
+        path_to_node = {}
+        for nid in self.nodes:
+            node_path = self.node_path(nid)
+            path_to_node[node_path] = nid
+            aliases[f"node/{nid}"] = node_path
 
-    def build_contact(self):
-        target = "https://marcusmoonen.com/contact/"
-        content = f"""<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="refresh" content="0; url={target}">
-  <link rel="canonical" href="{target}">
-  <title>Contact | IndusTree</title>
-</head>
-<body>
-  <p>Redirecting to <a href="{target}">marcusmoonen.com/contact/</a>.</p>
-  <script>window.location.replace("{target}");</script>
-</body>
-</html>
-"""
-        self.write_file("contact/index.html", content)
+        return {
+            "site": {
+                "name": self.site_name,
+                "slogan": self.site_slogan,
+                "description": self.site_slogan,
+                "logo": "/files/logo.gif",
+                "footer": (
+                    "IndusTree was an experimental noise music band from Nijmegen. "
+                    "Static archive generated from the Drupal 6 export."
+                ),
+                "repositoryUrl": "https://github.com/guaka/industree.org",
+                "contactUrl": CONTACT_URL,
+                "mediaBaseUrl": self.media_base_url,
+            },
+            "nav": self.nav_items(),
+            "aliases": aliases,
+            "pathToNode": path_to_node,
+            "nodes": {str(nid): self.node_payload(nid) for nid in sorted(self.nodes)},
+            "lists": {
+                "home": {
+                    "welcomeId": welcome_nid,
+                    "featuredIds": featured_ids[:8],
+                },
+                "audio": audio_ids,
+                "lyrics": lyric_ids,
+                "archive": archive_ids,
+            },
+        }
 
-    def build_404(self):
-        body = """<section class="page">
-  <h1>Page not found</h1>
-  <p>This static archive may have a different path than the old Drupal site.</p>
-  <p><a href="./">Return to the archive home</a></p>
-</section>"""
-        self.write_file("404.html", self.layout("Page not found", body, ""))
+    def write_file(self, path: str, content: str):
+        target = OUT / path
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(content, encoding="utf-8")
 
-    def build_sitemap(self):
-        urls = [""] + [self.node_path(nid) for nid in self.nodes] + ["audio", "music", "lyrics", "archive", "contact"]
-        entries = "\n".join(
-            f"  <url><loc>/{html.escape(clean_path(url))}</loc></url>" for url in sorted(set(urls))
+    def write_json(self, path: str, payload):
+        target = OUT / path
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(
+            json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
         )
-        self.write_file("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{entries}\n</urlset>\n')
 
     def copy_assets(self):
         assets = OUT / "assets"
         assets.mkdir(parents=True, exist_ok=True)
+
         files_out = OUT / "files"
-        if files_out.exists():
-            shutil.rmtree(files_out)
         shutil.copytree(ROOT / "files", files_out, ignore=shutil.ignore_patterns(".htaccess"))
+
         bobimages = ROOT / "bobimages"
         if bobimages.exists():
-            bobimages_out = OUT / "bobimages"
-            if bobimages_out.exists():
-                shutil.rmtree(bobimages_out)
-            shutil.copytree(bobimages, bobimages_out)
-        (assets / "site.css").write_text(STYLE_CSS, encoding="utf-8")
-        (OUT / ".nojekyll").write_text("", encoding="utf-8")
+            shutil.copytree(bobimages, OUT / "bobimages")
+
+        self.write_file("assets/site.css", STYLE_CSS)
+        self.write_file("assets/index.js", INDEX_JS)
+        self.write_file(".nojekyll", "")
+        self.write_file("CNAME", CUSTOM_DOMAIN + "\n")
+
+    def build_sitemap(self):
+        urls = ["", "audio", "music", "lyrics", "archive", "contact"]
+        urls.extend(self.node_path(nid) for nid in self.nodes)
+        urls.extend(f"node/{nid}" for nid in self.nodes)
+        entries = "\n".join(
+            f"  <url><loc>/{html.escape(clean_path(url))}</loc></url>"
+            for url in sorted(set(urls))
+        )
+        self.write_file(
+            "sitemap.xml",
+            '<?xml version="1.0" encoding="UTF-8"?>\n'
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+            f"{entries}\n"
+            "</urlset>\n",
+        )
 
     def build(self):
         if OUT.exists():
             shutil.rmtree(OUT)
         OUT.mkdir(parents=True)
         self.copy_assets()
-        self.build_node_pages()
-        self.build_home()
-        self.build_audio_index("audio", "Music")
-        self.build_audio_index("music", "Music")
-        self.build_lyrics_index()
-        self.build_archive()
-        self.build_contact()
-        self.build_404()
+        self.write_json("assets/site-data.json", self.app_data())
+        self.write_file("index.html", APP_SHELL)
+        self.write_file("404.html", APP_SHELL)
         self.build_sitemap()
+
+
+APP_SHELL = """<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IndusTree</title>
+  <meta name="description" content="ambient experimental industrial wave noise music from Nijmegen">
+  <link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="/">
+        <img src="/files/logo.gif" alt="IndusTree">
+        <span>
+          <strong>IndusTree</strong>
+          <em>ambient experimental industrial wave noise music from Nijmegen</em>
+        </span>
+      </a>
+      <nav class="primary-nav" aria-label="Primary navigation" data-nav></nav>
+    </div>
+  </header>
+  <main class="wrap" id="app">
+    <section class="page app-loading">
+      <h1>IndusTree</h1>
+      <p>Loading archive...</p>
+      <noscript>
+        <p>This static archive needs JavaScript to render its pages.</p>
+      </noscript>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="wrap">
+      <p><span data-footer>IndusTree was an experimental noise music band from Nijmegen. Static archive generated from the Drupal 6 export.</span> <a href="https://github.com/guaka/industree.org">View the repository</a>.</p>
+    </div>
+  </footer>
+  <script src="/assets/index.js" defer></script>
+</body>
+</html>
+"""
 
 
 STYLE_CSS = """
@@ -769,6 +695,12 @@ a:hover { color: var(--accent); }
   border: 1px solid var(--line);
   background: #fffdf7;
   text-decoration: none;
+}
+
+.primary-nav a[aria-current="page"] {
+  color: #fff;
+  background: var(--accent-dark);
+  border-color: var(--accent-dark);
 }
 
 main.wrap {
@@ -897,13 +829,237 @@ h2 { font-size: 24px; }
 """
 
 
+INDEX_JS = r"""
+(() => {
+  const scriptUrl = new URL(document.currentScript.src);
+  const assetBase = new URL(".", scriptUrl);
+  const dataUrl = new URL("site-data.json", assetBase);
+  const app = document.getElementById("app");
+  const nav = document.querySelector("[data-nav]");
+  const footer = document.querySelector("[data-footer]");
+  let archive;
+
+  const escapeHtml = (value) => String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
+
+  const decodePath = (path) => {
+    try {
+      return decodeURI(path);
+    } catch {
+      return path;
+    }
+  };
+
+  const normalizePath = (path) => decodePath(path || "/")
+    .replace(/\/index\.html$/, "/")
+    .replace(/^\/+|\/+$/g, "")
+    .replace(/\/+/g, "/");
+
+  const routeHref = (path) => {
+    const clean = normalizePath(path);
+    return clean ? `/${clean}/` : "/";
+  };
+
+  const canonicalPath = (path) => {
+    const clean = normalizePath(path);
+    return archive.aliases[clean] || clean;
+  };
+
+  const titleFor = (title) => {
+    if (!title || title === archive.site.name) return archive.site.name;
+    return `${title} | ${archive.site.name}`;
+  };
+
+  const setMeta = (title, description = archive.site.description) => {
+    document.title = titleFor(title);
+    const meta = document.querySelector('meta[name="description"]');
+    if (meta) meta.setAttribute("content", description || archive.site.description);
+  };
+
+  const cardHtml = (node, compact = false) => {
+    const extra = node.extra ? ` / ${escapeHtml(node.extra)}` : "";
+    const date = node.date ? ` / ${escapeHtml(node.date)}` : "";
+    const summary = compact || !node.excerpt ? "" : `<p>${escapeHtml(node.excerpt)}</p>`;
+    return `<article class="card">
+  <h2><a href="${routeHref(node.path)}">${escapeHtml(node.title)}</a></h2>
+  <p class="meta">${escapeHtml(node.typeLabel)}${date}${extra}</p>
+  ${summary}
+</article>`;
+  };
+
+  const audioPanelHtml = (node) => {
+    const audio = node.audio;
+    if (!audio) {
+      return '<div class="audio-panel"><p>No audio metadata found.</p></div>';
+    }
+
+    const chunks = ['<div class="audio-panel">'];
+    if (audio.source) {
+      chunks.push(`<audio controls preload="metadata" src="${escapeHtml(audio.source)}"></audio>`);
+      chunks.push(`<p><a class="button" href="${escapeHtml(audio.download || audio.source)}">Download audio</a></p>`);
+      if (audio.mediaNote) {
+        chunks.push(`<p class="media-note">${escapeHtml(audio.mediaNote)}</p>`);
+      }
+    } else if (audio.missingMessage) {
+      chunks.push(`<p class="missing-media">${escapeHtml(audio.missingMessage)}</p>`);
+    }
+
+    if (audio.details?.length) {
+      chunks.push("<dl>");
+      for (const detail of audio.details) {
+        chunks.push(`<dt>${escapeHtml(detail.label)}</dt><dd>${escapeHtml(detail.value)}</dd>`);
+      }
+      chunks.push("</dl>");
+    }
+    chunks.push("</div>");
+    return chunks.join("");
+  };
+
+  const nodeHtml = (node) => {
+    const chunks = [`<article class="node node-${escapeHtml(node.type)}">`, `<h1>${escapeHtml(node.title)}</h1>`];
+    if (node.date) chunks.push(`<p class="meta">${escapeHtml(node.date)}</p>`);
+    if (node.type === "audio") chunks.push(audioPanelHtml(node));
+    if (node.bodyHtml) chunks.push(`<div class="content">${node.bodyHtml}</div>`);
+    if (node.lyricsPath) {
+      chunks.push(`<p class="related"><a href="${routeHref(node.lyricsPath)}">Lyrics</a></p>`);
+    }
+    chunks.push("</article>");
+    return chunks.join("\n");
+  };
+
+  const renderHome = () => {
+    const home = archive.lists.home;
+    const welcome = archive.nodes[String(home.welcomeId)];
+    const featured = home.featuredIds
+      .map((id) => archive.nodes[String(id)])
+      .filter(Boolean)
+      .map((node) => cardHtml(node))
+      .join("\n");
+    setMeta(archive.site.name, archive.site.description);
+    app.innerHTML = nodeHtml(welcome) + (featured
+      ? `\n<section class="listing"><h1>Featured archive</h1>${featured}</section>`
+      : "");
+  };
+
+  const renderList = (key, title, lede = "") => {
+    const nodes = (archive.lists[key] || [])
+      .map((id) => archive.nodes[String(id)])
+      .filter(Boolean);
+    setMeta(title);
+    app.innerHTML = `<section class="page">
+  <h1>${escapeHtml(title)}</h1>
+  ${lede ? `<p class="lede">${escapeHtml(lede.replace("{count}", nodes.length))}</p>` : ""}
+  <div class="cards compact">${nodes.map((node) => cardHtml(node, true)).join("\n")}</div>
+</section>`;
+  };
+
+  const renderContact = () => {
+    setMeta("Contact");
+    app.innerHTML = `<section class="page">
+  <h1>Contact</h1>
+  <p class="lede">Contact for this archive now lives at <a href="${escapeHtml(archive.site.contactUrl)}">marcusmoonen.com/contact/</a>.</p>
+</section>`;
+  };
+
+  const renderNotFound = () => {
+    setMeta("Page not found");
+    app.innerHTML = `<section class="page">
+  <h1>Page not found</h1>
+  <p>This static archive may have a different path than the old Drupal site.</p>
+  <p><a href="/">Return to the archive home</a></p>
+</section>`;
+  };
+
+  const renderRoute = () => {
+    const path = canonicalPath(location.pathname);
+    renderNav(path);
+
+    if (!path) return renderHome();
+    if (path === "audio" || path === "music") {
+      return renderList("audio", "Music", "A static archive of {count} audio entries from the original Drupal site.");
+    }
+    if (path === "lyrics") return renderList("lyrics", "Lyrics");
+    if (path === "archive") {
+      return renderList("archive", "Archive", "{count} published nodes converted from Drupal 6.");
+    }
+    if (path === "contact") return renderContact();
+
+    const nodeId = archive.pathToNode[path];
+    if (nodeId) {
+      const node = archive.nodes[String(nodeId)];
+      setMeta(node.title, node.excerpt);
+      app.innerHTML = nodeHtml(node);
+      return;
+    }
+    renderNotFound();
+  };
+
+  const renderNav = (currentPath = canonicalPath(location.pathname)) => {
+    if (!nav) return;
+    const items = archive.nav.map((item) => {
+      const itemPath = canonicalPath(item.path);
+      const active = itemPath === currentPath || (!itemPath && !currentPath);
+      return `<li><a href="${routeHref(item.path)}"${active ? ' aria-current="page"' : ""}>${escapeHtml(item.title)}</a></li>`;
+    });
+    nav.innerHTML = `<ul>${items.join("\n")}</ul>`;
+  };
+
+  const handleClick = (event) => {
+    if (event.defaultPrevented || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const link = event.target.closest("a[href]");
+    if (!link || link.target || link.hasAttribute("download")) return;
+
+    const url = new URL(link.href, location.href);
+    if (url.origin !== location.origin) return;
+    if (url.pathname.startsWith("/assets/") || url.pathname.startsWith("/files/") || url.pathname.startsWith("/bobimages/")) return;
+    if (/\.[a-z0-9]{2,5}$/i.test(url.pathname) && !url.pathname.endsWith("/index.html")) return;
+
+    event.preventDefault();
+    history.pushState({}, "", url.pathname + url.search + url.hash);
+    renderRoute();
+    if (!url.hash) window.scrollTo({ top: 0, behavior: "instant" });
+  };
+
+  fetch(dataUrl)
+    .then((response) => {
+      if (!response.ok) throw new Error(`Failed to load ${dataUrl.pathname}`);
+      return response.json();
+    })
+    .then((data) => {
+      archive = data;
+      document.querySelector(".brand")?.setAttribute("href", "/");
+      document.querySelector(".brand img")?.setAttribute("src", archive.site.logo);
+      document.querySelector(".brand img")?.setAttribute("alt", archive.site.name);
+      const brandName = document.querySelector(".brand strong");
+      const brandSlogan = document.querySelector(".brand em");
+      if (brandName) brandName.textContent = archive.site.name;
+      if (brandSlogan) brandSlogan.textContent = archive.site.slogan;
+      if (footer) footer.textContent = archive.site.footer;
+      renderRoute();
+      document.addEventListener("click", handleClick);
+      window.addEventListener("popstate", renderRoute);
+    })
+    .catch((error) => {
+      console.error(error);
+      app.innerHTML = `<section class="page">
+  <h1>Archive unavailable</h1>
+  <p>The site data could not be loaded.</p>
+</section>`;
+    });
+})();
+"""
+
+
 def main() -> int:
     if not SQL_DUMP.exists():
         print(f"Missing {SQL_DUMP}", file=sys.stderr)
         return 1
     data = read_tables()
     SiteBuilder(data).build()
-    print(f"Built static site in {OUT}")
+    print(f"Built static app in {OUT}")
     return 0
 
 

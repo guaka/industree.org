@@ -83,6 +83,12 @@ a:hover { color: var(--accent); }
   text-decoration: none;
 }
 
+.primary-nav a[aria-current="page"] {
+  color: #fff;
+  background: var(--accent-dark);
+  border-color: var(--accent-dark);
+}
+
 main.wrap {
   margin-top: 28px;
   margin-bottom: 28px;

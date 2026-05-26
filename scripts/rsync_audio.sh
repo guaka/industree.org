@@ -146,13 +146,12 @@ if [ "$dry_run" -eq 0 ]; then
     *:*)
       host=${dest%%:*}
       remote_dir=${dest#*:}
-      remote_dir_q=$(quote_sh "$remote_dir")
       remote_audio_q=$(quote_sh "$remote_dir/audio")
-      ssh "$host" "mkdir -p $remote_audio_q && chmod 755 $remote_dir_q $remote_audio_q"
+      ssh "$host" "mkdir -p $remote_audio_q && chmod 755 $remote_audio_q"
       ;;
     *)
       mkdir -p "$dest/audio"
-      chmod 755 "$dest" "$dest/audio"
+      chmod 755 "$dest/audio"
       ;;
   esac
 fi

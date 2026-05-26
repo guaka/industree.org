@@ -8,7 +8,15 @@ This repository contains a Drupal 6 export and a generated static version that c
 python3 scripts/build_static.py
 ```
 
-The generated site is written to `docs/`.
+The generated site is written to `docs/`. The current build is a small static app:
+
+- `docs/index.html` is the app shell.
+- `docs/404.html` uses the same shell so GitHub Pages can still load the app for old deep links.
+- `docs/assets/index.js` renders pages and handles internal navigation.
+- `docs/assets/site-data.json` contains the generated Drupal archive data.
+- `docs/assets/site.css` and `docs/files/` contain the styling and static assets.
+
+The build intentionally avoids generating one HTML file per Drupal page. Most archive content now lives in the JSON file and is rendered in the browser.
 
 Audio links are generated from `media/audio_manifest.json`. Restored audio points to `https://audio.industree.org/audio/...` by default. To override the media host for a temporary deployment, rebuild with:
 
