@@ -6214,13 +6214,21 @@
           {
             "label": "Length",
             "value": "2:04"
+          },
+          {
+            "label": "Restored format",
+            "value": "M4A"
+          },
+          {
+            "label": "Restored match",
+            "value": "Artist Title"
           }
         ],
-        "download": "",
+        "download": "https://audio.industree.org/audio/bob-knutton-flutterby-kiss-draft.m4a",
         "expectedPath": "files/audio/Bob Knutton - Flutterby Kiss (draft).mp3",
-        "mediaNote": "",
-        "missingMessage": "Audio file not included in this repository yet. Expected static path: files/audio/Bob Knutton - Flutterby Kiss (draft).mp3.",
-        "source": ""
+        "mediaNote": "Restored as M4A from the external audio archive.",
+        "missingMessage": "",
+        "source": "https://audio.industree.org/audio/bob-knutton-flutterby-kiss-draft.m4a"
       },
       "bodyHtml": "",
       "created": 1311170150,
@@ -6236,9 +6244,9 @@
         "artistKey": "bob-knutton",
         "duration": "2:04",
         "genre": "",
-        "playable": false,
+        "playable": true,
         "searchText": "flutterby kiss (draft) by bob knutton bob knutton 2010 2:04",
-        "status": "missing",
+        "status": "playable",
         "year": "2010"
       },
       "path": "audio/flutterby-kiss-draft-bob-knutton",
@@ -6261,13 +6269,21 @@
           {
             "label": "Length",
             "value": "4:04"
+          },
+          {
+            "label": "Restored format",
+            "value": "M4A"
+          },
+          {
+            "label": "Restored match",
+            "value": "Artist Title"
           }
         ],
-        "download": "",
+        "download": "https://audio.industree.org/audio/bob-knutton-forget-demo.m4a",
         "expectedPath": "files/audio/Bob Knutton - Forget.mp3",
-        "mediaNote": "",
-        "missingMessage": "Audio file not included in this repository yet. Expected static path: files/audio/Bob Knutton - Forget.mp3.",
-        "source": ""
+        "mediaNote": "Restored as M4A from the external audio archive.",
+        "missingMessage": "",
+        "source": "https://audio.industree.org/audio/bob-knutton-forget-demo.m4a"
       },
       "bodyHtml": "",
       "created": 1311170150,
@@ -6283,9 +6299,9 @@
         "artistKey": "bob-knutton",
         "duration": "4:04",
         "genre": "Other",
-        "playable": false,
+        "playable": true,
         "searchText": "forget (demo) by bob knutton bob knutton other 4:04",
-        "status": "missing",
+        "status": "playable",
         "year": ""
       },
       "path": "audio/forget-demo-bob-knutton",
@@ -7008,13 +7024,21 @@
           {
             "label": "Length",
             "value": "9:48"
+          },
+          {
+            "label": "Restored format",
+            "value": "M4A"
+          },
+          {
+            "label": "Restored match",
+            "value": "Artist Title"
           }
         ],
-        "download": "",
+        "download": "https://audio.industree.org/audio/bob-knutton-machines-in-love-take-two-foreplay.m4a",
         "expectedPath": "files/audio/Bob Knutton - Machines In Love (take two - foreplay).mp3",
-        "mediaNote": "",
-        "missingMessage": "Audio file not included in this repository yet. Expected static path: files/audio/Bob Knutton - Machines In Love (take two - foreplay).mp3.",
-        "source": ""
+        "mediaNote": "Restored as M4A from the external audio archive.",
+        "missingMessage": "",
+        "source": "https://audio.industree.org/audio/bob-knutton-machines-in-love-take-two-foreplay.m4a"
       },
       "bodyHtml": "",
       "created": 1311170164,
@@ -7030,9 +7054,9 @@
         "artistKey": "bob-knutton",
         "duration": "9:48",
         "genre": "Electracid",
-        "playable": false,
+        "playable": true,
         "searchText": "machines in love (take two - live - foreplay) by bob knutton bob knutton electracid 2008 9:48",
-        "status": "missing",
+        "status": "playable",
         "year": "2008"
       },
       "path": "audio/machines-love-take-two-live-foreplay-bob-knutton",
@@ -9371,13 +9395,21 @@
           {
             "label": "Length",
             "value": "11:53"
+          },
+          {
+            "label": "Restored format",
+            "value": "OGG"
+          },
+          {
+            "label": "Restored match",
+            "value": "Artist Title"
           }
         ],
-        "download": "",
+        "download": "https://audio.industree.org/audio/causalidox-2005-05-07-fluffertje-ziegsamenspiel-premix.ogg",
         "expectedPath": "files/audio/(2005-05-07) fluffertje (ZiegSamenSpiel - premix)_0.mp3",
-        "mediaNote": "",
-        "missingMessage": "Audio file not included in this repository yet. Expected static path: files/audio/(2005-05-07) fluffertje (ZiegSamenSpiel - premix)_0.mp3.",
-        "source": ""
+        "mediaNote": "Restored as OGG from the external audio archive.",
+        "missingMessage": "",
+        "source": "https://audio.industree.org/audio/causalidox-2005-05-07-fluffertje-ziegsamenspiel-premix.ogg"
       },
       "bodyHtml": "",
       "created": 1311173541,
@@ -9393,9 +9425,9 @@
         "artistKey": "causalidox",
         "duration": "11:53",
         "genre": "Other",
-        "playable": false,
+        "playable": true,
         "searchText": "(2005-05-07) fluffertje (ziegsamenspiel - premix)  ft. zieg by causalidox causalidox other 11:53",
-        "status": "missing",
+        "status": "playable",
         "year": ""
       },
       "path": "audio/2005-05-07-fluffertje-ziegsamenspiel-premix-ft-zieg-causalidox",
@@ -9949,13 +9981,21 @@
           {
             "label": "Length",
             "value": "3:52"
+          },
+          {
+            "label": "Restored format",
+            "value": "OGG"
+          },
+          {
+            "label": "Restored match",
+            "value": "Artist Title"
           }
         ],
-        "download": "",
+        "download": "https://audio.industree.org/audio/causalidox-2005-07-16-what-if-radio-edit.ogg",
         "expectedPath": "files/audio/(2005-07-16) What if... (Radio edit).mp3",
-        "mediaNote": "",
-        "missingMessage": "Audio file not included in this repository yet. Expected static path: files/audio/(2005-07-16) What if... (Radio edit).mp3.",
-        "source": ""
+        "mediaNote": "Restored as OGG from the external audio archive.",
+        "missingMessage": "",
+        "source": "https://audio.industree.org/audio/causalidox-2005-07-16-what-if-radio-edit.ogg"
       },
       "bodyHtml": "",
       "created": 1311173590,
@@ -9971,9 +10011,9 @@
         "artistKey": "causalidox",
         "duration": "3:52",
         "genre": "Electronic",
-        "playable": false,
+        "playable": true,
         "searchText": "what if...? (new version) by causalidox causalidox electronic 2005 3:52",
-        "status": "missing",
+        "status": "playable",
         "year": "2005"
       },
       "path": "audio/what-if-new-version-causalidox",
@@ -10468,13 +10508,21 @@
           {
             "label": "Length",
             "value": "4:00"
+          },
+          {
+            "label": "Restored format",
+            "value": "OGG"
+          },
+          {
+            "label": "Restored match",
+            "value": "Artist Title"
           }
         ],
-        "download": "",
+        "download": "https://audio.industree.org/audio/causalidox-2005-12-31-jeffs-coming-hard-thrusts.ogg",
         "expectedPath": "files/audio/(2005-12-31) Jeffs Coming (Hard Thrusts).mp3",
-        "mediaNote": "",
-        "missingMessage": "Audio file not included in this repository yet. Expected static path: files/audio/(2005-12-31) Jeffs Coming (Hard Thrusts).mp3.",
-        "source": ""
+        "mediaNote": "Restored as OGG from the external audio archive.",
+        "missingMessage": "",
+        "source": "https://audio.industree.org/audio/causalidox-2005-12-31-jeffs-coming-hard-thrusts.ogg"
       },
       "bodyHtml": "",
       "created": 1311173628,
@@ -10490,9 +10538,9 @@
         "artistKey": "causalidox",
         "duration": "4:00",
         "genre": "electrorush",
-        "playable": false,
+        "playable": true,
         "searchText": "jeff's coming by causalidox causalidox electrorush 2005 4:00",
-        "status": "missing",
+        "status": "playable",
         "year": "2005"
       },
       "path": "audio/jeffs-coming-causalidox",
@@ -11286,13 +11334,21 @@
           {
             "label": "Length",
             "value": "3:59"
+          },
+          {
+            "label": "Restored format",
+            "value": "M4A"
+          },
+          {
+            "label": "Restored match",
+            "value": "Artist Title"
           }
         ],
-        "download": "",
+        "download": "https://audio.industree.org/audio/causalidox-in-hindsight.m4a",
         "expectedPath": "files/audio/CausaliDox - 02. In Hindsight_2.mp3",
-        "mediaNote": "",
-        "missingMessage": "Audio file not included in this repository yet. Expected static path: files/audio/CausaliDox - 02. In Hindsight_2.mp3.",
-        "source": ""
+        "mediaNote": "Restored as M4A from the external audio archive.",
+        "missingMessage": "",
+        "source": "https://audio.industree.org/audio/causalidox-in-hindsight.m4a"
       },
       "bodyHtml": "",
       "created": 1311174079,
@@ -11308,9 +11364,9 @@
         "artistKey": "causalidox",
         "duration": "3:59",
         "genre": "",
-        "playable": false,
+        "playable": true,
         "searchText": "in hindsight by causalidox causalidox promo - electronic music for your mind 2008 3:59",
-        "status": "missing",
+        "status": "playable",
         "year": "2008"
       },
       "path": "audio/in-hindsight-by-causalidox",
@@ -11498,13 +11554,21 @@
           {
             "label": "Length",
             "value": "7:33"
+          },
+          {
+            "label": "Restored format",
+            "value": "M4A"
+          },
+          {
+            "label": "Restored match",
+            "value": "Artist Title"
           }
         ],
-        "download": "",
+        "download": "https://audio.industree.org/audio/causalidox-second-orgasm.m4a",
         "expectedPath": "files/audio/CausaliDox - 05. Second Orgasm_0.mp3",
-        "mediaNote": "",
-        "missingMessage": "Audio file not included in this repository yet. Expected static path: files/audio/CausaliDox - 05. Second Orgasm_0.mp3.",
-        "source": ""
+        "mediaNote": "Restored as M4A from the external audio archive.",
+        "missingMessage": "",
+        "source": "https://audio.industree.org/audio/causalidox-second-orgasm.m4a"
       },
       "bodyHtml": "",
       "created": 1311174094,
@@ -11520,9 +11584,9 @@
         "artistKey": "causalidox",
         "duration": "7:33",
         "genre": "",
-        "playable": false,
+        "playable": true,
         "searchText": "second orgasm by causalidox causalidox promo - electronic music for your mind 2008 7:33",
-        "status": "missing",
+        "status": "playable",
         "year": "2008"
       },
       "path": "audio/second-orgasm-by-causalidox",
@@ -11651,13 +11715,21 @@
           {
             "label": "Length",
             "value": "4:34"
+          },
+          {
+            "label": "Restored format",
+            "value": "MP3"
+          },
+          {
+            "label": "Restored match",
+            "value": "Artist Title"
           }
         ],
-        "download": "",
+        "download": "https://audio.industree.org/audio/causalidox-sensory-deprivation-session-221-14.mp3",
         "expectedPath": "files/audio/CausaliDox - Sensory Deprivation Session 221-14.mp3",
-        "mediaNote": "",
-        "missingMessage": "Audio file not included in this repository yet. Expected static path: files/audio/CausaliDox - Sensory Deprivation Session 221-14.mp3.",
-        "source": ""
+        "mediaNote": "Restored as MP3 from the external audio archive.",
+        "missingMessage": "",
+        "source": "https://audio.industree.org/audio/causalidox-sensory-deprivation-session-221-14.mp3"
       },
       "bodyHtml": "",
       "created": 1311174096,
@@ -11673,9 +11745,9 @@
         "artistKey": "causalidox",
         "duration": "4:34",
         "genre": "Soundtrack",
-        "playable": false,
+        "playable": true,
         "searchText": "sensory deprivation session 221-14 by causalidox causalidox soundtrack 2007 4:34",
-        "status": "missing",
+        "status": "playable",
         "year": "2007"
       },
       "path": "audio/sensory-deprivation-session-221-14-causalidox",
@@ -11698,13 +11770,21 @@
           {
             "label": "Length",
             "value": "4:00"
+          },
+          {
+            "label": "Restored format",
+            "value": "M4A"
+          },
+          {
+            "label": "Restored match",
+            "value": "Artist Title"
           }
         ],
-        "download": "",
+        "download": "https://audio.industree.org/audio/causalidox-in-hindsight-discrete-suggestion-mix-purcell.m4a",
         "expectedPath": "files/audio/CausaliDox ft. Purcell - In Hindsight (discrete suggestion mix)_0.mp3",
-        "mediaNote": "",
-        "missingMessage": "Audio file not included in this repository yet. Expected static path: files/audio/CausaliDox ft. Purcell - In Hindsight (discrete suggestion mix)_0.mp3.",
-        "source": ""
+        "mediaNote": "Restored as M4A from the external audio archive.",
+        "missingMessage": "",
+        "source": "https://audio.industree.org/audio/causalidox-in-hindsight-discrete-suggestion-mix-purcell.m4a"
       },
       "bodyHtml": "",
       "created": 1311174097,
@@ -11720,9 +11800,9 @@
         "artistKey": "causalidox",
         "duration": "4:00",
         "genre": "",
-        "playable": false,
+        "playable": true,
         "searchText": "in hindsight (discrete suggestion mix)  ft. purcell by causalidox causalidox 2008 4:00",
-        "status": "missing",
+        "status": "playable",
         "year": "2008"
       },
       "path": "audio/hindsight-discrete-suggestion-mix-ft-purcell-causalidox",
@@ -12004,13 +12084,21 @@
           {
             "label": "Length",
             "value": "3:12"
+          },
+          {
+            "label": "Restored format",
+            "value": "OGG"
+          },
+          {
+            "label": "Restored match",
+            "value": "Artist Title"
           }
         ],
-        "download": "",
+        "download": "https://audio.industree.org/audio/causalidox-what-if-alternate-crappy-version.ogg",
         "expectedPath": "files/audio/What if... ALTERNATE -crappy-  VERSION.mp3",
-        "mediaNote": "",
-        "missingMessage": "Audio file not included in this repository yet. Expected static path: files/audio/What if... ALTERNATE -crappy-  VERSION.mp3.",
-        "source": ""
+        "mediaNote": "Restored as OGG from the external audio archive.",
+        "missingMessage": "",
+        "source": "https://audio.industree.org/audio/causalidox-what-if-alternate-crappy-version.ogg"
       },
       "bodyHtml": "",
       "created": 1311174103,
@@ -12026,9 +12114,9 @@
         "artistKey": "causalidox",
         "duration": "3:12",
         "genre": "Electronic",
-        "playable": false,
+        "playable": true,
         "searchText": "what if...? (alternate -crappy new lyrics- version) by causalidox causalidox electronic 2005 3:12",
-        "status": "missing",
+        "status": "playable",
         "year": "2005"
       },
       "path": "audio/what-if-alternate-crappy-new-lyrics-version-causalidox",
@@ -12531,13 +12619,21 @@
           {
             "label": "Length",
             "value": "8:00"
+          },
+          {
+            "label": "Restored format",
+            "value": "M4A"
+          },
+          {
+            "label": "Restored match",
+            "value": "Artist Title"
           }
         ],
-        "download": "",
+        "download": "https://audio.industree.org/audio/causalidox-2008-04-12-a-flight-of-swallows.m4a",
         "expectedPath": "files/audio/(2008-04-12) A Flight of Swallows_0.mp3",
-        "mediaNote": "",
-        "missingMessage": "Audio file not included in this repository yet. Expected static path: files/audio/(2008-04-12) A Flight of Swallows_0.mp3.",
-        "source": ""
+        "mediaNote": "Restored as M4A from the external audio archive.",
+        "missingMessage": "",
+        "source": "https://audio.industree.org/audio/causalidox-2008-04-12-a-flight-of-swallows.m4a"
       },
       "bodyHtml": "",
       "created": 1311174167,
@@ -12553,9 +12649,9 @@
         "artistKey": "causalidox",
         "duration": "8:00",
         "genre": "electro",
-        "playable": false,
+        "playable": true,
         "searchText": "a flight of swallows  ft. mikey by causalidox causalidox electro 2008 8:00",
-        "status": "missing",
+        "status": "playable",
         "year": "2008"
       },
       "path": "audio/flight-swallows-ft-mikey-causalidox",
@@ -12995,13 +13091,21 @@
           {
             "label": "Length",
             "value": "4:16"
+          },
+          {
+            "label": "Restored format",
+            "value": "M4A"
+          },
+          {
+            "label": "Restored match",
+            "value": "Artist Title"
           }
         ],
-        "download": "",
+        "download": "https://audio.industree.org/audio/causalidox-2009-03-08-the-future.m4a",
         "expectedPath": "files/audio/(2009-03-08) The Future.mp3",
-        "mediaNote": "",
-        "missingMessage": "Audio file not included in this repository yet. Expected static path: files/audio/(2009-03-08) The Future.mp3.",
-        "source": ""
+        "mediaNote": "Restored as M4A from the external audio archive.",
+        "missingMessage": "",
+        "source": "https://audio.industree.org/audio/causalidox-2009-03-08-the-future.m4a"
       },
       "bodyHtml": "",
       "created": 1311174203,
@@ -13017,9 +13121,9 @@
         "artistKey": "causalidox",
         "duration": "4:16",
         "genre": "electronica",
-        "playable": false,
+        "playable": true,
         "searchText": "the future (is retro) by causalidox causalidox electronica 2009 4:16",
-        "status": "missing",
+        "status": "playable",
         "year": "2009"
       },
       "path": "audio/future-retro-causalidox",
@@ -13518,13 +13622,21 @@
           {
             "label": "Length",
             "value": "7:30"
+          },
+          {
+            "label": "Restored format",
+            "value": "M4A"
+          },
+          {
+            "label": "Restored match",
+            "value": "Artist Title"
           }
         ],
-        "download": "",
+        "download": "https://audio.industree.org/audio/causalidox-2009-10-28-bledtirgleta-extended-nomix.m4a",
         "expectedPath": "files/audio/(2009-10-28) BledtirGleta (extended-nomix-).mp3",
-        "mediaNote": "",
-        "missingMessage": "Audio file not included in this repository yet. Expected static path: files/audio/(2009-10-28) BledtirGleta (extended-nomix-).mp3.",
-        "source": ""
+        "mediaNote": "Restored as M4A from the external audio archive.",
+        "missingMessage": "",
+        "source": "https://audio.industree.org/audio/causalidox-2009-10-28-bledtirgleta-extended-nomix.m4a"
       },
       "bodyHtml": "",
       "created": 1311174215,
@@ -13540,9 +13652,9 @@
         "artistKey": "causalidox",
         "duration": "7:30",
         "genre": "electro",
-        "playable": false,
+        "playable": true,
         "searchText": "bledtirgleta (extended no-mix) by causalidox causalidox electro 2009 7:30",
-        "status": "missing",
+        "status": "playable",
         "year": "2009"
       },
       "path": "audio/bledtirgleta-extended-no-mix-causalidox",
@@ -13565,13 +13677,21 @@
           {
             "label": "Length",
             "value": "5:52"
+          },
+          {
+            "label": "Restored format",
+            "value": "M4A"
+          },
+          {
+            "label": "Restored match",
+            "value": "Artist Title"
           }
         ],
-        "download": "",
+        "download": "https://audio.industree.org/audio/causalidox-2009-11-23-when-the-rivers-swell.m4a",
         "expectedPath": "files/audio/(2009-11-23) When The Rivers Swell.mp3",
-        "mediaNote": "",
-        "missingMessage": "Audio file not included in this repository yet. Expected static path: files/audio/(2009-11-23) When The Rivers Swell.mp3.",
-        "source": ""
+        "mediaNote": "Restored as M4A from the external audio archive.",
+        "missingMessage": "",
+        "source": "https://audio.industree.org/audio/causalidox-2009-11-23-when-the-rivers-swell.m4a"
       },
       "bodyHtml": "",
       "created": 1311174219,
@@ -13587,9 +13707,9 @@
         "artistKey": "causalidox",
         "duration": "5:52",
         "genre": "",
-        "playable": false,
+        "playable": true,
         "searchText": "when the rivers swell (concept) by causalidox causalidox 2009 5:52",
-        "status": "missing",
+        "status": "playable",
         "year": "2009"
       },
       "path": "audio/when-rivers-swell-concept-causalidox",
@@ -13899,13 +14019,21 @@
           {
             "label": "Length",
             "value": "7:30"
+          },
+          {
+            "label": "Restored format",
+            "value": "M4A"
+          },
+          {
+            "label": "Restored match",
+            "value": "Artist Title"
           }
         ],
-        "download": "",
+        "download": "https://audio.industree.org/audio/causalidox-bledtirgleta-extended-nomix.m4a",
         "expectedPath": "files/audio/01. CausaliDox - BledtirGleta extended-nomix-.mp3",
-        "mediaNote": "",
-        "missingMessage": "Audio file not included in this repository yet. Expected static path: files/audio/01. CausaliDox - BledtirGleta extended-nomix-.mp3.",
-        "source": ""
+        "mediaNote": "Restored as M4A from the external audio archive.",
+        "missingMessage": "",
+        "source": "https://audio.industree.org/audio/causalidox-bledtirgleta-extended-nomix.m4a"
       },
       "bodyHtml": "",
       "created": 1311174232,
@@ -13921,9 +14049,9 @@
         "artistKey": "causalidox",
         "duration": "7:30",
         "genre": "electro",
-        "playable": false,
+        "playable": true,
         "searchText": "bledtirgleta by causalidox causalidox the oxytocin party electro 2009 7:30",
-        "status": "missing",
+        "status": "playable",
         "year": "2009"
       },
       "path": "audio/bledtirgleta-causalidox",
@@ -14639,13 +14767,21 @@
           {
             "label": "Length",
             "value": "2:41"
+          },
+          {
+            "label": "Restored format",
+            "value": "M4A"
+          },
+          {
+            "label": "Restored match",
+            "value": "Artist Title"
           }
         ],
-        "download": "",
+        "download": "https://audio.industree.org/audio/causalidox-i-am-jacks-impacted-colon-bonustrack.m4a",
         "expectedPath": "files/audio/10. CausaliDox - I Am Jacks Impacted Colon_0.mp3",
-        "mediaNote": "",
-        "missingMessage": "Audio file not included in this repository yet. Expected static path: files/audio/10. CausaliDox - I Am Jacks Impacted Colon_0.mp3.",
-        "source": ""
+        "mediaNote": "Restored as M4A from the external audio archive.",
+        "missingMessage": "",
+        "source": "https://audio.industree.org/audio/causalidox-i-am-jacks-impacted-colon-bonustrack.m4a"
       },
       "bodyHtml": "",
       "created": 1311174285,
@@ -14661,9 +14797,9 @@
         "artistKey": "causalidox",
         "duration": "2:41",
         "genre": "AssJazz",
-        "playable": false,
+        "playable": true,
         "searchText": "i am jack's impacted colon (bonustrack) by causalidox causalidox the oxytocin party assjazz 2009 2:41",
-        "status": "missing",
+        "status": "playable",
         "year": "2009"
       },
       "path": "audio/i-am-jacks-impacted-colon-bonustrack-causalidox",
@@ -15170,13 +15306,21 @@
           {
             "label": "Length",
             "value": "1:49"
+          },
+          {
+            "label": "Restored format",
+            "value": "M4A"
+          },
+          {
+            "label": "Restored match",
+            "value": "Artist Title"
           }
         ],
-        "download": "",
+        "download": "https://audio.industree.org/audio/causalidox-2006-06-23-snake-charmer-unfinished-rough-draft.m4a",
         "expectedPath": "files/audio/(2006-06-23) Snake Charmer (unfinished - rough draft).mp3",
-        "mediaNote": "",
-        "missingMessage": "Audio file not included in this repository yet. Expected static path: files/audio/(2006-06-23) Snake Charmer (unfinished - rough draft).mp3.",
-        "source": ""
+        "mediaNote": "Restored as M4A from the external audio archive.",
+        "missingMessage": "",
+        "source": "https://audio.industree.org/audio/causalidox-2006-06-23-snake-charmer-unfinished-rough-draft.m4a"
       },
       "bodyHtml": "",
       "created": 1311174390,
@@ -15192,9 +15336,9 @@
         "artistKey": "causalidox",
         "duration": "1:49",
         "genre": "Electronic",
-        "playable": false,
+        "playable": true,
         "searchText": "(2006-06-23) snake charmer (unfinished - rough draft) by causalidox causalidox electronic 2006 1:49",
-        "status": "missing",
+        "status": "playable",
         "year": "2006"
       },
       "path": "audio/2006-06-23-snake-charmer-unfinished-rough-draft-causalidox",
@@ -15221,13 +15365,21 @@
           {
             "label": "Length",
             "value": "0:52"
+          },
+          {
+            "label": "Restored format",
+            "value": "OGG"
+          },
+          {
+            "label": "Restored match",
+            "value": "Artist Title"
           }
         ],
-        "download": "",
+        "download": "https://audio.industree.org/audio/causalidox-2006-07-05-jamsession-excerpt-too-noisy-too-hot.ogg",
         "expectedPath": "files/audio/(2006-07-05) Jamsession (excerpt - too noisy, too hot).mp3",
-        "mediaNote": "",
-        "missingMessage": "Audio file not included in this repository yet. Expected static path: files/audio/(2006-07-05) Jamsession (excerpt - too noisy, too hot).mp3.",
-        "source": ""
+        "mediaNote": "Restored as OGG from the external audio archive.",
+        "missingMessage": "",
+        "source": "https://audio.industree.org/audio/causalidox-2006-07-05-jamsession-excerpt-too-noisy-too-hot.ogg"
       },
       "bodyHtml": "",
       "created": 1311174391,
@@ -15243,9 +15395,9 @@
         "artistKey": "causalidox",
         "duration": "0:52",
         "genre": "electro",
-        "playable": false,
+        "playable": true,
         "searchText": "(2006-07-05) jamsession (live key-action excerpt - too noisy, too hot) by causalidox causalidox electro 2006 0:52",
-        "status": "missing",
+        "status": "playable",
         "year": "2006"
       },
       "path": "audio/2006-07-05-jamsession-live-key-action-excerpt-too-noisy-too-hot-causalidox",
@@ -15382,13 +15534,21 @@
           {
             "label": "Length",
             "value": "2:08"
+          },
+          {
+            "label": "Restored format",
+            "value": "M4A"
+          },
+          {
+            "label": "Restored match",
+            "value": "Artist Title"
           }
         ],
-        "download": "",
+        "download": "https://audio.industree.org/audio/causalidox-2006-08-18-nighbard.m4a",
         "expectedPath": "files/audio/(2006-08-18) nighbard.mp3",
-        "mediaNote": "",
-        "missingMessage": "Audio file not included in this repository yet. Expected static path: files/audio/(2006-08-18) nighbard.mp3.",
-        "source": ""
+        "mediaNote": "Restored as M4A from the external audio archive.",
+        "missingMessage": "",
+        "source": "https://audio.industree.org/audio/causalidox-2006-08-18-nighbard.m4a"
       },
       "bodyHtml": "",
       "created": 1311174398,
@@ -15404,9 +15564,9 @@
         "artistKey": "industree",
         "duration": "2:08",
         "genre": "Blues",
-        "playable": false,
+        "playable": true,
         "searchText": "(2006-08-18) nighbard industree blues 2:08",
-        "status": "missing",
+        "status": "playable",
         "year": ""
       },
       "path": "audio/2006-08-18-nighbard",
@@ -15492,13 +15652,21 @@
           {
             "label": "Length",
             "value": "15:16"
+          },
+          {
+            "label": "Restored format",
+            "value": "M4A"
+          },
+          {
+            "label": "Restored match",
+            "value": "Artist Title"
           }
         ],
-        "download": "",
+        "download": "https://audio.industree.org/audio/causalidox-2006-08-24-ii-and-its-getting-colder.m4a",
         "expectedPath": "files/audio/(2006-08-24 - II) And its getting colder.mp3",
-        "mediaNote": "",
-        "missingMessage": "Audio file not included in this repository yet. Expected static path: files/audio/(2006-08-24 - II) And its getting colder.mp3.",
-        "source": ""
+        "mediaNote": "Restored as M4A from the external audio archive.",
+        "missingMessage": "",
+        "source": "https://audio.industree.org/audio/causalidox-2006-08-24-ii-and-its-getting-colder.m4a"
       },
       "bodyHtml": "",
       "created": 1311174403,
@@ -15514,9 +15682,9 @@
         "artistKey": "causalidox",
         "duration": "15:16",
         "genre": "Ambient",
-        "playable": false,
+        "playable": true,
         "searchText": "(2006-08-24 - ii) and it's getting colder by causalidox causalidox ambient 2006 15:16",
-        "status": "missing",
+        "status": "playable",
         "year": "2006"
       },
       "path": "audio/2006-08-24-ii-and-its-getting-colder-causalidox",
@@ -15846,13 +16014,21 @@
           {
             "label": "Length",
             "value": "2:49"
+          },
+          {
+            "label": "Restored format",
+            "value": "M4A"
+          },
+          {
+            "label": "Restored match",
+            "value": "Artist Title"
           }
         ],
-        "download": "",
+        "download": "https://audio.industree.org/audio/causalidox-2006-09-26-titillating.m4a",
         "expectedPath": "files/audio/(2006-09-26) Titillating.mp3",
-        "mediaNote": "",
-        "missingMessage": "Audio file not included in this repository yet. Expected static path: files/audio/(2006-09-26) Titillating.mp3.",
-        "source": ""
+        "mediaNote": "Restored as M4A from the external audio archive.",
+        "missingMessage": "",
+        "source": "https://audio.industree.org/audio/causalidox-2006-09-26-titillating.m4a"
       },
       "bodyHtml": "",
       "created": 1311174422,
@@ -15868,9 +16044,9 @@
         "artistKey": "causalidox",
         "duration": "2:49",
         "genre": "Acid",
-        "playable": false,
+        "playable": true,
         "searchText": "tittilating by causalidox causalidox album acid 2006 2:49",
-        "status": "missing",
+        "status": "playable",
         "year": "2006"
       },
       "path": "audio/tittilating-causalidox",
@@ -16444,13 +16620,21 @@
           {
             "label": "Length",
             "value": "4:09"
+          },
+          {
+            "label": "Restored format",
+            "value": "M4A"
+          },
+          {
+            "label": "Restored match",
+            "value": "Artist Title"
           }
         ],
-        "download": "",
+        "download": "https://audio.industree.org/audio/causalidox-2006-12-10b-in-between.m4a",
         "expectedPath": "files/audio/(2006-12-10b) In Between.mp3",
-        "mediaNote": "",
-        "missingMessage": "Audio file not included in this repository yet. Expected static path: files/audio/(2006-12-10b) In Between.mp3.",
-        "source": ""
+        "mediaNote": "Restored as M4A from the external audio archive.",
+        "missingMessage": "",
+        "source": "https://audio.industree.org/audio/causalidox-2006-12-10b-in-between.m4a"
       },
       "bodyHtml": "",
       "created": 1311174446,
@@ -16466,9 +16650,9 @@
         "artistKey": "causalidox",
         "duration": "4:09",
         "genre": "Electrorush",
-        "playable": false,
+        "playable": true,
         "searchText": "|n between by causalidox causalidox electrorush 2006 4:09",
-        "status": "missing",
+        "status": "playable",
         "year": "2006"
       },
       "path": "audio/n-between-causalidox",
@@ -16849,13 +17033,21 @@
           {
             "label": "Length",
             "value": "10:28"
+          },
+          {
+            "label": "Restored format",
+            "value": "M4A"
+          },
+          {
+            "label": "Restored match",
+            "value": "Artist Title"
           }
         ],
-        "download": "",
+        "download": "https://audio.industree.org/audio/causalidox-2007-02-16-in-past-tense.m4a",
         "expectedPath": "files/audio/(2007-02-16) In Past Tense.mp3",
-        "mediaNote": "",
-        "missingMessage": "Audio file not included in this repository yet. Expected static path: files/audio/(2007-02-16) In Past Tense.mp3.",
-        "source": ""
+        "mediaNote": "Restored as M4A from the external audio archive.",
+        "missingMessage": "",
+        "source": "https://audio.industree.org/audio/causalidox-2007-02-16-in-past-tense.m4a"
       },
       "bodyHtml": "",
       "created": 1311174461,
@@ -16871,9 +17063,9 @@
         "artistKey": "causalidox",
         "duration": "10:28",
         "genre": "emolectro",
-        "playable": false,
+        "playable": true,
         "searchText": "in past tense - tryout - (based on \"count souvenirs\" by junior boys) by causalidox causalidox emolectro 2007 10:28",
-        "status": "missing",
+        "status": "playable",
         "year": "2007"
       },
       "path": "audio/past-tense-tryout-based-count-souvenirs-junior-boys-causalidox",
@@ -16900,13 +17092,21 @@
           {
             "label": "Length",
             "value": "9:48"
+          },
+          {
+            "label": "Restored format",
+            "value": "M4A"
+          },
+          {
+            "label": "Restored match",
+            "value": "Artist Title"
           }
         ],
-        "download": "",
+        "download": "https://audio.industree.org/audio/causalidox-2007-02-21-the-last-fucking-laugh-early-version.m4a",
         "expectedPath": "files/audio/(2007-02-21) The Last Fucking Laugh (early version).mp3",
-        "mediaNote": "",
-        "missingMessage": "Audio file not included in this repository yet. Expected static path: files/audio/(2007-02-21) The Last Fucking Laugh (early version).mp3.",
-        "source": ""
+        "mediaNote": "Restored as M4A from the external audio archive.",
+        "missingMessage": "",
+        "source": "https://audio.industree.org/audio/causalidox-2007-02-21-the-last-fucking-laugh-early-version.m4a"
       },
       "bodyHtml": "",
       "created": 1311174462,
@@ -16922,9 +17122,9 @@
         "artistKey": "causalidox",
         "duration": "9:48",
         "genre": "Weird",
-        "playable": false,
+        "playable": true,
         "searchText": "the last fucking laugh by causalidox causalidox weird 2007 9:48",
-        "status": "missing",
+        "status": "playable",
         "year": "2007"
       },
       "path": "audio/last-fucking-laugh-causalidox",
@@ -17128,13 +17328,21 @@
           {
             "label": "Length",
             "value": "4:55"
+          },
+          {
+            "label": "Restored format",
+            "value": "M4A"
+          },
+          {
+            "label": "Restored match",
+            "value": "Artist Title"
           }
         ],
-        "download": "",
+        "download": "https://audio.industree.org/audio/causalidox-2007-03-27-mixed-up-fucked-up-b3282a.m4a",
         "expectedPath": "files/audio/(2007-03-27) Mixed up Fucked up B3282a.mp3",
-        "mediaNote": "",
-        "missingMessage": "Audio file not included in this repository yet. Expected static path: files/audio/(2007-03-27) Mixed up Fucked up B3282a.mp3.",
-        "source": ""
+        "mediaNote": "Restored as M4A from the external audio archive.",
+        "missingMessage": "",
+        "source": "https://audio.industree.org/audio/causalidox-2007-03-27-mixed-up-fucked-up-b3282a.m4a"
       },
       "bodyHtml": "",
       "created": 1311174471,
@@ -17150,9 +17358,9 @@
         "artistKey": "causalidox",
         "duration": "4:55",
         "genre": "Electronic",
-        "playable": false,
+        "playable": true,
         "searchText": "mixed up fucked b3282a by causalidox causalidox electronic 2007 4:55",
-        "status": "missing",
+        "status": "playable",
         "year": "2007"
       },
       "path": "audio/mixed-fucked-b3282a-causalidox",
@@ -17179,13 +17387,21 @@
           {
             "label": "Length",
             "value": "3:14"
+          },
+          {
+            "label": "Restored format",
+            "value": "M4A"
+          },
+          {
+            "label": "Restored match",
+            "value": "Artist Title"
           }
         ],
-        "download": "",
+        "download": "https://audio.industree.org/audio/causalidox-2007-03-31-after-the-dreams-end-seq-version.m4a",
         "expectedPath": "files/audio/(2007-03-31) After the dreams end (seq. version).mp3",
-        "mediaNote": "",
-        "missingMessage": "Audio file not included in this repository yet. Expected static path: files/audio/(2007-03-31) After the dreams end (seq. version).mp3.",
-        "source": ""
+        "mediaNote": "Restored as M4A from the external audio archive.",
+        "missingMessage": "",
+        "source": "https://audio.industree.org/audio/causalidox-2007-03-31-after-the-dreams-end-seq-version.m4a"
       },
       "bodyHtml": "",
       "created": 1311174472,
@@ -17201,9 +17417,9 @@
         "artistKey": "causalidox",
         "duration": "3:14",
         "genre": "Electronic",
-        "playable": false,
+        "playable": true,
         "searchText": "after the dreams end (seq. version 1st take) by causalidox causalidox electronic 2007 3:14",
-        "status": "missing",
+        "status": "playable",
         "year": "2007"
       },
       "path": "audio/after-dreams-end-seq-version-1st-take-causalidox",
@@ -17533,13 +17749,21 @@
           {
             "label": "Length",
             "value": "12:35"
+          },
+          {
+            "label": "Restored format",
+            "value": "M4A"
+          },
+          {
+            "label": "Restored match",
+            "value": "Artist Title"
           }
         ],
-        "download": "",
+        "download": "https://audio.industree.org/audio/causalidox-2007-05-29-drunk-melancholic-monk-ii-sermon-in-the-cave.m4a",
         "expectedPath": "files/audio/(2007-05-29) Drunk Melancholic Monk II (sermon in the cave).mp3",
-        "mediaNote": "",
-        "missingMessage": "Audio file not included in this repository yet. Expected static path: files/audio/(2007-05-29) Drunk Melancholic Monk II (sermon in the cave).mp3.",
-        "source": ""
+        "mediaNote": "Restored as M4A from the external audio archive.",
+        "missingMessage": "",
+        "source": "https://audio.industree.org/audio/causalidox-2007-05-29-drunk-melancholic-monk-ii-sermon-in-the-cave.m4a"
       },
       "bodyHtml": "",
       "created": 1311174480,
@@ -17555,9 +17779,9 @@
         "artistKey": "causalidox",
         "duration": "12:35",
         "genre": "Ambient",
-        "playable": false,
+        "playable": true,
         "searchText": "drunk melancholic monk ii - the sermon in the cave by causalidox causalidox ambient 2007 12:35",
-        "status": "missing",
+        "status": "playable",
         "year": "2007"
       },
       "path": "audio/drunk-melancholic-monk-ii-sermon-cave-causalidox",
@@ -18044,13 +18268,21 @@
           {
             "label": "Length",
             "value": "11:24"
+          },
+          {
+            "label": "Restored format",
+            "value": "OGG"
+          },
+          {
+            "label": "Restored match",
+            "value": "Artist Title"
           }
         ],
-        "download": "",
+        "download": "https://audio.industree.org/audio/guaka-bruits-dune-minute-a-minuit.ogg",
         "expectedPath": "files/audio/4-BruitsDuneMinuteAMinuit.mp3",
-        "mediaNote": "",
-        "missingMessage": "Audio file not included in this repository yet. Expected static path: files/audio/4-BruitsDuneMinuteAMinuit.mp3.",
-        "source": ""
+        "mediaNote": "Restored as OGG from the external audio archive.",
+        "missingMessage": "",
+        "source": "https://audio.industree.org/audio/guaka-bruits-dune-minute-a-minuit.ogg"
       },
       "bodyHtml": "",
       "created": 1311264427,
@@ -18066,9 +18298,9 @@
         "artistKey": "guaka",
         "duration": "11:24",
         "genre": "",
-        "playable": false,
+        "playable": true,
         "searchText": "bruits d'une minute à minuit by guaka guaka sourd 2004 11:24",
-        "status": "missing",
+        "status": "playable",
         "year": "2004"
       },
       "path": "audio/bruits-dune-minute-à-minuit-guaka",
@@ -23824,13 +24056,21 @@
           {
             "label": "Length",
             "value": "2:56"
+          },
+          {
+            "label": "Restored format",
+            "value": "M4A"
+          },
+          {
+            "label": "Restored match",
+            "value": "Artist Title"
           }
         ],
-        "download": "",
+        "download": "https://audio.industree.org/audio/causalidox-2012-07-15-on-the-verge-of-a-major-breakthrough.m4a",
         "expectedPath": "files/audio/(2012-20-15) On The Verge Of A Major Breakthrough_0.mp3",
-        "mediaNote": "",
-        "missingMessage": "Audio file not included in this repository yet. Expected static path: files/audio/(2012-20-15) On The Verge Of A Major Breakthrough_0.mp3.",
-        "source": ""
+        "mediaNote": "Restored as M4A from the external audio archive.",
+        "missingMessage": "",
+        "source": "https://audio.industree.org/audio/causalidox-2012-07-15-on-the-verge-of-a-major-breakthrough.m4a"
       },
       "bodyHtml": "",
       "created": 1342879925,
@@ -23846,9 +24086,9 @@
         "artistKey": "causalidox",
         "duration": "2:56",
         "genre": "Other",
-        "playable": false,
+        "playable": true,
         "searchText": "on the verge of a major break by causalidox causalidox other 2012 2:56",
-        "status": "missing",
+        "status": "playable",
         "year": "2012"
       },
       "path": "audio/verge-major-breakthrough-causalidox",

@@ -121,8 +121,11 @@ main.wrap {
 }
 
 main.wrap.is-impulse-page {
-  width: calc(100% - 32px);
+  width: 100%;
   max-width: none;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding: 8px 0;
 }
 
 h1, h2, h3 {
@@ -382,7 +385,7 @@ h2 { font-size: 24px; }
 
 .impulse-page {
   display: grid;
-  gap: 22px;
+  gap: 8px;
 }
 
 .impulse-intro {
@@ -390,10 +393,16 @@ h2 { font-size: 24px; }
   justify-content: space-between;
   gap: 18px;
   align-items: end;
+  padding-right: 8px;
+  padding-left: 8px;
 }
 
 .impulse-intro p {
   margin: 0;
+}
+
+.is-impulse-page h1 {
+  margin-bottom: 8px;
 }
 
 .impulse-player-mount {
@@ -503,6 +512,10 @@ h2 { font-size: 24px; }
 .site-footer {
   padding: 18px 0 28px;
   color: #f4f0e8;
+}
+
+body.has-impulse-page .site-footer {
+  display: none;
 }
 
 .site-footer p {

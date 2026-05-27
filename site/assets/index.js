@@ -400,6 +400,7 @@
     const isMusicPage = path === "audio" || path === "music";
     const isImpulsePage = path === "impulse" || path.startsWith("impulse/");
     document.body.classList.toggle("has-mixtape-player", isMusicPage);
+    document.body.classList.toggle("has-impulse-page", isImpulsePage);
     app.classList.toggle("is-impulse-page", isImpulsePage);
     if (!isImpulsePage && window.__industreeImpulseStop) {
       try { window.__industreeImpulseStop(); } catch (_) {}
