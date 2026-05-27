@@ -86,7 +86,7 @@
     "audio/w1m12quorny-audio-tag-artist-raw": "audio/w1m-12-quorny",
     "audio/w1m13zoxy-audio-tag-artist-raw": "audio/w1m-13-zoxy",
     "music": "audio",
-    "node/10": "buy-cds",
+    "node/10": "about",
     "node/100": "audio/cottonhead-bob-knutton",
     "node/101": "audio/crocketts-ass-bob-knutton",
     "node/102": "audio/debajo-del-cielo-del-fuego-demo-first-take-vocals-bob-knutton",
@@ -487,7 +487,7 @@
     "node/77": "audio/ahcrap-industree",
     "node/78": "audio/01-metro-mind-industree",
     "node/79": "audio/left-alone-industree",
-    "node/8": "links",
+    "node/8": "about",
     "node/80": "audio/03-noisy-ii-noise-industree",
     "node/81": "pictures",
     "node/82": "story/2010/11/14/finally-online",
@@ -498,7 +498,7 @@
     "node/87": "audio/acidjam-bob-knutton",
     "node/88": "audio/another-fucking-nightmare-bob-knutton",
     "node/89": "audio/baby-come-down-bob-knutton",
-    "node/9": "causalidox",
+    "node/9": "about",
     "node/90": "audio/bad-feelings-slowly-fading-bob-knutton",
     "node/91": "audio/bassickly-bob-knutton",
     "node/92": "audio/bledtirgleta-bob-knutton",
@@ -510,7 +510,11 @@
     "node/98": "audio/choose-me-sketch-bob-knutton",
     "node/99": "audio/conflict-arises-sketch-bob-knutton",
     "user/3": "users/scarum",
-    "user/3/contact": "users/scarum/contact"
+    "user/3/contact": "users/scarum/contact",
+    "links": "about",
+    "causalidox": "about",
+    "buy-cds": "about",
+    "contact": "about"
   },
   "impulse": {
     "baseUrl": "https://audio.industree.org/itfiles/",
@@ -1917,46 +1921,12 @@
       "title": "Music"
     },
     {
-      "href": "/impulse/",
-      "path": "impulse",
-      "title": "Impulse"
-    },
-    {
-      "href": "/lyrics/",
-      "path": "lyrics",
-      "title": "Lyrics"
-    },
-    {
-      "href": "/archive/",
-      "path": "archive",
-      "title": "Archive"
-    },
-    {
       "href": "/about/",
       "path": "about",
       "title": "About"
-    },
-    {
-      "href": "/links/",
-      "path": "links",
-      "title": "Links"
-    },
-    {
-      "href": "/causalidox/",
-      "path": "causalidox",
-      "title": "CausaliDox"
-    },
-    {
-      "href": "/buy-cds/",
-      "path": "buy-cds",
-      "title": "Buy CD's!"
-    },
-    {
-      "href": "/contact/",
-      "path": "contact",
-      "title": "Contact"
     }
   ],
+  "songMedia": {},
   "nodes": {
     "2": {
       "audio": {
@@ -2121,10 +2091,10 @@
     },
     "7": {
       "audio": null,
-      "bodyHtml": "<p>We are IndusTree</p>\n<p>We are dutch industriambiexperimenoisewave band IndusTree. There are only two people in this outfit: Guaka and Scarum. Both originating from the southeast of the Netherlands, we now live in the city of Nijmegen in the middle-east of the low country. We met many years ago and by chance (and much alcohol and some green stuff) Scarum kissed Guaka's hand in return for eternal life.<br>Upon our reunion, we started spending nights together in Guaka's haunt, scraping hollow electric noises out of metal boxez. Within half a year we were performing and the first steps were made. What came next is more easily displayed by the following:</p>\n<p>the beginning</p>\n<p>long time ago<br>Scarum kisses K's hand to live forever</p>\n<p>1996<br>K meets Scarum again</p>\n<p>1997<br>IndusTree:=created<br>24.10gig @ farm<br>30.10gig @ dio</p>\n<p>1998<br>vivaAbsurda @ rataplanRadio<br>31.3projectSpiralStaircase @ adWaal.dio<br>22.4gig @ dio(Roos)<br>15.5openAirChillSession@outside.kun.nl/withRon<br>20.5gig @ merleyn<br>30.7gig @ dio<br>18.8gig @ cc.kun.nl<br>20.12music @ mp3.com (old link)</p>\n<p>1999<br>InDustRadio @ rataplanRadio<br>screamLight:=created<br>2L84US (old link):=created<br>25.9XtReactor'99 @ willemeen.arnhem.nl<br>31.12we.are.bored.as.hell.and.still.kicking</p>\n<p>2000</p>\n<p>back</p>\n<p>Our Name</p>\n<p>The name IndusTree is a contraction of three words:</p>\n<p>Indus,<br>Tree and<br>Industry.<br>We chose this name because we think the Western industrial civilisation, that has the Indus Valley as one of the places where it started, is now growing it's industrial and economical branches so wide across the globe, that one time there won't be any original trees left.</p>\n<p>Our hope is that there will sprout a new tree upon those industrial wastelands.</p>\n<p>By the way, there are other IndusTrees in the world, with not necessarily the same views about the word IndusTree:</p>\n<p>Dutch company that produces cable modems<br>Indus Tree Crafts<br>Furniture, toys, textiles, carpets, stationery & gifts.</p>\n<p>This is a short (and incomplete) overview of the shows we've done:</p>\n<p>1997-now<br>24.10.97gig @ farm.geleen.nl<br>30.10.97gig @ dio.nijmegen.nl<br>31.3.98projectSpiralStaircase @ adWaal.dio.nijmegen.nl (bewerking Orpheus-mythe/\"Thebe\"-G. Achterberg)<br>22.4.98gig @ dio(Roos'98).nijmegen.nl<br>15.5.98openAirChillSession @ outside.kun.nl/withRon<br>20.5.98gig @ merleyn.nijmegen.nl<br>30.7.98gig @ dio.nijmegen.nl<br>18.8.98gig @ cc.kun.nl<br>20.12.98music @ mp3.com<br>25.9.99gig @ XtReactor'99 @ willemeen.arnhem.nl<br>11.3.00gig @ Flexival'00 @ kraakpand.nijmegen.nl<br>22.3.00gig @ Doornroosje(Roos'00).nijmegen.nl<br>25.10.00studio @ Lab13.nijmegen.nl<br>05.07.01gig @ dio.nijmegen.nl<br>18.12.01DiscussionConcert @ KoninklijkConservatorium.DenHaag.nl</p>",
+      "bodyHtml": "<section class=\"about-section\" id=\"industree\">\n  <h2>IndusTree</h2>\n  <p>We are IndusTree.</p>\n  <p>We are dutch industriambiexperimenoisewave band IndusTree. There are only two people in this outfit: Guaka and Scarum. Both originating from the southeast of the Netherlands, we now live in the city of Nijmegen in the middle-east of the low country. We met many years ago and by chance (and much alcohol and some green stuff) Scarum kissed Guaka's hand in return for eternal life.</p>\n  <p>Upon our reunion, we started spending nights together in Guaka's haunt, scraping hollow electric noises out of metal boxez. Within half a year we were performing and the first steps were made.</p>\n  <h3>The beginning</h3>\n  <p>Long time ago: Scarum kisses K's hand to live forever.</p>\n  <p>1996: K meets Scarum again.</p>\n  <p>1997: IndusTree:=created; 24.10 gig @ farm; 30.10 gig @ dio.</p>\n  <p>1998: vivaAbsurda @ rataplanRadio; 31.3 project Spiral Staircase @ adWaal.dio; 22.4 gig @ dio(Roos); 15.5 openAirChillSession outside.kun.nl with Ron; 20.5 gig @ merleyn; 30.7 gig @ dio; 18.8 gig @ cc.kun.nl; 20.12 music @ mp3.com.</p>\n  <p>1999: InDustRadio @ rataplanRadio; screamLight:=created; 2L84US:=created; 25.9 XtReactor'99 @ willemeen.arnhem.nl; 31.12 we.are.bored.as.hell.and.still.kicking.</p>\n  <h3>Our name</h3>\n  <p>The name IndusTree is a contraction of three words: Indus, Tree and Industry. We chose this name because we think the Western industrial civilisation, that has the Indus Valley as one of the places where it started, is now growing its industrial and economical branches so wide across the globe, that one time there won't be any original trees left.</p>\n  <p>Our hope is that there will sprout a new tree upon those industrial wastelands.</p>\n  <h3>Shows</h3>\n  <p>This is a short and incomplete overview of the shows we've done:</p>\n  <p>24.10.97 gig @ farm.geleen.nl<br>30.10.97 gig @ dio.nijmegen.nl<br>31.3.98 project Spiral Staircase @ adWaal.dio.nijmegen.nl<br>22.4.98 gig @ dio(Roos'98).nijmegen.nl<br>15.5.98 openAirChillSession @ outside.kun.nl with Ron<br>20.5.98 gig @ merleyn.nijmegen.nl<br>30.7.98 gig @ dio.nijmegen.nl<br>18.8.98 gig @ cc.kun.nl<br>25.9.99 gig @ XtReactor'99 @ willemeen.arnhem.nl<br>11.3.00 gig @ Flexival'00 @ kraakpand.nijmegen.nl<br>22.3.00 gig @ Doornroosje(Roos'00).nijmegen.nl<br>25.10.00 studio @ Lab13.nijmegen.nl<br>05.07.01 gig @ dio.nijmegen.nl<br>18.12.01 DiscussionConcert @ KoninklijkConservatorium.DenHaag.nl</p>\n</section>\n\n<section class=\"about-section\" id=\"causalidox\">\n  <h2>CausaliDox</h2>\n  <p>CausaliDox is <a href=\"http://www.scarum.com\">Scarum</a>.</p>\n  <p>Causality extrapolated to Paradox. Becoming your own antipod. Drowning in neurotransmitters. Succumb to internal stimuli. Skewed interpretations. Unwilling to collapse the wave function.</p>\n  <p>CausaliDox is a vehicle for exploration, reaching the outer limits of noise and beyond to the vast calmness of soundscapes, voyages through forests of melody and storms of percussion, driven by a fascination for the intricate undeniable bonds between causality and paradox.</p>\n</section>\n\n<section class=\"about-section\" id=\"releases\">\n  <h2>Releases / CDs</h2>\n  <article class=\"release-summary\">\n    <h3>CausaliDox - \"Mini-Album (Promo 2008)\" (ltd 100 pcs.)</h3>\n    <p><a href=\"/bobimages/CD-hoes-CD-demo5VOORKANT.jpg\"><img src=\"/bobimages/CD-hoes-CD-demo-small.jpg\" alt=\"CausaliDox Mini-Album cover\"></a></p>\n    <p>Originally offered for EUR 5, excluding postage. The old checkout buttons have been removed; for archive/order questions, use the contact link below.</p>\n    <ol>\n      <li>Bright Ideas Darkly</li>\n      <li>In Hindsight</li>\n      <li>Dark Country Blues</li>\n      <li>Limited Assumption</li>\n      <li>Second Orgasm</li>\n      <li>Cottonhead</li>\n    </ol>\n    <p><strong>26-09-2008: New Mini-Album (promo)</strong></p>\n    <p>Finally this week, my new mini-album (promo) arrived. Some months ago, after getting much encouragement from <a href=\"http://www.myspace.com/disteldma\">d i s t e l</a>, I started working on mastering six tracks with the help of a friend who has some experience.</p>\n    <p>A sobering experience, because you find out that though the mix wasn't bad, the mastering process can make your music sound so much better. Levelling the tracks for CD was harder than I'd imagined, since you have to imagine yourself an objective listener.</p>\n    <p>The choice for these tracks was made on the basis of the character of the sound they have. The sound is very warm, lush and analogue. The tracks were created with mostly vintage synthesizers, over the course of one year, from August 2007 to late July 2008.</p>\n    <p>The artwork is based on a beautiful photograph taken by a good friend, who helped me find the visual atmosphere I was looking for: dark, melancholic, yet colorful and full of reflections.</p>\n  </article>\n\n  <article class=\"release-summary\">\n    <h3>CausaliDox - \"Autumnland (KeMn15)\" (ltd edition)</h3>\n    <p><a href=\"http://ia360943.us.archive.org/0/items/kemn15_causalidox_autumnland/front.jpg\"><img src=\"/bobimages/kemn15.jpg\" alt=\"CausaliDox Autumnland cover\"></a></p>\n    <p>Originally offered for EUR 5, excluding postage. The old checkout buttons have been removed; for archive/order questions, use the contact link below.</p>\n    <ol>\n      <li>Dusk Approaches</li>\n      <li>Metal Forest Whispers</li>\n      <li>The True Dissolve</li>\n    </ol>\n  </article>\n</section>\n\n<section class=\"about-section\" id=\"elsewhere\">\n  <h2>Elsewhere / related links</h2>\n  <ul>\n    <li><a href=\"http://www.archive.org/bookmarks/Scarum\">Videos on Archive.org - IndusTree, Scarum, ArtEfficiency, pH and much more</a></li>\n    <li><a href=\"http://www.myspace.com/CausaliDox\">CausaliDox Myspace</a></li>\n    <li><a href=\"http://www.myspace.com/BobKnutton\">Bob Knutton Myspace</a></li>\n    <li><a href=\"https://marcusmoonen.com/music/artist/industree/\">IndusTree music on marcusmoonen.com</a></li>\n  </ul>\n</section>\n\n<section class=\"about-section\" id=\"contact\">\n  <h2>Contact</h2>\n  <p>Contact for this archive now lives at <a href=\"https://marcusmoonen.com/contact/\">marcusmoonen.com/contact/</a>.</p>\n</section>",
       "created": 1265339624,
       "date": "February 5, 2010",
-      "excerpt": "We are IndusTree We are dutch industriambiexperimenoisewave band IndusTree. There are only two people in this outfit: Guaka and Scarum. Both originating from the southeast of the Netherlands, we now live in the city of Nijmegen...",
+      "excerpt": "IndusTree background, CausaliDox notes, release information, related links, and current contact details for the archive.",
       "extra": "",
       "href": "/about/",
       "id": 7,

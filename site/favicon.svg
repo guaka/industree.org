@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="IndusTree">
+  <rect width="64" height="64" rx="10" fill="#f4f0e8"/>
+  <rect x="6" y="6" width="52" height="52" rx="7" fill="none" stroke="#d5ccbf" stroke-width="2"/>
+  <path d="M24 11h18v7h-5v28h5v7H24v-7h5V18h-5z" fill="#26231f"/>
+  <path d="M21 13h18v7h-5v28h5v7H21v-7h5V20h-5z" fill="#b53427" opacity=".62"/>
+  <path d="M27 9h18v7h-5v28h5v7H27v-7h5V16h-5z" fill="#2c7770" opacity=".72"/>
+  <path d="M24 11h18v7h-5v28h5v7H24v-7h5V18h-5z" fill="#312f2d"/>
+  <path d="M16 24h13M35 24h13M18 35h11M35 35h10M20 45h9M35 45h13" stroke="#f4f0e8" stroke-width="3" stroke-linecap="square" opacity=".9"/>
+  <path d="M18 22h10M37 22h9M15 37h12M37 37h13M21 47h7M37 47h9" stroke="#2c7770" stroke-width="2" stroke-linecap="square" opacity=".7"/>
+  <path d="M24 15h14M24 49h14" stroke="#d5ccbf" stroke-width="2" stroke-linecap="square" opacity=".8"/>
+</svg>

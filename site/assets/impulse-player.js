@@ -4,9 +4,23 @@
       try { window.__industreeImpulseStop(); } catch (_) {}
     }
     const mountId = options.mountId || 'impulsePlayerMount';
-    if (!document.getElementById(mountId)) return;
+    const mount = document.getElementById(mountId);
+    if (!mount) return;
     const impulseGeneration = (window.__industreeImpulseGeneration || 0) + 1;
     window.__industreeImpulseGeneration = impulseGeneration;
+const COMPACT_MODE = Boolean(options.compact);
+if (COMPACT_MODE) {
+    const label = options.label || options.initialFile || 'Impulse Tracker file';
+    mount.innerHTML =
+        '<div class="compact-impulse-player">' +
+        '<div class="compact-impulse-title">' + label.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;') + '</div>' +
+        '<div class="compact-impulse-controls">' +
+        '<button type="button" id="compactImpulsePlay" disabled>Play IT</button>' +
+        '<button type="button" id="compactImpulseStop" disabled>Stop</button>' +
+        '<span id="compactImpulseStatus">Loading IT file...</span>' +
+        '</div>' +
+        '</div>';
+}
 const NOTE_NAMES = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
 const FX = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 const IT_FILES = (options.files || ['1-2sleepy.it']).map(file => typeof file === 'string' ? file : file.name);
@@ -36,12 +50,16 @@ function loadItFile(name, config) {
     currentItFile = name;
     updateFileListSelection();
     if (loadOptions.updateLocation && onFileSelect) onFileSelect(name);
+    updateCompactStatus('Loading ' + name + '...');
     toast('Loading ' + name + '...');
     fetch(itFileUrl(name)).then(r => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); })
         .then(buf => {
-            loadModule(buf);
+            loadModule(buf, COMPACT_MODE);
             if (loadOptions.autoplay) startPlay(true);
-        }).catch(err => toast('Failed: ' + name + ' (' + err.message + ')'));
+        }).catch(err => {
+            updateCompactStatus('Failed to load ' + name);
+            toast('Failed: ' + name + ' (' + err.message + ')');
+        });
 }
 
 // ── IT Parser ──────────────────────────────────────────────────
@@ -636,7 +654,7 @@ function initAudio() {
 // ── UI ─────────────────────────────────────────────────────────
 function loadModule(buf, skipSave) {
     const mod = parseIT(buf);
-    if (!mod) { toast('Not a valid IT file'); return; }
+    if (!mod) { updateCompactStatus('Not a valid IT file'); toast('Not a valid IT file'); return; }
     stopPlayback();
     state.mod = mod; state.speed = mod.speed; state.tempo = mod.tempo; state.ordIdx = 0; state.row = 0; state.tick = 0;
     state.channels = new Array(64).fill(null).map(makeChn);
@@ -644,11 +662,17 @@ function loadModule(buf, skipSave) {
         state.channels[i].chnVol = mod.chnlVol[i] || 64;
     }
     state.editCursorRow = 0; state.editCursorCh = 0;
+    if (COMPACT_MODE) {
+        updateCompactStatus('Ready');
+        toast('Loaded: ' + (mod.songName || 'module'));
+        return;
+    }
     document.getElementById('btnPlay').disabled = false;
     document.getElementById('btnStop').disabled = false;
     document.getElementById('btnNewPat').disabled = false;
     state.selectedSmp = 0; state.selectedIns = 0;
     buildSampleList(); buildInstrumentList(); updateUI();
+    updateCompactStatus('Ready');
     toast('Loaded: ' + (mod.songName || 'module') + ' (' + mod.samples.length + ' smp, ' + mod.patterns.length + ' pat)');
     if (!skipSave) saveToStorage(buf);
 }
@@ -685,12 +709,26 @@ function stopPlayback() {
         if (c.src) try { c.src.stop(); } catch (_) {}
         c.src = null; c.gain = null; c.filter = null; c.active = false;
     });
+    updateCompactStatus(state.mod ? 'Stopped' : '');
 }
 
 function toast(msg) {
     const el = document.getElementById('toast');
+    if (!el) return;
     el.textContent = msg; el.style.display = 'block';
     clearTimeout(state.toastId); state.toastId = setTimeout(() => el.style.display = 'none', 3000);
+}
+
+function updateCompactStatus(message) {
+    if (!COMPACT_MODE) return;
+    const play = document.getElementById('compactImpulsePlay');
+    const stop = document.getElementById('compactImpulseStop');
+    const status = document.getElementById('compactImpulseStatus');
+    const title = document.querySelector('#' + mountId + ' .compact-impulse-title');
+    if (play) play.disabled = !state.mod;
+    if (stop) stop.disabled = !state.mod;
+    if (title) title.textContent = state.mod?.songName || currentItFile || 'Impulse Tracker file';
+    if (status) status.textContent = message || (state.playing ? 'Playing' : state.mod ? 'Ready' : 'No module loaded');
 }
 
 function updateInfoHeader() {
@@ -720,6 +758,10 @@ function updateInfoHeader() {
 
 function updateUI() {
     const mod = state.mod; if (!mod) return;
+    if (COMPACT_MODE) {
+        updateCompactStatus();
+        return;
+    }
     updateInfoHeader();
     renderOrderBar();
     const patIdx = mod.orders[state.ordIdx];
@@ -1023,20 +1065,22 @@ function switchTab(panel) {
     if (panel === 'orderPanel') renderOrderEditor();
 }
 
-document.querySelectorAll('.tab').forEach(t => {
-    t.onclick = () => switchTab(t.dataset.panel);
-});
-document.querySelectorAll('.env-tab').forEach(t => {
-    t.onclick = () => { state.selectedEnvType = t.dataset.env; renderInstrument(); };
-});
+if (!COMPACT_MODE) {
+    document.querySelectorAll('.tab').forEach(t => {
+        t.onclick = () => switchTab(t.dataset.panel);
+    });
+    document.querySelectorAll('.env-tab').forEach(t => {
+        t.onclick = () => { state.selectedEnvType = t.dataset.env; renderInstrument(); };
+    });
 
-document.getElementById('btnOpen').onclick = () => document.getElementById('fileInput').click();
-document.getElementById('fileInput').onchange = (e) => {
-    if (!e.target.files[0]) return;
-    const fr = new FileReader();
-    fr.onload = () => { loadModule(fr.result); e.target.value = ''; };
-    fr.readAsArrayBuffer(e.target.files[0]);
-};
+    document.getElementById('btnOpen').onclick = () => document.getElementById('fileInput').click();
+    document.getElementById('fileInput').onchange = (e) => {
+        if (!e.target.files[0]) return;
+        const fr = new FileReader();
+        fr.onload = () => { loadModule(fr.result); e.target.value = ''; };
+        fr.readAsArrayBuffer(e.target.files[0]);
+    };
+}
 
 function startPlay(fromStart) {
     if (!state.mod) return;
@@ -1050,6 +1094,7 @@ function startPlay(fromStart) {
         state.playStartTime = state.ctx.currentTime;
         state.lastDisplayRow = -1; state.lastDisplayOrd = -1;
         state.displayRow = state.row; state.displayOrd = state.ordIdx;
+        updateCompactStatus('Playing');
         loop();
     }).catch(() => toast('Press F5 or Play to start audio'));
 }
@@ -1070,67 +1115,74 @@ function startPlayPattern() {
     });
 }
 
-document.getElementById('btnPlay').onclick = () => startPlay(false);
-document.getElementById('btnStop').onclick = () => { stopPlayback(); updateUI(); };
-document.getElementById('inputSpeed').onchange = (e) => { state.speed = Math.max(1, Math.min(255, parseInt(e.target.value) || 6)); };
-document.getElementById('inputTempo').onchange = (e) => { state.tempo = Math.max(32, Math.min(255, parseInt(e.target.value) || 125)); };
+if (COMPACT_MODE) {
+    const compactPlay = document.getElementById('compactImpulsePlay');
+    const compactStop = document.getElementById('compactImpulseStop');
+    if (compactPlay) compactPlay.onclick = () => startPlay(true);
+    if (compactStop) compactStop.onclick = () => { stopPlayback(); updateUI(); };
+} else {
+    document.getElementById('btnPlay').onclick = () => startPlay(false);
+    document.getElementById('btnStop').onclick = () => { stopPlayback(); updateUI(); };
+    document.getElementById('inputSpeed').onchange = (e) => { state.speed = Math.max(1, Math.min(255, parseInt(e.target.value) || 6)); };
+    document.getElementById('inputTempo').onchange = (e) => { state.tempo = Math.max(32, Math.min(255, parseInt(e.target.value) || 125)); };
 
-document.getElementById('btnNewPat').onclick = () => {
-    if (!state.mod) return;
-    const rows = parseInt(prompt('Number of rows (1-200):', '64'));
-    if (!rows || rows < 1 || rows > 200) return;
-    const newIdx = state.mod.patterns.length;
-    state.mod.patterns.push(emptyPat(rows));
-    toast('Created pattern ' + hex2(newIdx) + ' (' + rows + ' rows)');
-    state.mod.orders.push(newIdx);
-    updateUI();
-};
+    document.getElementById('btnNewPat').onclick = () => {
+        if (!state.mod) return;
+        const rows = parseInt(prompt('Number of rows (1-200):', '64'));
+        if (!rows || rows < 1 || rows > 200) return;
+        const newIdx = state.mod.patterns.length;
+        state.mod.patterns.push(emptyPat(rows));
+        toast('Created pattern ' + hex2(newIdx) + ' (' + rows + ' rows)');
+        state.mod.orders.push(newIdx);
+        updateUI();
+    };
 
-document.getElementById('ordInsert').onclick = () => {
-    if (!state.mod) return;
-    state.mod.orders.splice(state.selectedOrdIdx + 1, 0, 0);
-    state.selectedOrdIdx++;
-    updateUI();
-};
-document.getElementById('ordDelete').onclick = () => {
-    if (!state.mod || state.mod.orders.length <= 1) return;
-    state.mod.orders.splice(state.selectedOrdIdx, 1);
-    if (state.selectedOrdIdx >= state.mod.orders.length) state.selectedOrdIdx = state.mod.orders.length - 1;
-    updateUI();
-};
-document.getElementById('ordAddEnd').onclick = () => {
-    if (!state.mod) return;
-    state.mod.orders.push(255);
-    updateUI();
-};
-document.getElementById('ordAddSkip').onclick = () => {
-    if (!state.mod) return;
-    state.mod.orders.push(254);
-    updateUI();
-};
+    document.getElementById('ordInsert').onclick = () => {
+        if (!state.mod) return;
+        state.mod.orders.splice(state.selectedOrdIdx + 1, 0, 0);
+        state.selectedOrdIdx++;
+        updateUI();
+    };
+    document.getElementById('ordDelete').onclick = () => {
+        if (!state.mod || state.mod.orders.length <= 1) return;
+        state.mod.orders.splice(state.selectedOrdIdx, 1);
+        if (state.selectedOrdIdx >= state.mod.orders.length) state.selectedOrdIdx = state.mod.orders.length - 1;
+        updateUI();
+    };
+    document.getElementById('ordAddEnd').onclick = () => {
+        if (!state.mod) return;
+        state.mod.orders.push(255);
+        updateUI();
+    };
+    document.getElementById('ordAddSkip').onclick = () => {
+        if (!state.mod) return;
+        state.mod.orders.push(254);
+        updateUI();
+    };
 
-document.getElementById('smpPreview').onclick = () => {
-    if (!state.mod) return;
-    initAudio().then(() => {
-        const smp = state.mod.samples[state.selectedSmp];
-        if (!smp || !smp.data) { toast('No sample data'); return; }
-        const ab = buildAudioBuffer(smp);
-        if (!ab) return;
-        const rate = smp.c5speed || 22050;
-        const src = state.ctx.createBufferSource();
-        src.buffer = ab;
-        if (smp.loop && smp.loopEnd > smp.loopStart) {
-            src.loop = true;
-            if (smp._ppLoopStart != null) { src.loopStart = smp._ppLoopStart; src.loopEnd = smp._ppLoopEnd; }
-            else { src.loopStart = smp.loopStart / rate; src.loopEnd = smp.loopEnd / rate; }
-        }
-        const g = state.ctx.createGain(); g.gain.value = 0.5;
-        src.connect(g); g.connect(state.master); src.start();
-        if (state.previewSrc) try { state.previewSrc.stop(); } catch (_) {}
-        state.previewSrc = src;
-        if (!smp.loop) setTimeout(() => { try { src.stop(); } catch (_) {} }, 5000);
-    });
-};
+    document.getElementById('smpPreview').onclick = () => {
+        if (!state.mod) return;
+        initAudio().then(() => {
+            const smp = state.mod.samples[state.selectedSmp];
+            if (!smp || !smp.data) { toast('No sample data'); return; }
+            const ab = buildAudioBuffer(smp);
+            if (!ab) return;
+            const rate = smp.c5speed || 22050;
+            const src = state.ctx.createBufferSource();
+            src.buffer = ab;
+            if (smp.loop && smp.loopEnd > smp.loopStart) {
+                src.loop = true;
+                if (smp._ppLoopStart != null) { src.loopStart = smp._ppLoopStart; src.loopEnd = smp._ppLoopEnd; }
+                else { src.loopStart = smp.loopStart / rate; src.loopEnd = smp.loopEnd / rate; }
+            }
+            const g = state.ctx.createGain(); g.gain.value = 0.5;
+            src.connect(g); g.connect(state.master); src.start();
+            if (state.previewSrc) try { state.previewSrc.stop(); } catch (_) {}
+            state.previewSrc = src;
+            if (!smp.loop) setTimeout(() => { try { src.stop(); } catch (_) {} }, 5000);
+        });
+    };
+}
 
 // ── QWERTY Piano Keyboard ─────────────────────────────────────
 const PIANO_MAP = {
@@ -1227,7 +1279,7 @@ function editPatternKey(e) {
     return false;
 }
 
-buildFileList();
+if (!COMPACT_MODE) buildFileList();
 if (INITIAL_FILE) loadItFile(INITIAL_FILE, { autoplay: AUTOPLAY_INITIAL_FILE });
 else if (!loadFromStorage()) toast('Open an .it file or click one from the sidebar');
 
@@ -1275,6 +1327,7 @@ const HELP_HTML = '<div style="position:fixed;inset:0;background:rgba(0,0,0,.9);
 
 document.addEventListener('keydown', (e) => {
     if (impulseGeneration !== window.__industreeImpulseGeneration || !document.getElementById(mountId)) return;
+    if (COMPACT_MODE) return;
     const tag = e.target.tagName;
     if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
     const ctrl = e.ctrlKey || e.metaKey;
@@ -1389,6 +1442,7 @@ document.addEventListener('keydown', (e) => {
 
 document.addEventListener('keyup', (e) => {
     if (impulseGeneration !== window.__industreeImpulseGeneration || !document.getElementById(mountId)) return;
+    if (COMPACT_MODE) return;
     const key = e.key.toLowerCase();
     if (state.pianoKeys[key]) {
         pianoNoteOff(state.pianoKeys[key]);
