@@ -37,6 +37,7 @@ itfiles_source=${ITFILES_SOURCE:-../midi.guaka.org/itfiles}
 tmpdir=$(mktemp -d "${TMPDIR:-/tmp}/industree-rsync-audio.XXXXXX")
 stagedir=$tmpdir/stage
 url_list=$tmpdir/urls.txt
+file_list=$tmpdir/files-from.txt
 
 while [ "$#" -gt 0 ]; do
   case "$1" in
@@ -85,12 +86,10 @@ while [ "$#" -gt 0 ]; do
 done
 
 dest=${dest%/}
-target_subdir=audio
 rsync_source=$stagedir/
 rsync_dest=$dest/
 
 if [ "$mode" = "itfiles" ]; then
-  target_subdir=itfiles
   rsync_source=$stagedir/itfiles/
   rsync_dest=$dest/itfiles/
 fi
@@ -102,7 +101,7 @@ trap cleanup EXIT
 
 mkdir -p "$(dirname "$report")"
 
-python3 - "$mode" "$manifest" "$report" "$stagedir" "$url_list" "$itfiles_source" <<'PY'
+python3 - "$mode" "$manifest" "$report" "$stagedir" "$url_list" "$file_list" "$itfiles_source" <<'PY'
 import csv
 import json
 import os
@@ -115,7 +114,8 @@ manifest_path = Path(sys.argv[2])
 report_path = Path(sys.argv[3])
 stage_dir = Path(sys.argv[4])
 url_list_path = Path(sys.argv[5])
-itfiles_source = Path(sys.argv[6])
+file_list_path = Path(sys.argv[6])
+itfiles_source = Path(sys.argv[7])
 
 missing = []
 rows = []
@@ -197,50 +197,80 @@ for row in rows:
     target = stage_dir / row["server_path"]
     target.parent.mkdir(parents=True, exist_ok=True)
     os.symlink(Path(row["source_path"]).resolve(), target)
+
+with file_list_path.open("wb") as handle:
+    extension_order = {".ogg": 0, ".mp3": 1, ".m4a": 2}
+
+    def extension_priority(row):
+        suffix = Path(row["server_path"]).suffix.lower()
+        return extension_order.get(suffix, 3)
+
+    for row in sorted(enumerate(rows), key=lambda item: (extension_priority(item[1]), item[0])):
+        row = row[1]
+        path = row["server_path"]
+        if mode == "itfiles":
+            path = path.removeprefix("itfiles/")
+        handle.write(path.encode("utf-8") + b"\0")
 PY
 
-quote_sh() {
-  printf "'%s'" "$(printf "%s" "$1" | sed "s/'/'\\\\''/g")"
-}
+python3 - "$file_list" "$rsync_source" "$rsync_dest" "$dry_run" "$delete_extra" "$tmpdir" <<'PY'
+import shlex
+import subprocess
+import sys
+import os
+from pathlib import Path
 
-if [ "$dry_run" -eq 0 ]; then
-  case "$dest" in
-    *:*)
-      host=${dest%%:*}
-      remote_dir=${dest#*:}
-      remote_target_q=$(quote_sh "$remote_dir/$target_subdir")
-      ssh "$host" "mkdir -p $remote_target_q && chmod 755 $remote_target_q"
-      ;;
-    *)
-      mkdir -p "$dest/$target_subdir"
-      chmod 755 "$dest/$target_subdir"
-      ;;
-  esac
-fi
+file_list_path = Path(sys.argv[1])
+rsync_source = sys.argv[2]
+rsync_dest = sys.argv[3]
+dry_run = sys.argv[4] == "1"
+delete_extra = sys.argv[5] == "1"
+tmpdir = Path(sys.argv[6])
 
-rsync_flags="-avP --omit-dir-times --no-perms"
-if [ "$dry_run" -eq 1 ]; then
-  rsync_flags="$rsync_flags --dry-run"
-fi
-if [ "$delete_extra" -eq 1 ]; then
-  rsync_flags="$rsync_flags --delete"
-fi
+paths = [path for path in file_list_path.read_bytes().split(b"\0") if path]
+extension_order = {".ogg": 0, ".mp3": 1, ".m4a": 2}
+path_groups = [[], [], [], []]
 
-rsync $rsync_flags -L "$rsync_source" "$rsync_dest"
+for path in paths:
+    suffix = Path(path.decode("utf-8", "surrogateescape")).suffix.lower()
+    path_groups[extension_order.get(suffix, 3)].append(path)
 
-if [ "$dry_run" -eq 0 ]; then
-  case "$dest" in
-    *:*)
-      host=${dest%%:*}
-      remote_dir=${dest#*:}
-      remote_target_q=$(quote_sh "$remote_dir/$target_subdir")
-      ssh "$host" "chmod -R a+rX $remote_target_q"
-      ;;
-    *)
-      chmod -R a+rX "$dest/$target_subdir"
-      ;;
-  esac
-fi
+base_cmd = [
+    "rsync",
+    "-avP",
+    "--omit-dir-times",
+    "--chmod=Du=rwx,Dgo=rx,Fu=rw,Fgo=r",
+    "-L",
+]
+
+if dry_run:
+    base_cmd.append("--dry-run")
+
+if ":" in rsync_dest:
+    control_path = Path("/tmp") / f"industree-rsync-{os.getpid()}-%C"
+    rsync_rsh = (
+        "ssh "
+        "-o ControlMaster=auto "
+        f"-o ControlPath={shlex.quote(str(control_path))} "
+        "-o ControlPersist=60"
+    )
+    base_cmd.extend(["-e", rsync_rsh])
+
+for path_group in path_groups:
+    if not path_group:
+        continue
+    subprocess.run(
+        base_cmd + ["--from0", "--files-from=-", rsync_source, rsync_dest],
+        input=b"\0".join(path_group) + b"\0",
+        check=True,
+    )
+
+if delete_extra:
+    subprocess.run(
+        base_cmd + ["--delete", "--ignore-existing", rsync_source, rsync_dest],
+        check=True,
+    )
+PY
 
 echo "Wrote transfer report to $report"
 

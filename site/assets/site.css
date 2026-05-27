@@ -120,6 +120,11 @@ main.wrap {
   border: 1px solid var(--line);
 }
 
+main.wrap.is-impulse-page {
+  width: calc(100% - 32px);
+  max-width: none;
+}
+
 h1, h2, h3 {
   line-height: 1.15;
   margin: 0 0 16px;
