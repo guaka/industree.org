@@ -8,12 +8,20 @@
     if (!mount) return;
     const impulseGeneration = (window.__industreeImpulseGeneration || 0) + 1;
     window.__industreeImpulseGeneration = impulseGeneration;
+function escapeHtml(value) {
+    return String(value == null ? '' : value)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;');
+}
+function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
 const COMPACT_MODE = Boolean(options.compact);
 if (COMPACT_MODE) {
     const label = options.label || options.initialFile || 'Impulse Tracker file';
     mount.innerHTML =
         '<div class="compact-impulse-player">' +
-        '<div class="compact-impulse-title">' + label.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;') + '</div>' +
+        '<div class="compact-impulse-title">' + escapeHtml(label) + '</div>' +
         '<div class="compact-impulse-controls">' +
         '<button type="button" id="compactImpulsePlay" disabled>Play IT</button>' +
         '<button type="button" id="compactImpulseStop" disabled>Stop</button>' +
@@ -337,6 +345,36 @@ function buildAudioBuffer(smp) {
     return ab;
 }
 
+function sampleSourceFor(smp) {
+    const ab = buildAudioBuffer(smp);
+    if (!ab) return null;
+    const rate = smp.c5speed || 44100;
+    const src = state.ctx.createBufferSource();
+    src.buffer = ab;
+    if (smp.loop && smp.loopEnd > smp.loopStart) {
+        src.loop = true;
+        if (smp._ppLoopStart != null) {
+            src.loopStart = smp._ppLoopStart;
+            src.loopEnd = smp._ppLoopEnd;
+        } else {
+            src.loopStart = smp.loopStart / rate;
+            src.loopEnd = smp.loopEnd / rate;
+        }
+    }
+    return { src, rate };
+}
+
+function previewSourceFor(smp, note = null) {
+    const source = sampleSourceFor(smp);
+    if (!source) return null;
+    const g = state.ctx.createGain();
+    g.gain.value = 0.5;
+    source.src.connect(g);
+    g.connect(state.master);
+    if (note != null) source.src.playbackRate.value = Math.pow(2, (note - 60) / 12);
+    return { src: source.src, gain: g };
+}
+
 function evalEnvelope(env, envState, isVol) {
     if (!env || !env.enabled || !env.nodes || env.nodes.length < 2) return isVol ? 64 : 0;
     const nodes = env.nodes;
@@ -401,17 +439,10 @@ function triggerNote(ch, note, instNum, when) {
     const smp = res.smp;
     chn.smpVol = smp.vol;
     chn.vol = smp.vol;
-    const ab = buildAudioBuffer(smp);
-    if (!ab) return;
+    const source = sampleSourceFor(smp);
+    if (!source) return;
     try {
-        const rate = smp.c5speed || 44100;
-        const src = state.ctx.createBufferSource();
-        src.buffer = ab;
-        if (smp.loop && smp.loopEnd > smp.loopStart) {
-            src.loop = true;
-            if (smp._ppLoopStart != null) { src.loopStart = smp._ppLoopStart; src.loopEnd = smp._ppLoopEnd; }
-            else { src.loopStart = smp.loopStart / rate; src.loopEnd = smp.loopEnd / rate; }
-        }
+        const src = source.src;
         const g = state.ctx.createGain();
         g.gain.value = computeVol(chn, mod, smp.vol);
         const flt = state.ctx.createBiquadFilter();
@@ -520,7 +551,7 @@ function processRow(when) {
         if (cell.vol != null) applyVolColumn(chn, cell.vol, when, mod);
 
         // Axx = set speed (ticks per row; xx=0 no-op)
-        if (cell.eff === 1 && cell.param) state.speed = Math.max(1, Math.min(255, cell.param));
+        if (cell.eff === 1 && cell.param) state.speed = clamp(cell.param, 1, 255);
         // Bxx = jump to order
         if (cell.eff === 2) newOrd = cell.param;
         // Cxx = break to row
@@ -556,7 +587,7 @@ function processRow(when) {
         if (cell.eff === 20) {
             const p = cell.param;
             if (p >= 0x20) {
-                state.tempo = Math.max(32, Math.min(255, p));
+                state.tempo = clamp(p, 32, 255);
             } else if (p >= 0x10) {
                 chn.tempoSlide = p & 0x0F; // T1x: slide up per tick
             } else if (p >= 0x01) {
@@ -600,11 +631,11 @@ function processTickEffects(when) {
     for (let ch = 0; ch < 64; ch++) {
         const chn = state.channels[ch];
         if (chn.volSlide) {
-            chn.vol = Math.max(0, Math.min(64, chn.vol + chn.volSlide));
+            chn.vol = clamp(chn.vol + chn.volSlide, 0, 64);
             if (chn.gain) chn.gain.gain.setValueAtTime(computeVol(chn, mod, chn.smpVol), when || state.ctx.currentTime);
         }
         if (chn.tempoSlide) {
-            state.tempo = Math.max(32, Math.min(255, state.tempo + chn.tempoSlide));
+            state.tempo = clamp(state.tempo + chn.tempoSlide, 32, 255);
         }
     }
 }
@@ -1123,8 +1154,8 @@ if (COMPACT_MODE) {
 } else {
     document.getElementById('btnPlay').onclick = () => startPlay(false);
     document.getElementById('btnStop').onclick = () => { stopPlayback(); updateUI(); };
-    document.getElementById('inputSpeed').onchange = (e) => { state.speed = Math.max(1, Math.min(255, parseInt(e.target.value) || 6)); };
-    document.getElementById('inputTempo').onchange = (e) => { state.tempo = Math.max(32, Math.min(255, parseInt(e.target.value) || 125)); };
+    document.getElementById('inputSpeed').onchange = (e) => { state.speed = clamp(parseInt(e.target.value) || 6, 1, 255); };
+    document.getElementById('inputTempo').onchange = (e) => { state.tempo = clamp(parseInt(e.target.value) || 125, 32, 255); };
 
     document.getElementById('btnNewPat').onclick = () => {
         if (!state.mod) return;
@@ -1165,18 +1196,10 @@ if (COMPACT_MODE) {
         initAudio().then(() => {
             const smp = state.mod.samples[state.selectedSmp];
             if (!smp || !smp.data) { toast('No sample data'); return; }
-            const ab = buildAudioBuffer(smp);
-            if (!ab) return;
-            const rate = smp.c5speed || 22050;
-            const src = state.ctx.createBufferSource();
-            src.buffer = ab;
-            if (smp.loop && smp.loopEnd > smp.loopStart) {
-                src.loop = true;
-                if (smp._ppLoopStart != null) { src.loopStart = smp._ppLoopStart; src.loopEnd = smp._ppLoopEnd; }
-                else { src.loopStart = smp.loopStart / rate; src.loopEnd = smp.loopEnd / rate; }
-            }
-            const g = state.ctx.createGain(); g.gain.value = 0.5;
-            src.connect(g); g.connect(state.master); src.start();
+            const handle = previewSourceFor(smp);
+            if (!handle) return;
+            const src = handle.src;
+            src.start();
             if (state.previewSrc) try { state.previewSrc.stop(); } catch (_) {}
             state.previewSrc = src;
             if (!smp.loop) setTimeout(() => { try { src.stop(); } catch (_) {} }, 5000);
@@ -1201,21 +1224,10 @@ function pianoNoteOn(note) {
     if (!state.mod || !state.ctx) return;
     const smp = state.mod.samples[state.selectedSmp];
     if (!smp || !smp.data) return;
-    const ab = buildAudioBuffer(smp);
-    if (!ab) return;
-    const rate = smp.c5speed || 44100;
-    const src = state.ctx.createBufferSource();
-    src.buffer = ab;
-    if (smp.loop && smp.loopEnd > smp.loopStart) {
-        src.loop = true;
-        if (smp._ppLoopStart != null) { src.loopStart = smp._ppLoopStart; src.loopEnd = smp._ppLoopEnd; }
-        else { src.loopStart = smp.loopStart / rate; src.loopEnd = smp.loopEnd / rate; }
-    }
-    const g = state.ctx.createGain(); g.gain.value = 0.5;
-    src.connect(g); g.connect(state.master);
-    src.playbackRate.value = Math.pow(2, (note - 60) / 12);
-    src.start();
-    return { src, gain: g };
+    const handle = previewSourceFor(smp, note);
+    if (!handle) return null;
+    handle.src.start();
+    return handle;
 }
 
 function pianoNoteOff(handle) {
@@ -1293,10 +1305,10 @@ function currentFileIndex() {
     return IT_FILES.findIndex(f => f === currentItFile);
 }
 
-const HELP_HTML = '<div style="position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:200;display:flex;align-items:center;justify-content:center" id="helpOverlay" onclick="this.remove()">' +
-    '<div style="background:#0a0a14;border:1px solid #333;padding:16px 24px;max-width:540px;font-size:10px;line-height:1.8;color:#888" onclick="event.stopPropagation()">' +
-    '<div style="font-size:12px;color:#8c8;margin-bottom:8px;border-bottom:1px solid #222;padding-bottom:4px">Keyboard Shortcuts</div>' +
-    '<div style="display:grid;grid-template-columns:auto 1fr;gap:1px 12px">' +
+const HELP_HTML = '<div class="impulse-help-overlay" id="helpOverlay" onclick="this.remove()">' +
+    '<div class="impulse-help-dialog" onclick="event.stopPropagation()">' +
+    '<div class="impulse-help-title">Keyboard Shortcuts</div>' +
+    '<div class="impulse-help-grid">' +
     '<kbd>? / F1</kbd><span>This help</span>' +
     '<kbd>F2</kbd><span>Pattern editor</span>' +
     '<kbd>F3</kbd><span>Sample editor</span>' +
@@ -1318,12 +1330,12 @@ const HELP_HTML = '<div style="position:fixed;inset:0;background:rgba(0,0,0,.9);
     '<kbd>`</kbd><span>Note cut (===)</span>' +
     '<kbd>Alt+1</kbd><span>Note off (^^^)</span>' +
     '</div>' +
-    '<div style="color:#5a5;margin-top:8px;font-size:9px;border-top:1px solid #222;padding-top:4px">Piano (Sample/Instrument/Pattern panels):</div>' +
-    '<div style="font-size:9px;color:#556;line-height:1.6;margin-top:2px">' +
+    '<div class="impulse-help-subtitle">Piano (Sample/Instrument/Pattern panels):</div>' +
+    '<div class="impulse-help-piano">' +
     'Lower: Z S X D C V G B H N J M &nbsp; Upper: Q 2 W 3 E R 5 T 6 Y 7 U<br>' +
     '<kbd>,</kbd> <kbd>.</kbd> or <kbd>*</kbd> <kbd>/</kbd> change octave' +
     '</div>' +
-    '<div style="color:#333;margin-top:8px;font-size:9px">Esc or click to close</div></div></div>';
+    '<div class="impulse-help-close">Esc or click to close</div></div></div>';
 
 document.addEventListener('keydown', (e) => {
     if (impulseGeneration !== window.__industreeImpulseGeneration || !document.getElementById(mountId)) return;

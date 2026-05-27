@@ -42,15 +42,15 @@
             <div>
                 <div class="row"><span class="lbl">Instrument</span> <span class="val warn" id="ihInst">00</span>
                      &nbsp;<span class="lbl">Octave</span> <span class="val warn" id="ihOctave">4</span></div>
-                <div class="row"><span class="lbl">Spd</span> <input type="number" id="inputSpeed" min="1" max="255" value="6" style="width:32px;background:#0a0a14;border:1px solid #333;color:#8c8;font-family:inherit;font-size:11px;padding:0 2px;">
-                     <span class="lbl">Tmp</span> <input type="number" id="inputTempo" min="32" max="255" value="125" style="width:36px;background:#0a0a14;border:1px solid #333;color:#8c8;font-family:inherit;font-size:11px;padding:0 2px;"></div>
+                <div class="row"><span class="lbl">Spd</span> <input class="tracker-number-input tracker-speed-input" type="number" id="inputSpeed" min="1" max="255" value="6">
+                     <span class="lbl">Tmp</span> <input class="tracker-number-input tracker-tempo-input" type="number" id="inputTempo" min="32" max="255" value="125"></div>
                 <div class="row"><span class="lbl">Smp</span> <span class="val" id="ihSmpCount">00</span>
                      &nbsp;<span class="lbl">Ins</span> <span class="val" id="ihInsCount">00</span>
                      &nbsp;<span class="lbl">Time</span> <span class="val" id="ihTime">0:00:00</span></div>
             </div>
         </div>
         <div class="controls">
-            <input type="file" id="fileInput" accept=".it" style="display:none;">
+            <input class="tracker-file-input" type="file" id="fileInput" accept=".it">
             <button id="btnOpen">Open .it</button>
             <div class="sep"></div>
             <button id="btnPlay" disabled>F5 Play</button>
@@ -58,7 +58,7 @@
             <div class="sep"></div>
             <button id="btnNewPat" disabled>+ Pat</button>
             <div class="sep"></div>
-            <span style="color:#444;font-size:10px" id="statusMsg">F1..Help &nbsp; F5..Play &nbsp; F6..Pat &nbsp; F8..Stop &nbsp; F9..Load</span>
+            <span class="tracker-status-msg" id="statusMsg">F1..Help &nbsp; F5..Play &nbsp; F6..Pat &nbsp; F8..Stop &nbsp; F9..Load</span>
         </div>
         <div class="main">
             <div class="file-list" id="fileListPanel">
@@ -83,7 +83,7 @@
                         <div class="sample-detail">
                             <canvas class="waveform-canvas" id="waveCanvas"></canvas>
                             <div class="smp-info" id="smpInfo"></div>
-                            <button id="smpPreview" style="background:#111;border:1px solid #333;color:#8a8;padding:2px 8px;font-family:inherit;font-size:10px;cursor:pointer;">Preview (C-5)</button>
+                            <button class="tracker-secondary-button" id="smpPreview">Preview (C-5)</button>
                         </div>
                     </div>
                 </div>
@@ -91,7 +91,7 @@
                     <div class="inst-panel">
                         <div class="inst-list-wrap"><h3>Instruments</h3><div id="insList"></div></div>
                         <div class="inst-detail">
-                            <div id="insInfo" style="font-size:10px;color:#667;margin-bottom:4px;"></div>
+                            <div class="ins-info" id="insInfo"></div>
                             <div class="env-tabs">
                                 <button class="env-tab active" data-env="vol">Vol</button>
                                 <button class="env-tab" data-env="pan">Pan</button>
@@ -128,6 +128,6 @@
       <p><span data-footer>IndusTree was an experimental noise music band from Nijmegen. Static archive generated from the Drupal 6 export.</span> <a href="https://github.com/guaka/industree.org">View the repository</a>.</p>
     </div>
   </footer>
-  <script src="/assets/index.js?v=7" defer></script>
+  <script src="/assets/index.js?v=8" defer></script>
 </body>
 </html>

@@ -3,6 +3,9 @@
 *.log
 __pycache__/
 *.pyc
+node_modules/
+playwright-report/
+test-results/
 
 # Original Drupal 6 export and private/local configuration
 /industree.sql.gz

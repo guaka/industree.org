@@ -18,7 +18,17 @@
     status: "all",
     currentId: null,
     currentKind: "",
+    currentTarget: "",
   };
+  const DEFAULT_ARTIST = "IndusTree";
+  const IMPULSE_ARTIST = "Impulse Tracker";
+  const MUSIC_STATUSES = ["all", "audio", "it", "lyrics"];
+  const MUSIC_STATUS_FILTERS = new Set(MUSIC_STATUSES);
+  const MUSIC_STATUS_ALIASES = {
+    impulse: "it",
+  };
+  const MUSIC_PAGE_PATHS = new Set(["audio", "music", "lyrics", "impulse"]);
+  const STATIC_PATH_PREFIXES = ["/assets/", "/files/", "/bobimages/"];
 
   const escapeHtml = (value) => String(value ?? "")
     .replaceAll("&", "&amp;")
@@ -77,14 +87,21 @@
 
   const countLabel = (label, count) => `${label} (${count})`;
 
-  const musicStatusFilters = new Set(["all", "audio", "it", "lyrics"]);
+  const selectedAttr = (condition, name = "selected") => (condition ? ` ${name}` : "");
 
-  const musicStatusAliases = {
-    impulse: "it",
+  const isMusicPagePath = (path) => MUSIC_PAGE_PATHS.has(path);
+
+  const defaultMusicStatusForPath = (path) => {
+    if (path === "impulse") return "it";
+    if (path === "lyrics") return "lyrics";
+    return "all";
   };
 
+  const isStaticAssetPath = (pathname) =>
+    STATIC_PATH_PREFIXES.some((prefix) => pathname.startsWith(prefix));
+
   const musicHashFor = (status = "all", artist = "all") => {
-    const cleanStatus = musicStatusFilters.has(status) ? status : "all";
+    const cleanStatus = MUSIC_STATUS_FILTERS.has(status) ? status : "all";
     const cleanArtist = artist && artist !== "all" ? artist : "";
     const parts = [];
     if (cleanStatus !== "all") parts.push(cleanStatus);
@@ -98,13 +115,10 @@
   };
 
   const optionHtml = ([label, key, count], selected) =>
-    `<option value="${escapeHtml(key)}"${selected === key ? " selected" : ""}>${escapeHtml(countLabel(label, count))}</option>`;
+    `<option value="${escapeHtml(key)}"${selectedAttr(selected === key)}>${escapeHtml(countLabel(label, count))}</option>`;
 
   const musicFilterHtml = ([label, key, count]) =>
     `<a class="music-filter" href="${musicFilterHref(key, musicState.artist)}" data-music-status="${escapeHtml(key)}" aria-pressed="${musicState.status === key}">${escapeHtml(countLabel(label, count))}</a>`;
-
-  const musicStatHtml = (label, count) =>
-    `<span class="music-stat"><strong>${count}</strong>${escapeHtml(label)}</span>`;
 
   const slugLabel = (value) => String(value || "")
     .replace(/\.[^.]+$/, "")
@@ -113,7 +127,7 @@
     .replace(/\s+/g, " ")
     .trim();
 
-  const artistKeyFor = (artist) => String(artist || "IndusTree")
+  const artistKeyFor = (artist) => String(artist || DEFAULT_ARTIST)
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "") || "industree";
@@ -121,7 +135,7 @@
   const musicFilterStateFromHash = (defaultStatus = "all") => {
     const defaultState = {
       artist: "all",
-      status: musicStatusFilters.has(defaultStatus) ? defaultStatus : "all",
+      status: MUSIC_STATUS_FILTERS.has(defaultStatus) ? defaultStatus : "all",
     };
     if (!location.hash || location.hash.startsWith("#/")) return defaultState;
 
@@ -139,8 +153,8 @@
       .split(/[\/,+&\s]+/)
       .filter(Boolean)
       .reduce((state, token) => {
-        const status = musicStatusAliases[token] || token;
-        if (musicStatusFilters.has(status)) {
+        const status = MUSIC_STATUS_ALIASES[token] || token;
+        if (MUSIC_STATUS_FILTERS.has(status)) {
           state.status = status;
           if (status === "all") state.artist = "all";
         } else if (artistKeys.has(token)) {
@@ -167,8 +181,127 @@
     .join(" ")
     .toLowerCase();
 
+  const VERSION_WORDS = new Set([
+    "a",
+    "an",
+    "alternate",
+    "at",
+    "bass",
+    "demo",
+    "draft",
+    "edit",
+    "excerpt",
+    "first",
+    "live",
+    "mix",
+    "new",
+    "on",
+    "part",
+    "raw",
+    "remake",
+    "remix",
+    "rough",
+    "special",
+    "studio",
+    "take",
+    "the",
+    "version",
+    "with",
+  ]);
+
+  const splitWords = (value) => String(value || "")
+    .replace(/\.[^.]+$/, "")
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .toLowerCase()
+    .replace(/&/g, " and ")
+    .replace(/^\s*\(?\d{4}[-./]\d{1,2}[-./]\d{1,2}[a-z]?\)?\s*/, " ")
+    .replace(/^\s*\d+\s*[-._]+\s*/, " ")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((word) => ({
+      ii: "2",
+      iii: "3",
+      iv: "4",
+      vi: "6",
+      vii: "7",
+      viii: "8",
+      ix: "9",
+    })[word] || word);
+
+  const titleWords = (value) => {
+    let clean = String(value || "");
+    const beforeParen = clean.split("(")[0].trim();
+    if (beforeParen.length > 2) clean = beforeParen;
+    clean = clean.replace(/\bby\b.*$/i, "");
+    return splitWords(clean)
+      .filter((word) => !VERSION_WORDS.has(word));
+  };
+
+  const compactWords = (words) => words.join("");
+
+  const titleKeyFor = (value, fallback = "") => {
+    const compact = compactWords(titleWords(value));
+    return compact.length > 2 ? compact : compactWords(splitWords(fallback));
+  };
+
+  const fileKeyFor = (name) => {
+    const words = splitWords(name)
+      .filter((word) => !VERSION_WORDS.has(word));
+    if (words.length > 1 && /^[a-z0-9]$/.test(words[0])) words.shift();
+    const originalCompact = compactWords(words);
+    const startsWithDigit = /^\d/.test(originalCompact);
+    let compact = originalCompact.replace(/^\d+/, "");
+    if (!startsWithDigit && words.length === 1 && /^[a-z][a-z0-9]{4,}$/.test(compact)) {
+      compact = compact.replace(/^[a-z](?=[a-z]{4,})/, "");
+    }
+    return compact || compactWords(splitWords(name));
+  };
+
+  const similarityScore = (a, b) => {
+    a = String(a || "");
+    b = String(b || "");
+    if (!a || !b) return 0;
+    if (a === b) return 1;
+    if (a.includes(b) || b.includes(a)) return Math.min(a.length, b.length) / Math.max(a.length, b.length);
+    const previous = Array.from({ length: b.length + 1 }, (_, index) => index);
+    const current = Array.from({ length: b.length + 1 }, () => 0);
+    for (let i = 1; i <= a.length; i += 1) {
+      current[0] = i;
+      for (let j = 1; j <= b.length; j += 1) {
+        const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+        current[j] = Math.min(
+          previous[j] + 1,
+          current[j - 1] + 1,
+          previous[j - 1] + cost,
+        );
+      }
+      for (let j = 0; j <= b.length; j += 1) previous[j] = current[j];
+    }
+    return 1 - (previous[b.length] / Math.max(a.length, b.length));
+  };
+
+  const itFilesFor = (linked = {}) => (linked.itFiles || [])
+    .map(impulseFileByName)
+    .filter(Boolean);
+
+  const uniqueBy = (items, keyFor) => {
+    const seen = new Set();
+    return items.filter((item) => {
+      const key = keyFor(item);
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  };
+
+  const rememberItFiles = (files, usedItFiles) => {
+    for (const file of files) usedItFiles.add(file.name);
+  };
+
   const prepareMusicCatalog = () => {
-    const items = [];
+    const groups = new Map();
     const byPath = {};
     const byId = {};
     const usedLyrics = new Set();
@@ -176,28 +309,49 @@
     const lyricsByPath = new Map(nodesForList("lyrics").map((node) => [node.path, node]));
     const audioNodes = nodesForList("audio");
 
-    const addItem = (item) => {
-      items.push(item);
-      byId[item.id] = item;
-      byPath[normalizePath(item.path)] = item;
-      if (item.lyricsNode?.path && !byPath[normalizePath(item.lyricsNode.path)]) {
-        byPath[normalizePath(item.lyricsNode.path)] = item;
+    const groupKeyFor = (artistKey, title, fallbackPath, linked = {}) => {
+      if (linked.excludeGroup || linked.separate) {
+        return `${artistKeyFor(artistKey || DEFAULT_ARTIST)}:${normalizePath(fallbackPath).replace(/[^a-z0-9]+/gi, "")}`;
       }
+      const manualKey = linked.groupKey || linked.songKey || "";
+      const key = manualKey ? titleKeyFor(manualKey, fallbackPath) : titleKeyFor(title, fallbackPath);
+      return `${artistKeyFor(artistKey || DEFAULT_ARTIST)}:${key || normalizePath(fallbackPath).replace(/[^a-z0-9]+/gi, "")}`;
     };
 
-    for (const node of audioNodes) {
-      const linked = linkedMediaFor(node.path);
-      const lyricsPath = linked.lyricsPath || node.lyricsPath || "";
-      const lyricsNode = lyricsPath ? lyricsByPath.get(lyricsPath) : null;
-      if (lyricsNode) usedLyrics.add(lyricsNode.path);
-      const itFiles = (linked.itFiles || [])
-        .map(impulseFileByName)
-        .filter(Boolean);
-      for (const file of itFiles) usedItFiles.add(file.name);
+    const groupFor = (key, seed = {}) => {
+      if (!groups.has(key)) {
+        groups.set(key, {
+          id: `song-${key.replace(/[^a-z0-9]+/gi, "-").replace(/^-+|-+$/g, "")}`,
+          groupKey: key,
+          compactKey: key.split(":").slice(1).join(":"),
+          path: seed.path || "",
+          title: seed.title || "",
+          artist: seed.artist || DEFAULT_ARTIST,
+          artistKey: seed.artistKey || artistKeyFor(seed.artist || DEFAULT_ARTIST),
+          album: "",
+          date: "",
+          duration: "",
+          node: null,
+          audio: null,
+          lyricsNode: null,
+          audioVersions: [],
+          lyricsNodes: [],
+          itFiles: [],
+          noteNodes: [],
+          searchParts: [],
+        });
+      }
+      return groups.get(key);
+    };
+
+    const addPath = (item, path) => {
+      if (path) byPath[normalizePath(path)] = item;
+    };
+
+    const addAudioVersion = (group, node) => {
       const music = node.music || {};
-      const artist = music.artist || "IndusTree";
-      addItem({
-        id: `node-${node.id}`,
+      const artist = music.artist || DEFAULT_ARTIST;
+      const version = {
         node,
         path: node.path,
         title: node.title,
@@ -207,62 +361,146 @@
         date: node.date || "",
         duration: music.duration || "",
         audio: node.audio || null,
-        lyricsNode,
-        itFiles,
-        hasAudio: Boolean(node.audio?.source),
-        hasLyrics: Boolean(lyricsNode),
-        hasIt: itFiles.length > 0,
-        searchText: searchTextFor(node.title, artist, music.album, node.date, music.searchText, lyricsNode?.title, itFiles.map((file) => file.name)),
+      };
+      group.audioVersions.push(version);
+      group.searchParts.push(node.title, artist, music.album, node.date, music.searchText);
+      if (node.bodyHtml) group.noteNodes.push(node);
+    };
+
+    for (const node of audioNodes) {
+      const linked = linkedMediaFor(node.path);
+      const lyricsPath = linked.lyricsPath || node.lyricsPath || "";
+      const lyricsNode = lyricsPath ? lyricsByPath.get(lyricsPath) : null;
+      const music = node.music || {};
+      const artist = music.artist || DEFAULT_ARTIST;
+      const artistKey = music.artistKey || artistKeyFor(artist);
+      const group = groupFor(groupKeyFor(artistKey, node.title, node.path, linked), {
+        path: node.path,
+        title: node.title,
+        artist,
+        artistKey,
       });
+      addAudioVersion(group, node);
+      if (lyricsNode) {
+        usedLyrics.add(lyricsNode.path);
+        group.lyricsNodes.push(lyricsNode);
+        group.searchParts.push(lyricsNode.title);
+      }
+      const itFiles = itFilesFor(linked);
+      group.itFiles.push(...itFiles);
+      rememberItFiles(itFiles, usedItFiles);
     }
 
     for (const node of nodesForList("lyrics")) {
       if (usedLyrics.has(node.path)) continue;
       const linked = linkedMediaFor(node.path);
-      const itFiles = (linked.itFiles || [])
-        .map(impulseFileByName)
-        .filter(Boolean);
-      for (const file of itFiles) usedItFiles.add(file.name);
-      addItem({
-        id: `node-${node.id}`,
-        node,
+      const group = groupFor(groupKeyFor(DEFAULT_ARTIST, node.title, node.path, linked), {
         path: node.path,
         title: node.title,
-        artist: "IndusTree",
+        artist: DEFAULT_ARTIST,
         artistKey: "industree",
-        album: "",
-        date: node.date || "",
-        duration: "",
-        audio: null,
-        lyricsNode: node,
-        itFiles,
-        hasAudio: false,
-        hasLyrics: true,
-        hasIt: itFiles.length > 0,
-        searchText: searchTextFor(node.title, node.date, itFiles.map((file) => file.name)),
       });
+      group.lyricsNodes.push(node);
+      group.searchParts.push(node.title, node.date);
+      const itFiles = itFilesFor(linked);
+      group.itFiles.push(...itFiles);
+      rememberItFiles(itFiles, usedItFiles);
     }
+
+    const matchItGroup = (file) => {
+      const fileKey = fileKeyFor(file.name);
+      let best = null;
+      let secondBest = 0;
+      for (const group of groups.values()) {
+        if (!group.audioVersions.length && !group.lyricsNodes.length) continue;
+        const score = similarityScore(fileKey, group.compactKey);
+        if (!best || score > best.score) {
+          secondBest = best?.score || 0;
+          best = { group, score };
+        } else if (score > secondBest) {
+          secondBest = score;
+        }
+      }
+      if (!best) return null;
+      const strong = best.score >= 0.72;
+      const broad = best.score >= 0.58 && best.score - secondBest >= 0.04;
+      return strong || broad ? best.group : null;
+    };
 
     for (const file of archive.impulse?.files || []) {
       if (usedItFiles.has(file.name)) continue;
-      addItem({
-        id: `it-${file.name}`,
-        node: null,
+      const matchedGroup = matchItGroup(file);
+      if (matchedGroup) {
+        matchedGroup.itFiles.push(file);
+        matchedGroup.searchParts.push(file.name, slugLabel(file.name));
+        usedItFiles.add(file.name);
+        continue;
+      }
+      const key = `impulse-tracker:${fileKeyFor(file.name) || file.name.toLowerCase()}`;
+      const group = groupFor(key, {
         path: `impulse/${file.name}`,
         title: slugLabel(file.name) || file.name,
-        artist: "Impulse Tracker",
+        artist: IMPULSE_ARTIST,
         artistKey: "impulse-tracker",
-        album: "",
-        date: "",
-        duration: "",
-        audio: null,
-        lyricsNode: null,
-        itFiles: [file],
-        hasAudio: false,
-        hasLyrics: false,
-        hasIt: true,
-        searchText: searchTextFor(file.name, slugLabel(file.name), "Impulse Tracker"),
       });
+      group.itFiles.push(file);
+      group.searchParts.push(file.name, slugLabel(file.name), IMPULSE_ARTIST);
+    }
+
+    const primaryAudioRank = (version) => {
+      const title = version.title || "";
+      let score = 0;
+      if (!/^\s*\d+\s*[-._]/.test(title)) score += 20;
+      if (version.album) score += 10;
+      if (!/\blive\b/i.test(title)) score += 4;
+      if (!/\b(demo|draft|rough|alternate)\b/i.test(title)) score += 3;
+      return score;
+    };
+
+    const items = [...groups.values()]
+      .map((item) => {
+        item.audioVersions = uniqueBy(item.audioVersions, (version) => version.path);
+        item.lyricsNodes = uniqueBy(item.lyricsNodes, (node) => node.path);
+        item.itFiles = uniqueBy(item.itFiles, (file) => file.name);
+        item.noteNodes = uniqueBy(item.noteNodes, (node) => node.path)
+          .filter((node) => !item.lyricsNodes.some((lyrics) => lyrics.path === node.path));
+        const primaryAudio = item.audioVersions
+          .slice()
+          .sort((a, b) => primaryAudioRank(b) - primaryAudioRank(a))[0];
+        const primaryLyrics = item.lyricsNodes[0] || null;
+        item.node = primaryAudio?.node || primaryLyrics || null;
+        item.path = primaryAudio?.path || primaryLyrics?.path || `impulse/${item.itFiles[0]?.name || ""}`;
+        item.title = primaryAudio?.title || primaryLyrics?.title || slugLabel(item.itFiles[0]?.name) || item.title;
+        item.artist = primaryAudio?.artist || item.artist;
+        item.artistKey = primaryAudio?.artistKey || item.artistKey;
+        item.album = primaryAudio?.album || "";
+        item.date = primaryAudio?.date || "";
+        item.duration = primaryAudio?.duration || "";
+        item.audio = primaryAudio?.audio || null;
+        item.lyricsNode = primaryLyrics;
+        item.hasAudio = item.audioVersions.some((version) => version.audio?.source);
+        item.hasLyrics = item.lyricsNodes.length > 0;
+        item.hasIt = item.itFiles.length > 0;
+        item.searchText = searchTextFor(
+          item.title,
+          item.artist,
+          item.album,
+          item.date,
+          item.audioVersions.map((version) => [version.title, version.artist, version.album, version.date, version.duration]),
+          item.lyricsNodes.map((node) => node.title),
+          item.itFiles.map((file) => file.name),
+          item.searchParts,
+        );
+        return item;
+      })
+      .sort((a, b) => a.title.localeCompare(b.title));
+
+    for (const item of items) {
+      byId[item.id] = item;
+      addPath(item, item.path);
+      for (const version of item.audioVersions) addPath(item, version.path);
+      for (const node of item.lyricsNodes) addPath(item, node.path);
+      for (const file of item.itFiles) addPath(item, `impulse/${file.name}`);
     }
 
     archive.musicCatalog = items;
@@ -289,7 +527,7 @@
   });
 
   const ensureImpulseRuntime = () => {
-    const styleHref = new URL("impulse-player.css?v=2", assetBase).toString();
+    const styleHref = new URL("impulse-player.css?v=3", assetBase).toString();
     if (!document.querySelector(`link[href="${styleHref}"]`)) {
       const link = document.createElement("link");
       link.rel = "stylesheet";
@@ -297,7 +535,7 @@
       document.head.appendChild(link);
     }
     if (!impulseRuntimePromise) {
-      impulseRuntimePromise = loadScript(new URL("impulse-player.js?v=3", assetBase).toString());
+      impulseRuntimePromise = loadScript(new URL("impulse-player.js?v=4", assetBase).toString());
     }
     return impulseRuntimePromise;
   };
@@ -313,7 +551,7 @@
 </article>`;
   };
 
-  const audioPanelHtml = (node) => {
+  const audioPanelHtml = (node, item = null) => {
     const audio = node.audio;
     if (!audio) {
       return '<div class="audio-panel"><p>No audio metadata found.</p></div>';
@@ -321,7 +559,9 @@
 
     const chunks = ['<div class="audio-panel">'];
     if (audio.source) {
-      chunks.push(`<audio controls preload="metadata" src="${escapeHtml(audio.source)}"></audio>`);
+      if (item?.id) {
+        chunks.push(`<p><button class="button" type="button" data-track-id="${escapeHtml(item.id)}" data-track-kind="audio">Play audio</button></p>`);
+      }
       chunks.push(`<p><a class="button" href="${escapeHtml(audio.download || audio.source)}">Download audio</a></p>`);
       if (audio.mediaNote) {
         chunks.push(`<p class="media-note">${escapeHtml(audio.mediaNote)}</p>`);
@@ -341,50 +581,119 @@
     return chunks.join("");
   };
 
+  const countBadge = (label, count) => {
+    if (!count) return "";
+    return count > 1 ? `${label} x${count}` : label;
+  };
+
   const mediaBadgesHtml = (item) => [
-    item.hasAudio ? "Audio" : "",
-    item.hasIt ? "IT" : "",
-    item.hasLyrics ? "Lyrics" : "",
+    countBadge("Audio", item.audioVersions?.filter((version) => version.audio?.source).length || (item.hasAudio ? 1 : 0)),
+    countBadge("IT", item.itFiles?.length || (item.hasIt ? 1 : 0)),
+    countBadge("Lyrics", item.lyricsNodes?.length || (item.hasLyrics ? 1 : 0)),
   ].filter(Boolean)
     .map((label) => `<span class="media-badge">${escapeHtml(label)}</span>`)
     .join("");
 
-  const impulsePanelHtml = (item) => {
-    const file = item.itFiles?.[0];
-    if (!file) return "";
-    return `<section class="song-panel song-impulse-panel" aria-labelledby="song-impulse-title">
-  <div class="song-panel-head">
-    <h2 id="song-impulse-title">Impulse Tracker</h2>
-    <div class="song-panel-actions">
-      <button class="button" type="button" data-track-id="${escapeHtml(item.id)}" data-track-kind="it">Play IT</button>
-      <a class="button" href="${escapeHtml(file.url)}">Download ${escapeHtml(file.name)}</a>
-    </div>
+  const versionMetaHtml = (values) => {
+    const meta = values.filter(Boolean).join(" / ");
+    return meta ? `<p class="version-meta">${escapeHtml(meta)}</p>` : "";
+  };
+
+  const audioDetailValue = (audio, label) =>
+    audio.details?.find((detail) => detail.label === label)?.value || "";
+
+  const audioVersionRowHtml = (item, version) => {
+    const audio = version.audio || {};
+    const actions = audio.source
+      ? `<button class="button" type="button" data-track-id="${escapeHtml(item.id)}" data-track-kind="audio" data-track-target="${escapeHtml(version.path)}">Play</button>
+      <a class="button" href="${escapeHtml(audio.download || audio.source)}">Download</a>`
+      : '<span class="missing-media">Missing</span>';
+    const genre = audioDetailValue(audio, "Genre");
+    const length = audioDetailValue(audio, "Length") || version.duration || "";
+    const format = audioDetailValue(audio, "Restored format") || "";
+    const match = audioDetailValue(audio, "Restored match") || "";
+    return `<article class="song-version song-version-audio">
+  <div class="song-version-main">
+    <h3>${escapeHtml(version.title)}</h3>
+    ${versionMetaHtml([version.artist, version.album, version.date, genre])}
+    ${audio.mediaNote ? `<p class="media-note">${escapeHtml(audio.mediaNote)}</p>` : ""}
+    ${audio.missingMessage ? `<p class="missing-media">${escapeHtml(audio.missingMessage)}</p>` : ""}
   </div>
-  <p class="media-note">${escapeHtml(file.name)}</p>
+  <span class="song-version-cell">${escapeHtml(length || "-")}</span>
+  <span class="song-version-cell">${escapeHtml(format || "-")}</span>
+  <span class="song-version-cell">${escapeHtml(match || "-")}</span>
+  <div class="song-version-actions">${actions}</div>
+</article>`;
+  };
+
+  const itVersionRowHtml = (item, file) => `<article class="song-version song-version-it">
+  <div class="song-version-main">
+    <h3>${escapeHtml(file.name)}</h3>
+    <p class="version-meta">Impulse Tracker</p>
+  </div>
+  <span class="song-version-cell">-</span>
+  <span class="song-version-cell">IT</span>
+  <span class="song-version-cell">Original</span>
+  <div class="song-version-actions">
+    <button class="button" type="button" data-track-id="${escapeHtml(item.id)}" data-track-kind="it" data-track-target="${escapeHtml(file.name)}">Play</button>
+    <a class="button" href="${escapeHtml(file.url)}">Download</a>
+  </div>
+</article>`;
+
+  const versionsPanelHtml = (item) => {
+    const rows = [
+      ...(item.audioVersions || []).map((version) => audioVersionRowHtml(item, version)),
+      ...(item.itFiles || []).map((file) => itVersionRowHtml(item, file)),
+    ];
+    if (!rows.length) return "";
+    return `<section class="song-panel song-versions-panel" aria-labelledby="song-versions-title">
+  <h2 id="song-versions-title">Versions</h2>
+  <div class="song-version-list">
+    <div class="song-version song-version-head" aria-hidden="true">
+      <span>Title</span>
+      <span>Length</span>
+      <span>Format</span>
+      <span>Match</span>
+      <span>Actions</span>
+    </div>
+    ${rows.join("\n")}
+  </div>
 </section>`;
   };
 
   const lyricsPanelHtml = (item) => {
-    const lyrics = item.lyricsNode;
-    if (!lyrics?.bodyHtml) return "";
+    const lyricsNodes = (item.lyricsNodes?.length ? item.lyricsNodes : [item.lyricsNode])
+      .filter((node) => node?.bodyHtml);
+    if (!lyricsNodes.length) return "";
+    const content = lyricsNodes.map((lyrics, index) => {
+      const heading = lyricsNodes.length > 1 ? `<h3>${escapeHtml(lyrics.title)}</h3>` : "";
+      return `${heading}<div class="content">${lyrics.bodyHtml}</div>${index < lyricsNodes.length - 1 ? '<hr class="song-panel-separator">' : ""}`;
+    }).join("\n");
     return `<section class="song-panel song-lyrics-panel" aria-labelledby="song-lyrics-title">
   <h2 id="song-lyrics-title">Lyrics</h2>
-  <div class="content">${lyrics.bodyHtml}</div>
+  ${content}
 </section>`;
   };
 
+  const notesPanelHtml = (item) => {
+    const nodes = (item.noteNodes?.length ? item.noteNodes : [item.node])
+      .filter((node) => node?.bodyHtml && !item.lyricsNodes?.some((lyrics) => lyrics.path === node.path));
+    if (!nodes.length) return "";
+    const content = nodes.map((node) => {
+      const heading = nodes.length > 1 ? `<h3>${escapeHtml(node.title)}</h3>` : "";
+      return `${heading}<div class="content">${node.bodyHtml}</div>`;
+    }).join("\n");
+    return `<section class="song-panel song-notes-panel"><h2>Notes</h2>${content}</section>`;
+  };
+
   const songHtml = (item) => {
-    const node = item.node;
     const chunks = [`<article class="node node-song">`, `<h1>${escapeHtml(item.title)}</h1>`];
-    const meta = [item.artist, item.album, item.date, item.duration].filter(Boolean).join(" / ");
+    const meta = [item.artist, item.album, item.date].filter(Boolean).join(" / ");
     if (meta) chunks.push(`<p class="meta">${escapeHtml(meta)}</p>`);
     chunks.push(`<div class="song-media-badges">${mediaBadgesHtml(item)}</div>`);
-    if (item.audio) chunks.push(audioPanelHtml({ audio: item.audio }));
-    if (item.hasIt) chunks.push(impulsePanelHtml(item));
+    chunks.push(versionsPanelHtml(item));
     if (item.hasLyrics) chunks.push(lyricsPanelHtml(item));
-    if (node?.bodyHtml && node.path !== item.lyricsNode?.path) {
-      chunks.push(`<section class="song-panel song-notes-panel"><h2>Notes</h2><div class="content">${node.bodyHtml}</div></section>`);
-    }
+    chunks.push(notesPanelHtml(item));
     chunks.push("</article>");
     return chunks.join("\n");
   };
@@ -440,12 +749,36 @@
   const artistCounts = (nodes) => {
     const counts = new Map();
     for (const node of nodes) {
-      const artist = node.artist || node.music?.artist || "IndusTree";
+      const artist = node.artist || node.music?.artist || DEFAULT_ARTIST;
       counts.set(artist, (counts.get(artist) || 0) + 1);
     }
     return [...counts.entries()]
       .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
   };
+
+  const trackKindFor = (item, requestedKind = musicState.currentKind) => {
+    if (requestedKind === "it" && item.hasIt) return "it";
+    return item.hasAudio ? "audio" : "it";
+  };
+
+  const audioVersionFor = (item, target = "") =>
+    item.audioVersions?.find((version) => version.path === target && version.audio?.source)
+    || item.audioVersions?.find((version) => version.audio?.source)
+    || null;
+
+  const itFileFor = (item, target = "") =>
+    item.itFiles?.find((file) => file.name === target)
+    || item.itFiles?.[0]
+    || null;
+
+  const defaultTargetFor = (item, kind) => (kind === "it"
+    ? itFileFor(item)?.name || ""
+    : audioVersionFor(item)?.path || "");
+
+  const playerKeyFor = (item, kind, target = "") => `${item.id}:${kind}:${target || defaultTargetFor(item, kind)}`;
+
+  const playMixtapeAudio = (host) =>
+    host.querySelector("[data-mixtape-audio]")?.play().catch(() => {});
 
   const nodeMatchesMusicState = (item) => {
     if (musicState.status === "audio" && !item.hasAudio) return false;
@@ -461,11 +794,13 @@
     const isActive = item.id === musicState.currentId;
     const detail = routeHref(item.path);
     const album = item.album ? ` / ${escapeHtml(item.album)}` : "";
-    const sideText = item.duration || item.date || (item.itFiles?.[0]?.name ?? "");
+    const versionCount = (item.audioVersions?.length || 0) + (item.itFiles?.length || 0);
+    const sideText = versionCount > 1 ? `${versionCount} versions` : item.duration || item.date || (item.itFiles?.[0]?.name ?? "");
     const canPlay = item.hasAudio || item.hasIt;
-    const rowKind = musicState.status === "it" && item.hasIt ? "it" : item.hasAudio ? "audio" : "it";
+    const rowKind = trackKindFor(item, musicState.status);
+    const rowTarget = defaultTargetFor(item, rowKind);
     const control = canPlay
-      ? `<button class="track-load" type="button" data-track-id="${escapeHtml(item.id)}" data-track-kind="${escapeHtml(rowKind)}" aria-label="Play ${escapeHtml(item.title)}">${escapeHtml(rowKind === "audio" ? ">" : "IT")}</button>`
+      ? `<button class="track-load" type="button" data-track-id="${escapeHtml(item.id)}" data-track-kind="${escapeHtml(rowKind)}" data-track-target="${escapeHtml(rowTarget)}" aria-label="Play ${escapeHtml(item.title)}">${escapeHtml(rowKind === "audio" ? ">" : "IT")}</button>`
       : `<span class="track-missing-mark" aria-hidden="true">${escapeHtml(item.hasIt ? "IT" : item.hasLyrics ? "Ly" : "-")}</span>`;
     return `<article class="mixtape-track${canPlay ? "" : " is-missing"}${isActive ? " is-active" : ""}">
   ${control}
@@ -481,15 +816,15 @@
 </article>`;
   };
 
-  const audioPlayerHtml = (item) => {
-    const duration = item.duration ? ` / ${item.duration}` : "";
-    const source = item.audio?.source || "";
-    const download = item.audio?.download || source;
+  const audioPlayerHtml = (item, version) => {
+    const duration = version.duration ? ` / ${version.duration}` : "";
+    const source = version.audio?.source || "";
+    const download = version.audio?.download || source;
     return `<aside class="bottom-player" aria-label="Music player">
   <div class="bottom-player-inner">
     <div>
-      <strong class="bottom-player-title">${escapeHtml(item.title)}</strong>
-      <span class="bottom-player-meta">${escapeHtml(item.artist + duration)}</span>
+      <strong class="bottom-player-title">${escapeHtml(version.title || item.title)}</strong>
+      <span class="bottom-player-meta">${escapeHtml((version.artist || item.artist) + duration)}</span>
     </div>
     <audio controls preload="metadata" src="${escapeHtml(source)}" data-mixtape-audio></audio>
     <div><a href="${escapeHtml(download)}" download>Download</a></div>
@@ -538,13 +873,15 @@
       return;
     }
 
-    const kind = musicState.currentKind === "it" && item.hasIt ? "it" : item.hasAudio ? "audio" : "it";
-    const file = kind === "it" ? item.itFiles?.[0] : null;
-    const key = kind === "audio" ? item.id : file?.name;
+    const kind = trackKindFor(item);
+    const target = musicState.currentTarget || defaultTargetFor(item, kind);
+    const version = kind === "audio" ? audioVersionFor(item, target) : null;
+    const file = kind === "it" ? itFileFor(item, target) : null;
+    const key = playerKeyFor(item, kind, target);
     document.body.classList.add("has-mixtape-player");
 
     if (persistentPlayer.kind === kind && persistentPlayer.key === key) {
-      if (autoplay && kind === "audio") host.querySelector("[data-mixtape-audio]")?.play().catch(() => {});
+      if (autoplay && kind === "audio") playMixtapeAudio(host);
       return;
     }
 
@@ -552,11 +889,13 @@
     persistentPlayer = { kind, key };
 
     if (kind === "audio") {
-      host.innerHTML = audioPlayerHtml(item);
-      if (autoplay) host.querySelector("[data-mixtape-audio]")?.play().catch(() => {});
+      if (!version) return;
+      host.innerHTML = audioPlayerHtml(item, version);
+      if (autoplay) playMixtapeAudio(host);
       return;
     }
 
+    if (!file) return;
     host.innerHTML = impulsePlayerHtml(item, file);
     ensureImpulseRuntime()
       .then(() => {
@@ -606,12 +945,6 @@
     <div>
       <h1>Music</h1>
       <p class="lede">Songs, lyrics, restored audio, and original Impulse Tracker files from the IndusTree orbit.</p>
-    </div>
-    <div class="music-stats" aria-label="Music archive stats">
-      ${musicStatHtml("Audio", withAudio.length)}
-      ${musicStatHtml("IT", withIt.length)}
-      ${musicStatHtml("Lyrics", withLyrics.length)}
-      ${musicStatHtml("Artists", artists.length)}
     </div>
   </div>
   <div class="music-tools">
@@ -666,13 +999,11 @@
   const renderRoute = () => {
     const path = canonicalPath(currentRoutePath());
     const songItem = archive.musicItemsByPath?.[path];
-    const isMusicPage = path === "audio" || path === "music" || path === "lyrics" || path === "impulse";
     renderNav(path);
 
     if (!path) return renderHome();
-    if (isMusicPage) {
-      const defaultStatus = path === "impulse" ? "it" : path === "lyrics" ? "lyrics" : "all";
-      applyMusicFilterHash(defaultStatus);
+    if (isMusicPagePath(path)) {
+      applyMusicFilterHash(defaultMusicStatusForPath(path));
       return renderAudioList();
     }
     if (songItem) return renderSongPage(songItem);
@@ -703,9 +1034,7 @@
         || (!itemPath && !currentPath)
         || (itemPath === "audio" && (
           !currentPath
-          || currentPath === "music"
-          || currentPath === "lyrics"
-          || currentPath === "impulse"
+          || isMusicPagePath(currentPath)
           || currentPath.startsWith("audio/")
           || currentPath.startsWith("lyrics/")
           || currentPath.startsWith("impulse/")
@@ -718,12 +1047,14 @@
     nav.innerHTML = `<ul>${items.join("\n")}</ul>`;
   };
 
-  const selectTrack = (id, shouldPlay = true, requestedKind = "") => {
+  const selectTrack = (id, shouldPlay = true, requestedKind = "", requestedTarget = "") => {
     const item = archive.musicItemsById[id];
     if (!item || (!item.hasAudio && !item.hasIt)) return;
+    const kind = trackKindFor(item, requestedKind);
     musicState.currentId = id;
-    musicState.currentKind = requestedKind === "it" && item.hasIt ? "it" : item.hasAudio ? "audio" : "it";
-    if (canonicalPath(currentRoutePath()) === "audio" || canonicalPath(currentRoutePath()) === "music" || canonicalPath(currentRoutePath()) === "lyrics" || canonicalPath(currentRoutePath()) === "impulse") {
+    musicState.currentKind = kind;
+    musicState.currentTarget = requestedTarget || defaultTargetFor(item, kind);
+    if (isMusicPagePath(canonicalPath(currentRoutePath()))) {
       renderAudioList();
     }
     updatePersistentPlayer({ autoplay: shouldPlay });
@@ -763,7 +1094,7 @@
     const trackTrigger = event.target.closest("[data-track-id]");
     if (trackTrigger && !event.target.closest("a[href]")) {
       event.preventDefault();
-      selectTrack(trackTrigger.dataset.trackId, true, trackTrigger.dataset.trackKind);
+      selectTrack(trackTrigger.dataset.trackId, true, trackTrigger.dataset.trackKind, trackTrigger.dataset.trackTarget);
       return;
     }
 
@@ -772,7 +1103,7 @@
 
     const url = new URL(link.href, location.href);
     if (url.origin !== location.origin) return;
-    if (url.pathname.startsWith("/assets/") || url.pathname.startsWith("/files/") || url.pathname.startsWith("/bobimages/")) return;
+    if (isStaticAssetPath(url.pathname)) return;
     if (!url.pathname.startsWith("/impulse/") && /\.[a-z0-9]{2,5}$/i.test(url.pathname) && !url.pathname.endsWith("/index.html")) return;
 
     event.preventDefault();

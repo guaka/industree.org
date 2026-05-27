@@ -30,7 +30,6 @@ a { color: var(--accent-dark); }
 a:hover { color: var(--accent); }
 
 .primary-nav a,
-.music-stat,
 .music-search input,
 .music-filter,
 .track-load,
@@ -224,28 +223,6 @@ h2 { font-size: 24px; }
 
 .music-hero p {
   margin: 0;
-}
-
-.music-stats {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-}
-
-.music-stat {
-  min-width: 78px;
-  padding: 6px 8px;
-  color: var(--muted);
-  text-align: center;
-  line-height: 1.15;
-}
-
-.music-stat strong {
-  display: block;
-  color: var(--ink);
-  font-size: 18px;
-  line-height: 1;
 }
 
 .music-tools {
@@ -481,6 +458,83 @@ h2 { font-size: 24px; }
   flex-wrap: wrap;
   gap: 8px;
   justify-content: flex-end;
+}
+
+.song-version-list {
+  display: grid;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.song-version {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) 70px 74px 92px minmax(150px, auto);
+  gap: 10px;
+  align-items: center;
+  padding: 8px 10px;
+  background: var(--surface);
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+
+.song-version:first-child {
+  border-top: 0;
+}
+
+.song-version-head {
+  color: var(--muted);
+  background: var(--panel);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.song-version h3 {
+  margin: 0;
+  color: var(--accent-dark);
+  font-size: 16px;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.version-meta {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.25;
+}
+
+.song-version .media-note,
+.song-version .missing-media {
+  margin: 4px 0 0;
+  font-size: 13px;
+  line-height: 1.25;
+}
+
+.song-version-cell {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.25;
+}
+
+.song-version-actions {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.song-version-actions .button {
+  padding: 6px 9px;
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+.song-panel-separator {
+  margin: 18px 0;
+  border: 0;
+  border-top: 1px solid var(--line);
 }
 
 .song-lyrics-panel .content p:first-child,
@@ -726,7 +780,6 @@ h2 { font-size: 24px; }
     grid-template-columns: 1fr;
   }
 
-  .music-stats,
   .music-results-head {
     justify-content: flex-start;
   }
@@ -783,6 +836,23 @@ h2 { font-size: 24px; }
   .song-panel-head {
     display: grid;
     justify-items: start;
+  }
+
+  .song-version {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .song-version-head {
+    display: none;
+  }
+
+  .song-version-cell {
+    display: none;
+  }
+
+  .song-version-actions {
+    justify-content: flex-start;
   }
 
   .bottom-player {

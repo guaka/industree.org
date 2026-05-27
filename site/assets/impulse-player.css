@@ -26,6 +26,18 @@
 .impulse-player-mount .controls button:disabled { opacity: 0.3; cursor: default; }
 .impulse-player-mount .controls button.active { background: #2a2a50; border-color: #66a; color: #ddd; }
 .impulse-player-mount .controls .sep { width: 1px; height: 16px; background: #333; margin: 0 2px; }
+.impulse-player-mount .tracker-file-input { display: none; }
+.impulse-player-mount .tracker-number-input {
+            background: #0a0a14; border: 1px solid #333; color: #8c8;
+            font-family: inherit; font-size: 11px; padding: 0 2px;
+        }
+.impulse-player-mount .tracker-speed-input { width: 32px; }
+.impulse-player-mount .tracker-tempo-input { width: 36px; }
+.impulse-player-mount .tracker-status-msg { color: #444; font-size: 10px; }
+.impulse-player-mount .tracker-secondary-button {
+            background: #111; border: 1px solid #333; color: #8a8; padding: 2px 8px;
+            font-family: inherit; font-size: 10px; cursor: pointer;
+        }
 .impulse-player-mount /* ── Main area ─────────────────────────────── */
         .main { flex: 1; display: flex; overflow: hidden; min-height: 0; }
 .impulse-player-mount .file-list {
@@ -106,6 +118,7 @@
         .inst-panel { flex: 1; overflow: auto; padding: 6px; display: flex; gap: 8px; }
 .impulse-player-mount .inst-list-wrap { width: 200px; min-width: 200px; overflow-y: auto; }
 .impulse-player-mount .inst-list-wrap h3 { font-size: 10px; color: #444; margin-bottom: 4px; }
+.impulse-player-mount .ins-info { color: #667; font-size: 10px; margin-bottom: 4px; }
 .impulse-player-mount .ins-item { padding: 2px 4px; font-size: 10px; color: #667; cursor: pointer; display: flex; gap: 4px; }
 .impulse-player-mount .ins-item:hover { background: #111; color: #999; }
 .impulse-player-mount .ins-item.active { background: #0c0c20; color: #8c8; }
@@ -338,4 +351,59 @@
   background: #0f101b;
   border-color: #3d3c4d;
   font-size: 12px;
+}
+
+.impulse-help-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.9);
+}
+
+.impulse-help-dialog {
+  max-width: 540px;
+  padding: 16px 24px;
+  color: #888;
+  background: #0a0a14;
+  border: 1px solid #333;
+  font-size: 10px;
+  line-height: 1.8;
+}
+
+.impulse-help-title {
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+  color: #8c8;
+  border-bottom: 1px solid #222;
+  font-size: 12px;
+}
+
+.impulse-help-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1px 12px;
+}
+
+.impulse-help-subtitle {
+  margin-top: 8px;
+  padding-top: 4px;
+  color: #5a5;
+  border-top: 1px solid #222;
+  font-size: 9px;
+}
+
+.impulse-help-piano {
+  margin-top: 2px;
+  color: #556;
+  font-size: 9px;
+  line-height: 1.6;
+}
+
+.impulse-help-close {
+  margin-top: 8px;
+  color: #333;
+  font-size: 9px;
 }

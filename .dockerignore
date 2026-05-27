@@ -1,0 +1,20 @@
+.git
+.DS_Store
+node_modules
+playwright-report
+test-results
+*.log
+
+# Large archive/source-recovery inputs are not needed by the static-site tests.
+bobimages
+files
+impulse
+media
+mp3
+themes
+deploy
+*.sql.gz
+playlist*.xml
+default.settings.php
+drushrc.php
+settings.php

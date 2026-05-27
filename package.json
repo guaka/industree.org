@@ -1,0 +1,12 @@
+{
+  "name": "industree-static-archive",
+  "private": true,
+  "scripts": {
+    "test": "npm run test:syntax && npm run test:smoke",
+    "test:smoke": "playwright test",
+    "test:syntax": "node --check site/assets/index.js && node --check site/assets/impulse-player.js"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.56.1"
+  }
+}

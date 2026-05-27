@@ -18,6 +18,16 @@ The Music page groups playable tracks first, then lists archive entries that sti
 
 Audio links in `site/assets/site-data.json` point to `https://audio.industree.org/audio/...`. Impulse Tracker files point to `https://audio.industree.org/itfiles/...`.
 
+## Tests
+
+The npm/Playwright tooling runs in Docker so local development does not need `node_modules` or npm cache writes on the host:
+
+```sh
+./scripts/test_docker.sh
+```
+
+The container runs JavaScript syntax checks and Playwright smoke tests against `dev.sh`. If Docker is not already running, start Docker Desktop or the local Docker daemon first.
+
 ## GitHub Pages
 
 In the repository settings, set Pages to deploy from GitHub Actions. The `.github/workflows/pages.yml` workflow prepares a Pages artifact from `site/` and generates `404.html` from `index.html`. The `site/.nojekyll` file is included so GitHub Pages serves the archive as plain static files.
