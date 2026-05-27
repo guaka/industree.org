@@ -29,6 +29,31 @@
   };
   const MUSIC_PAGE_PATHS = new Set(["audio", "music", "lyrics", "impulse"]);
   const STATIC_PATH_PREFIXES = ["/assets/", "/files/", "/bobimages/"];
+  const GENERIC_ALBUM_TITLES = new Set(["", "album"]);
+  const ALBUM_ALIASES = {};
+  const ALBUM_TRACKLISTS = {
+    "causalidox:promo-electronic-music-for-your-mind": [
+      "brightideasdarkly",
+      "inhindsight",
+      "darkcountryblues",
+      "limitedassumption",
+      "secondorgasm",
+      "cottonhead",
+    ],
+    "causalidox:autumnland": [
+      "duskapproaches",
+      "metalforestwhispers",
+      "thetruedissolve",
+    ],
+    "industree:the-metro-mind-ep-1997": [
+      "metromind",
+      "noisy2",
+      "leftalone",
+    ],
+  };
+  const ALBUM_EXCLUSIONS = new Set([
+    "industree:chinchilla-recordings-of-shit",
+  ]);
 
   const escapeHtml = (value) => String(value ?? "")
     .replaceAll("&", "&amp;")
@@ -90,6 +115,11 @@
   const selectedAttr = (condition, name = "selected") => (condition ? ` ${name}` : "");
 
   const isMusicPagePath = (path) => MUSIC_PAGE_PATHS.has(path);
+
+  const slugFor = (value) => String(value || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 
   const defaultMusicStatusForPath = (path) => {
     if (path === "impulse") return "it";
@@ -508,6 +538,139 @@
     archive.musicItemsById = byId;
   };
 
+  const albumTitleFor = (rawTitle = "") => {
+    const trimmed = String(rawTitle || "").trim();
+    return ALBUM_ALIASES[trimmed] || trimmed;
+  };
+
+  const isInformativeAlbumTitle = (title, artist = "") => {
+    const clean = albumTitleFor(title);
+    const lower = clean.toLowerCase();
+    if (GENERIC_ALBUM_TITLES.has(lower)) return false;
+    if (/^https?:\/\//i.test(clean) || lower.includes("303.nu")) return false;
+    if ((clean.match(/\(/g) || []).length !== (clean.match(/\)/g) || []).length) return false;
+    const key = `${artistKeyFor(artist)}:${slugFor(clean)}`;
+    if (ALBUM_EXCLUSIONS.has(key)) return false;
+    return Boolean(clean);
+  };
+
+  const parseDurationSeconds = (duration = "") => {
+    const parts = String(duration || "")
+      .split(":")
+      .map((part) => Number(part));
+    if (parts.some((part) => !Number.isFinite(part))) return 0;
+    if (parts.length === 2) return parts[0] * 60 + parts[1];
+    if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
+    return 0;
+  };
+
+  const formatDuration = (seconds) => {
+    if (!seconds) return "";
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+    if (hours) return `${hours}:${String(minutes).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+    return `${minutes}:${String(secs).padStart(2, "0")}`;
+  };
+
+  const yearFor = (...values) => {
+    for (const value of values) {
+      const match = String(value || "").match(/\b(19|20)\d{2}\b/);
+      if (match) return match[0];
+    }
+    return "";
+  };
+
+  const trackNumberFor = (title = "") => {
+    const match = String(title || "").match(/^\s*(\d+)\s*[-._]/);
+    return match ? Number(match[1]) : 0;
+  };
+
+  const albumVersionFor = (item, albumTitle) =>
+    item.audioVersions?.find((version) => albumTitleFor(version.album) === albumTitle && version.audio?.source)
+    || item.audioVersions?.find((version) => albumTitleFor(version.album) === albumTitle)
+    || audioVersionFor(item)
+    || null;
+
+  const prepareAlbumCatalog = () => {
+    const albums = new Map();
+    const byPath = {};
+    for (const item of archive.musicCatalog || []) item.albumRefs = [];
+
+    const albumFor = (artist, title) => {
+      const artistKey = artistKeyFor(artist);
+      const cleanTitle = albumTitleFor(title);
+      const key = `${artistKey}:${slugFor(cleanTitle)}`;
+      if (!albums.has(key)) {
+        albums.set(key, {
+          id: key,
+          key,
+          title: cleanTitle,
+          artist,
+          artistKey,
+          path: `albums/${artistKey}/${slugFor(cleanTitle)}`,
+          tracks: [],
+          searchText: searchTextFor(cleanTitle, artist),
+          year: yearFor(cleanTitle),
+          durationSeconds: 0,
+        });
+      }
+      return albums.get(key);
+    };
+
+    for (const item of archive.musicCatalog || []) {
+      const seenAlbumKeys = new Set();
+      for (const version of item.audioVersions || []) {
+        const albumTitle = albumTitleFor(version.album);
+        if (!isInformativeAlbumTitle(albumTitle, version.artist || item.artist)) continue;
+        const album = albumFor(version.artist || item.artist, albumTitle);
+        if (seenAlbumKeys.has(album.key)) continue;
+        seenAlbumKeys.add(album.key);
+        album.tracks.push({
+          item,
+          version: albumVersionFor(item, album.title),
+          titleKey: titleKeyFor(item.title, item.path),
+          sourceIndex: version.node?.id || 0,
+        });
+        album.searchText = searchTextFor(album.searchText, item.title, version.title, version.date);
+        album.year ||= yearFor(version.date);
+      }
+    }
+
+    const albumList = [...albums.values()]
+      .filter((album) => album.tracks.length >= 2 && !ALBUM_EXCLUSIONS.has(album.key))
+      .map((album) => {
+        const manual = ALBUM_TRACKLISTS[album.key] || [];
+        album.tracks = uniqueBy(album.tracks, (track) => track.item.id)
+          .sort((a, b) => {
+            const manualA = manual.indexOf(a.titleKey);
+            const manualB = manual.indexOf(b.titleKey);
+            if (manualA !== -1 || manualB !== -1) return (manualA === -1 ? 999 : manualA) - (manualB === -1 ? 999 : manualB);
+            const numberA = trackNumberFor(a.version?.title || a.item.title);
+            const numberB = trackNumberFor(b.version?.title || b.item.title);
+            if (numberA || numberB) return (numberA || 999) - (numberB || 999);
+            return a.sourceIndex - b.sourceIndex || a.item.title.localeCompare(b.item.title);
+          })
+          .map((track, index) => ({ ...track, number: index + 1 }));
+        album.durationSeconds = album.tracks.reduce((total, track) => total + parseDurationSeconds(track.version?.duration), 0);
+        album.trackCount = album.tracks.length;
+        return album;
+      })
+      .sort((a, b) => a.artist.localeCompare(b.artist) || (a.year || "9999").localeCompare(b.year || "9999") || a.title.localeCompare(b.title));
+
+    for (const album of albumList) {
+      byPath[normalizePath(album.path)] = album;
+      for (const track of album.tracks) {
+        if (!track.item.albumRefs.some((ref) => ref.key === album.key)) {
+          track.item.albumRefs.push(album);
+        }
+      }
+    }
+
+    archive.albumCatalog = albumList;
+    archive.albumsByPath = byPath;
+  };
+
   let impulseRuntimePromise;
 
   const loadScript = (src) => new Promise((resolve, reject) => {
@@ -686,11 +849,19 @@
     return `<section class="song-panel song-notes-panel"><h2>Notes</h2>${content}</section>`;
   };
 
+  const albumLinksHtml = (item) => {
+    if (!item.albumRefs?.length) return "";
+    return `<p class="related album-links">Album: ${item.albumRefs
+      .map((album) => `<a href="${routeHref(album.path)}">${escapeHtml(album.title)}</a>`)
+      .join(", ")}</p>`;
+  };
+
   const songHtml = (item) => {
     const chunks = [`<article class="node node-song">`, `<h1>${escapeHtml(item.title)}</h1>`];
     const meta = [item.artist, item.album, item.date].filter(Boolean).join(" / ");
     if (meta) chunks.push(`<p class="meta">${escapeHtml(meta)}</p>`);
     chunks.push(`<div class="song-media-badges">${mediaBadgesHtml(item)}</div>`);
+    chunks.push(albumLinksHtml(item));
     chunks.push(versionsPanelHtml(item));
     if (item.hasLyrics) chunks.push(lyricsPanelHtml(item));
     chunks.push(notesPanelHtml(item));
@@ -744,6 +915,58 @@
   ${lede ? `<p class="lede">${escapeHtml(lede.replace("{count}", nodes.length))}</p>` : ""}
   <div class="cards compact">${nodes.map((node) => cardHtml(node, true)).join("\n")}</div>
 </section>`;
+  };
+
+  const renderAlbumList = () => {
+    const albums = archive.albumCatalog || [];
+    const artists = new Set(albums.map((album) => album.artist));
+    setMeta("Albums");
+    app.innerHTML = `<section class="page albums-page">
+  <div class="music-hero">
+    <div>
+      <h1>Albums</h1>
+      <p class="lede">Reconstructed releases, EPs, collections, and sessions from the music archive.</p>
+    </div>
+  </div>
+  <section class="album-list" aria-labelledby="album-list-title">
+    <div class="music-results-head">
+      <h2 id="album-list-title">Albums</h2>
+      <span>${albums.length} albums / ${artists.size} artists</span>
+    </div>
+    <div class="album-table">
+      <div class="album-row album-row-head" aria-hidden="true">
+        <span>Album</span>
+        <span>Year</span>
+        <span>Tracks</span>
+        <span>Length</span>
+      </div>
+      ${albums.map(albumListRowHtml).join("\n")}
+    </div>
+  </section>
+</section>`;
+  };
+
+  const renderAlbumPage = (album) => {
+    const duration = formatDuration(album.durationSeconds);
+    const meta = [album.artist, album.year, `${album.trackCount} tracks`, duration].filter(Boolean).join(" / ");
+    setMeta(album.title, `${album.title} by ${album.artist}`);
+    app.innerHTML = `<article class="node node-album">
+  <h1>${escapeHtml(album.title)}</h1>
+  ${meta ? `<p class="meta">${escapeHtml(meta)}</p>` : ""}
+  <section class="song-panel album-track-panel" aria-labelledby="album-tracklist-title">
+    <h2 id="album-tracklist-title">Tracklist</h2>
+    <div class="album-track-list">
+      <div class="album-track album-track-head" aria-hidden="true">
+        <span>#</span>
+        <span>Title</span>
+        <span>Length</span>
+        <span>Format</span>
+        <span>Actions</span>
+      </div>
+      ${album.tracks.map((track) => albumTrackRowHtml(album, track)).join("\n")}
+    </div>
+  </section>
+</article>`;
   };
 
   const artistCounts = (nodes) => {
@@ -812,6 +1035,41 @@
     <span>${escapeHtml(sideText)}</span>
     <span class="track-status">${mediaBadgesHtml(item)}</span>
     <a class="track-detail" href="${detail}">Open</a>
+  </div>
+</article>`;
+  };
+
+  const albumListRowHtml = (album) => {
+    const duration = formatDuration(album.durationSeconds);
+    return `<article class="album-row">
+  <div class="album-main">
+    <a class="album-title" href="${routeHref(album.path)}">${escapeHtml(album.title)}</a>
+    <span class="album-meta">${escapeHtml(album.artist)}</span>
+  </div>
+  <span>${escapeHtml(album.year || "-")}</span>
+  <span>${album.trackCount}</span>
+  <span>${escapeHtml(duration || "-")}</span>
+</article>`;
+  };
+
+  const albumTrackRowHtml = (album, track) => {
+    const item = track.item;
+    const version = track.version;
+    const audio = version?.audio || {};
+    const length = audioDetailValue(audio, "Length") || version?.duration || "";
+    const format = audioDetailValue(audio, "Restored format") || "";
+    const target = version?.path || defaultTargetFor(item, "audio");
+    return `<article class="album-track">
+  <span class="album-track-number">${track.number}</span>
+  <div class="album-track-main">
+    <a class="album-track-title" href="${routeHref(item.path)}">${escapeHtml(item.title)}</a>
+    ${version?.title && version.title !== item.title ? `<p class="version-meta">${escapeHtml(version.title)}</p>` : ""}
+  </div>
+  <span class="song-version-cell">${escapeHtml(length || "-")}</span>
+  <span class="song-version-cell">${escapeHtml(format || "-")}</span>
+  <div class="song-version-actions">
+    <button class="button" type="button" data-track-id="${escapeHtml(item.id)}" data-track-kind="audio" data-track-target="${escapeHtml(target)}">Play</button>
+    ${audio.download || audio.source ? `<a class="button" href="${escapeHtml(audio.download || audio.source)}">Download</a>` : ""}
   </div>
 </article>`;
   };
@@ -939,6 +1197,7 @@
       ["IT", "it", withIt.length],
       ["Lyrics", "lyrics", withLyrics.length],
     ];
+    const albumCount = archive.albumCatalog?.length || 0;
     setMeta("Music");
     app.innerHTML = `<section class="page music-page${musicState.currentId ? " has-player" : ""}">
   <div class="music-hero">
@@ -954,6 +1213,7 @@
     </label>
     <div class="music-filter-row" aria-label="Song media">
       ${statusButtons.map(musicFilterHtml).join("\n")}
+      <a class="music-filter" href="${routeHref("albums")}" aria-pressed="false">${escapeHtml(countLabel("Albums", albumCount))}</a>
     </div>
     <label class="music-artist-select">
       <span class="visually-hidden">Artist</span>
@@ -999,9 +1259,12 @@
   const renderRoute = () => {
     const path = canonicalPath(currentRoutePath());
     const songItem = archive.musicItemsByPath?.[path];
+    const album = archive.albumsByPath?.[path];
     renderNav(path);
 
     if (!path) return renderHome();
+    if (path === "albums") return renderAlbumList();
+    if (album) return renderAlbumPage(album);
     if (isMusicPagePath(path)) {
       applyMusicFilterHash(defaultMusicStatusForPath(path));
       return renderAudioList();
@@ -1028,10 +1291,14 @@
     if (!nav) return;
     const currentNode = archive.nodes[String(archive.pathToNode[currentPath] || "")];
     const currentSong = archive.musicItemsByPath?.[currentPath];
-    const items = archive.nav.map((item) => {
+    const items = [
+      ...archive.nav,
+      { path: "albums", title: "Albums" },
+    ].map((item) => {
       const itemPath = canonicalPath(item.path);
       const active = itemPath === currentPath
         || (!itemPath && !currentPath)
+        || (itemPath === "albums" && (currentPath === "albums" || currentPath.startsWith("albums/")))
         || (itemPath === "audio" && (
           !currentPath
           || isMusicPagePath(currentPath)
@@ -1124,6 +1391,7 @@
     .then((data) => {
       archive = data;
       prepareMusicCatalog();
+      prepareAlbumCatalog();
       document.querySelector(".brand")?.setAttribute("href", "/");
       document.querySelector(".brand img")?.setAttribute("src", archive.site.logo);
       document.querySelector(".brand img")?.setAttribute("alt", archive.site.name);
