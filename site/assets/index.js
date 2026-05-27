@@ -6,12 +6,18 @@
   const app = document.getElementById("app");
   const nav = document.querySelector("[data-nav]");
   const footer = document.querySelector("[data-footer]");
+  let playerHost;
+  let persistentPlayer = {
+    kind: "",
+    key: "",
+  };
   let archive;
   const musicState = {
     artist: "all",
     query: "",
     status: "all",
     currentId: null,
+    currentKind: "",
   };
 
   const escapeHtml = (value) => String(value ?? "")
@@ -296,28 +302,6 @@
     return impulseRuntimePromise;
   };
 
-  const mountCompactImpulsePlayer = (file) => {
-    if (!file) return;
-    ensureImpulseRuntime()
-      .then(() => {
-        window.initIndusTreeImpulsePlayer?.({
-          mountId: "songImpulseMount",
-          baseUrl: archive.impulse?.baseUrl,
-          files: [file],
-          initialFile: file.name,
-          compact: true,
-          label: file.name,
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-        const mount = document.getElementById("songImpulseMount");
-        if (mount) {
-          mount.innerHTML = '<p class="missing-media">The Impulse player could not be loaded.</p>';
-        }
-      });
-  };
-
   const cardHtml = (node, compact = false) => {
     const extra = node.extra ? ` / ${escapeHtml(node.extra)}` : "";
     const date = node.date ? ` / ${escapeHtml(node.date)}` : "";
@@ -371,11 +355,12 @@
     return `<section class="song-panel song-impulse-panel" aria-labelledby="song-impulse-title">
   <div class="song-panel-head">
     <h2 id="song-impulse-title">Impulse Tracker</h2>
-    <a class="button" href="${escapeHtml(file.url)}">Download ${escapeHtml(file.name)}</a>
+    <div class="song-panel-actions">
+      <button class="button" type="button" data-track-id="${escapeHtml(item.id)}" data-track-kind="it">Play IT</button>
+      <a class="button" href="${escapeHtml(file.url)}">Download ${escapeHtml(file.name)}</a>
+    </div>
   </div>
-  <div class="song-impulse-mount" id="songImpulseMount">
-    <p class="missing-media">Loading IT player...</p>
-  </div>
+  <p class="media-note">${escapeHtml(file.name)}</p>
 </section>`;
   };
 
@@ -477,10 +462,12 @@
     const detail = routeHref(item.path);
     const album = item.album ? ` / ${escapeHtml(item.album)}` : "";
     const sideText = item.duration || item.date || (item.itFiles?.[0]?.name ?? "");
-    const control = item.hasAudio
-      ? `<button class="track-load" type="button" data-track-id="${escapeHtml(item.id)}" aria-label="Play ${escapeHtml(item.title)}">&gt;</button>`
+    const canPlay = item.hasAudio || item.hasIt;
+    const rowKind = musicState.status === "it" && item.hasIt ? "it" : item.hasAudio ? "audio" : "it";
+    const control = canPlay
+      ? `<button class="track-load" type="button" data-track-id="${escapeHtml(item.id)}" data-track-kind="${escapeHtml(rowKind)}" aria-label="Play ${escapeHtml(item.title)}">${escapeHtml(rowKind === "audio" ? ">" : "IT")}</button>`
       : `<span class="track-missing-mark" aria-hidden="true">${escapeHtml(item.hasIt ? "IT" : item.hasLyrics ? "Ly" : "-")}</span>`;
-    return `<article class="mixtape-track${item.hasAudio ? "" : " is-missing"}${isActive ? " is-active" : ""}">
+    return `<article class="mixtape-track${canPlay ? "" : " is-missing"}${isActive ? " is-active" : ""}">
   ${control}
   <div class="track-main">
     <span class="track-title">${escapeHtml(item.title)}</span>
@@ -494,30 +481,102 @@
 </article>`;
   };
 
-  const bottomPlayerHtml = () => {
-    const item = musicState.currentId ? archive.musicItemsById[musicState.currentId] : null;
-    if (!item?.hasAudio) {
-      return "";
-    }
-
+  const audioPlayerHtml = (item) => {
     const duration = item.duration ? ` / ${item.duration}` : "";
     const source = item.audio?.source || "";
-    const audio = source
-      ? `<audio controls preload="metadata" src="${escapeHtml(source)}" data-mixtape-audio></audio>`
-      : '<p class="missing-media">Audio is not restored for this archive entry yet.</p>';
-    const download = source
-      ? `<a href="${escapeHtml(item.audio.download || source)}" download>Download</a>`
-      : `<a href="${routeHref(item.path)}">Open entry</a>`;
+    const download = item.audio?.download || source;
     return `<aside class="bottom-player" aria-label="Music player">
   <div class="bottom-player-inner">
     <div>
       <strong class="bottom-player-title">${escapeHtml(item.title)}</strong>
       <span class="bottom-player-meta">${escapeHtml(item.artist + duration)}</span>
     </div>
-    ${audio}
-    <div>${download}</div>
+    <audio controls preload="metadata" src="${escapeHtml(source)}" data-mixtape-audio></audio>
+    <div><a href="${escapeHtml(download)}" download>Download</a></div>
   </div>
 </aside>`;
+  };
+
+  const impulsePlayerHtml = (item, file) => `<aside class="bottom-player bottom-player-it" aria-label="Impulse Tracker player">
+  <div class="bottom-player-inner">
+    <div>
+      <strong class="bottom-player-title">${escapeHtml(item.title)}</strong>
+      <span class="bottom-player-meta">${escapeHtml(file.name)}</span>
+    </div>
+    <div class="bottom-impulse-mount" id="persistentImpulseMount">
+      <p class="missing-media">Loading IT player...</p>
+    </div>
+    <div><a href="${escapeHtml(file.url)}" download>Download</a></div>
+  </div>
+</aside>`;
+
+  const ensurePlayerHost = () => {
+    if (playerHost) return playerHost;
+    playerHost = document.getElementById("persistentPlayerHost");
+    if (!playerHost) {
+      playerHost = document.createElement("div");
+      playerHost.id = "persistentPlayerHost";
+      document.body.appendChild(playerHost);
+    }
+    return playerHost;
+  };
+
+  const stopImpulsePlayer = () => {
+    if (window.__industreeImpulseStop) {
+      try { window.__industreeImpulseStop(); } catch (_) {}
+    }
+  };
+
+  const updatePersistentPlayer = ({ autoplay = false } = {}) => {
+    const host = ensurePlayerHost();
+    const item = musicState.currentId ? archive.musicItemsById[musicState.currentId] : null;
+    if (!item || (!item.hasAudio && !item.hasIt)) {
+      if (persistentPlayer.kind === "it") stopImpulsePlayer();
+      persistentPlayer = { kind: "", key: "" };
+      host.innerHTML = "";
+      document.body.classList.remove("has-mixtape-player");
+      return;
+    }
+
+    const kind = musicState.currentKind === "it" && item.hasIt ? "it" : item.hasAudio ? "audio" : "it";
+    const file = kind === "it" ? item.itFiles?.[0] : null;
+    const key = kind === "audio" ? item.id : file?.name;
+    document.body.classList.add("has-mixtape-player");
+
+    if (persistentPlayer.kind === kind && persistentPlayer.key === key) {
+      if (autoplay && kind === "audio") host.querySelector("[data-mixtape-audio]")?.play().catch(() => {});
+      return;
+    }
+
+    if (persistentPlayer.kind === "it" && kind !== "it") stopImpulsePlayer();
+    persistentPlayer = { kind, key };
+
+    if (kind === "audio") {
+      host.innerHTML = audioPlayerHtml(item);
+      if (autoplay) host.querySelector("[data-mixtape-audio]")?.play().catch(() => {});
+      return;
+    }
+
+    host.innerHTML = impulsePlayerHtml(item, file);
+    ensureImpulseRuntime()
+      .then(() => {
+        window.initIndusTreeImpulsePlayer?.({
+          mountId: "persistentImpulseMount",
+          baseUrl: archive.impulse?.baseUrl,
+          files: [file],
+          initialFile: file.name,
+          compact: true,
+          label: file.name,
+          autoplay,
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+        const mount = document.getElementById("persistentImpulseMount");
+        if (mount) {
+          mount.innerHTML = '<p class="missing-media">The Impulse player could not be loaded.</p>';
+        }
+      });
   };
 
   const renderAudioList = () => {
@@ -577,14 +636,12 @@
     </div>
     ${filtered.length ? filtered.map(trackRowHtml).join("\n") : '<p class="mixtape-empty">No songs match these filters.</p>'}
   </section>
-  ${bottomPlayerHtml()}
 </section>`;
   };
 
   const renderSongPage = (item) => {
     setMeta(item.title, item.node?.excerpt || archive.site.description);
     app.innerHTML = songHtml(item);
-    if (item.hasIt) mountCompactImpulsePlayer(item.itFiles[0]);
   };
 
   const renderImpulse = () => {
@@ -610,10 +667,6 @@
     const path = canonicalPath(currentRoutePath());
     const songItem = archive.musicItemsByPath?.[path];
     const isMusicPage = path === "audio" || path === "music" || path === "lyrics" || path === "impulse";
-    document.body.classList.toggle("has-mixtape-player", isMusicPage);
-    if (window.__industreeImpulseStop) {
-      try { window.__industreeImpulseStop(); } catch (_) {}
-    }
     renderNav(path);
 
     if (!path) return renderHome();
@@ -637,6 +690,7 @@
       return;
     }
     renderNotFound();
+    updatePersistentPlayer();
   };
 
   const renderNav = (currentPath = canonicalPath(currentRoutePath())) => {
@@ -664,15 +718,15 @@
     nav.innerHTML = `<ul>${items.join("\n")}</ul>`;
   };
 
-  const selectTrack = (id, shouldPlay = true) => {
+  const selectTrack = (id, shouldPlay = true, requestedKind = "") => {
     const item = archive.musicItemsById[id];
-    if (!item?.hasAudio) return;
+    if (!item || (!item.hasAudio && !item.hasIt)) return;
     musicState.currentId = id;
-    renderAudioList();
-    const audio = app.querySelector("[data-mixtape-audio]");
-    if (shouldPlay && item.audio?.source && audio) {
-      audio.play().catch(() => {});
+    musicState.currentKind = requestedKind === "it" && item.hasIt ? "it" : item.hasAudio ? "audio" : "it";
+    if (canonicalPath(currentRoutePath()) === "audio" || canonicalPath(currentRoutePath()) === "music" || canonicalPath(currentRoutePath()) === "lyrics" || canonicalPath(currentRoutePath()) === "impulse") {
+      renderAudioList();
     }
+    updatePersistentPlayer({ autoplay: shouldPlay });
   };
 
   const handleMusicInput = (event) => {
@@ -709,7 +763,7 @@
     const trackTrigger = event.target.closest("[data-track-id]");
     if (trackTrigger && !event.target.closest("a[href]")) {
       event.preventDefault();
-      selectTrack(trackTrigger.dataset.trackId);
+      selectTrack(trackTrigger.dataset.trackId, true, trackTrigger.dataset.trackKind);
       return;
     }
 
@@ -746,6 +800,7 @@
       if (brandSlogan) brandSlogan.textContent = archive.site.slogan;
       if (footer) footer.textContent = archive.site.footer;
       renderRoute();
+      updatePersistentPlayer();
       document.addEventListener("click", handleClick);
       app.addEventListener("input", handleMusicInput);
       app.addEventListener("change", handleMusicChange);
