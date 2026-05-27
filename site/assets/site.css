@@ -57,6 +57,12 @@ a:hover { color: var(--accent); }
   font-family: var(--ui-font);
 }
 
+body.has-impulse-page .site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
 .header-inner {
   display: grid;
   grid-template-columns: minmax(220px, 1fr) auto;
