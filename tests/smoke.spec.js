@@ -49,6 +49,20 @@ test("supports archive routes, hash compatibility, and not-found pages", async (
   await expect(page.getByRole("heading", { name: "Page not found" })).toBeVisible();
 });
 
+test("sorts albums by year with the oldest releases first", async ({ page }) => {
+  await page.goto("/albums/");
+
+  await expect(page.getByRole("heading", { level: 1, name: "Albums" })).toBeVisible();
+
+  const years = await page.locator(".album-row:not(.album-row-head) > span:first-of-type").evaluateAll((elements) =>
+    elements.map((element) => Number(element.textContent)).filter(Number.isFinite)
+  );
+
+  expect(years.length).toBeGreaterThan(0);
+  expect(years[0]).toBe(1997);
+  expect(years).toEqual([...years].sort((a, b) => a - b));
+});
+
 test("loads the compact Impulse player on demand", async ({ page }) => {
   await page.goto("/impulse/");
 
