@@ -35,6 +35,16 @@ test("opens a song detail page and uses the persistent audio player", async ({ p
   await expect(player.locator("[data-mixtape-audio]")).toHaveAttribute("src", /audio\.guaka\.org\/audio\//);
 });
 
+test("routes each M4A collection to its R2 account", async ({ page }) => {
+  await page.goto("/audio/cause-concern-first-draft-bob-knutton/");
+  await page.locator("[data-track-kind='audio']").first().click();
+  await expect(page.locator("[data-mixtape-audio]")).toHaveAttribute("src", /audio\.guaka\.org\/audio\/bob-knutton-/);
+
+  await page.goto("/audio/clint-causalidox/");
+  await page.locator("[data-track-kind='audio']").first().click();
+  await expect(page.locator("[data-mixtape-audio]")).toHaveAttribute("src", /audio\.industree\.org\/audio\/causalidox-/);
+});
+
 test("supports archive routes, hash compatibility, and not-found pages", async ({ page }) => {
   await page.goto("/archive/");
   await expect(page.getByRole("heading", { name: "Archive" })).toBeVisible();
