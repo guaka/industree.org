@@ -28,6 +28,8 @@ The npm/Playwright tooling runs in Docker so local development does not need `no
 
 The container runs JavaScript syntax checks and Playwright smoke tests against `dev.sh`. If Docker is not already running, start Docker Desktop or the local Docker daemon first.
 
+GitHub Actions runs the same test container for pull requests and pushes to `main`.
+
 ## GitHub Pages
 
 In the repository settings, set Pages to deploy from GitHub Actions. The `.github/workflows/pages.yml` workflow prepares a Pages artifact from `site/` and generates `404.html` from `index.html`. The `site/.nojekyll` file is included so GitHub Pages serves the archive as plain static files.
