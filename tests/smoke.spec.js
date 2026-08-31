@@ -52,7 +52,7 @@ test("supports archive routes, hash compatibility, and not-found pages", async (
 test("sorts albums by year with the oldest releases first", async ({ page }) => {
   await page.goto("/albums/");
 
-  await expect(page.getByRole("heading", { name: "Albums" })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: "Albums" })).toBeVisible();
 
   const years = await page.locator(".album-row:not(.album-row-head) > span:first-of-type").evaluateAll((elements) =>
     elements.map((element) => Number(element.textContent)).filter(Number.isFinite)
