@@ -282,19 +282,31 @@ from urllib.request import Request, urlopen
 
 urls = [line.strip() for line in open(sys.argv[1], encoding="utf-8") if line.strip()]
 failed = []
+request_headers = {
+    "Accept": "*/*",
+    "User-Agent": "industree-rsync-audio/1.0 (+https://industree.org/)",
+}
+
+
+def request_status(url, method="GET", headers=None):
+    merged_headers = dict(request_headers)
+    if headers:
+        merged_headers.update(headers)
+    request = Request(url, headers=merged_headers, method=method)
+    with urlopen(request, timeout=20) as response:
+        return response.status
 
 for url in urls:
     try:
-        request = Request(url, method="HEAD")
-        with urlopen(request, timeout=20) as response:
-            status = response.status
+        status = request_status(url, method="HEAD")
     except HTTPError as exc:
-        if exc.code == 405:
+        if exc.code in {403, 405}:
             try:
-                request = Request(url, headers={"Range": "bytes=0-0"})
-                with urlopen(request, timeout=20) as response:
-                    status = response.status
-            except (HTTPError, URLError, TimeoutError) as fallback_exc:
+                status = request_status(url, headers={"Range": "bytes=0-0"})
+            except HTTPError as fallback_exc:
+                failed.append((url, f"HTTP {fallback_exc.code}"))
+                continue
+            except (URLError, TimeoutError) as fallback_exc:
                 failed.append((url, str(fallback_exc)))
                 continue
         else:
