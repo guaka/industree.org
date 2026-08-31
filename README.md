@@ -16,7 +16,7 @@ The app intentionally avoids one HTML file per Drupal page. Most archive content
 
 The Music page groups playable tracks first, then lists archive entries that still do not have audio attached.
 
-MP3 and OGG links in `site/assets/site-data.json` point to `https://audio.guaka.org/audio/...`, and Impulse Tracker files point to `https://audio.guaka.org/itfiles/...`. M4A files remain on `https://audio.industree.org/audio/...`.
+MP3, OGG, Bob Knutton M4A, and Impulse Tracker links in `site/assets/site-data.json` point to `https://audio.guaka.org`. CausaliDox M4A files remain on `https://audio.industree.org/audio/...`.
 
 ## Tests
 
