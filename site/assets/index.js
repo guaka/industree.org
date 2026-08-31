@@ -51,6 +51,82 @@
       "leftalone",
     ],
   };
+  const MANUAL_ALBUMS = [
+    {
+      artist: "IndusTree",
+      title: "Live at Diogenes, Nijmegen, 30 October 1997",
+      year: "1997",
+      sourceUrl: "https://marcusmoonen.com/music/industree-1996-2003/",
+      tracks: ["audio/sick-live-diogenes-nijmegen-30-10-97-studio"],
+    },
+    {
+      artist: "IndusTree",
+      title: "Live at Merleyn, Nijmegen, 20 May 1998",
+      year: "1998",
+      sourceUrl: "https://marcusmoonen.com/music/industree-1996-2003/",
+      tracks: ["audio/vacuum-incognito-live-merleyn-20598-studio-industree"],
+    },
+    {
+      artist: "IndusTree",
+      title: "Live at Willemeen, Arnhem, 1999",
+      year: "1999",
+      sourceUrl: "https://marcusmoonen.com/music/industree-1996-2003/",
+      tracks: [
+        "audio/w1m-01-fuzzy",
+        "audio/w1m-02-digginuplou",
+        "audio/w1m-04-noisy",
+        "audio/w1m-05-ameracsumic",
+        "audio/w1m-06-noisy",
+        "audio/w1m-07-vacuum",
+        "audio/w1m-08-bluesoxymorning",
+        "audio/w1m-09-eekwackwackwere",
+        "audio/w1m-10-loveinthegrass",
+        "audio/w1m-11-metromind",
+        "audio/w1m-12-quorny",
+        "audio/w1m-13-zoxy",
+        "audio/w1m14bombit-industree",
+      ],
+    },
+    {
+      artist: "IndusTree",
+      title: "Live at Flexival",
+      year: "2000",
+      sourceUrl: "https://marcusmoonen.com/music/industree-1996-2003/",
+      tracks: ["audio/live-flexival-industree"],
+    },
+  ];
+  const ALBUM_ARTWORK = {
+    "causalidox:autumnland": {
+      image: "https://ia360943.us.archive.org/0/items/kemn15_causalidox_autumnland/front.jpg",
+      alt: "CausaliDox Autumnland cover",
+      sourceUrl: "https://archive.org/details/kemn15_causalidox_autumnland",
+    },
+    "industree:the-metro-mind-ep-1997": {
+      image: "https://marcusmoonen.com/uploads/2021/02/01-1.jpg",
+      alt: "IndusTree archive photo",
+      sourceUrl: "https://marcusmoonen.com/music/industree-1996-2003/",
+    },
+    "industree:live-at-diogenes-nijmegen-30-october-1997": {
+      image: "https://marcusmoonen.com/uploads/2021/02/indust_1.jpg",
+      alt: "IndusTree live archive photo",
+      sourceUrl: "https://marcusmoonen.com/music/industree-1996-2003/",
+    },
+    "industree:live-at-merleyn-nijmegen-20-may-1998": {
+      image: "https://marcusmoonen.com/uploads/2021/02/indust_3.jpg",
+      alt: "IndusTree archive photo",
+      sourceUrl: "https://marcusmoonen.com/music/industree-1996-2003/",
+    },
+    "industree:live-at-willemeen-arnhem-1999": {
+      image: "https://img.youtube.com/vi/dxDgqRfE_4E/hqdefault.jpg",
+      alt: "IndusTree Live at Willemeen video still",
+      sourceUrl: "https://marcusmoonen.com/music/industree-1996-2003/",
+    },
+    "industree:live-at-flexival": {
+      image: "https://marcusmoonen.com/uploads/2021/02/indust_2.jpg",
+      alt: "IndusTree archive photo",
+      sourceUrl: "https://marcusmoonen.com/music/industree-1996-2003/",
+    },
+  };
   const ALBUM_EXCLUSIONS = new Set([
     "industree:chinchilla-recordings-of-shit",
   ]);
@@ -613,6 +689,9 @@
           searchText: searchTextFor(cleanTitle, artist),
           year: yearFor(cleanTitle),
           durationSeconds: 0,
+          manual: false,
+          sourceUrl: "",
+          artwork: null,
         });
       }
       return albums.get(key);
@@ -637,12 +716,38 @@
       }
     }
 
+    for (const manualAlbum of MANUAL_ALBUMS) {
+      const album = albumFor(manualAlbum.artist, manualAlbum.title);
+      album.year = manualAlbum.year || album.year;
+      album.manual = true;
+      album.sourceUrl = manualAlbum.sourceUrl || "";
+      for (const path of manualAlbum.tracks || []) {
+        const item = archive.musicItemsByPath?.[normalizePath(path)];
+        if (!item) continue;
+        const version = item.audioVersions?.find((audioVersion) => audioVersion.path === normalizePath(path))
+          || audioVersionFor(item);
+        album.tracks.push({
+          item,
+          version,
+          titleKey: titleKeyFor(item.title, item.path),
+          sourceIndex: version?.node?.id || 0,
+          manualPath: normalizePath(path),
+        });
+        album.searchText = searchTextFor(album.searchText, item.title, version?.title, manualAlbum.sourceUrl);
+      }
+    }
+
     const albumList = [...albums.values()]
-      .filter((album) => album.tracks.length >= 2 && !ALBUM_EXCLUSIONS.has(album.key))
+      .filter((album) => (album.manual || album.tracks.length >= 2) && !ALBUM_EXCLUSIONS.has(album.key))
       .map((album) => {
         const manual = ALBUM_TRACKLISTS[album.key] || [];
-        album.tracks = uniqueBy(album.tracks, (track) => track.item.id)
+        album.tracks = uniqueBy(album.tracks, (track) => track.manualPath || track.item.id)
           .sort((a, b) => {
+            if (a.manualPath || b.manualPath) {
+              const indexA = MANUAL_ALBUMS.find((manualAlbum) => `${artistKeyFor(manualAlbum.artist)}:${slugFor(manualAlbum.title)}` === album.key)?.tracks.indexOf(a.manualPath) ?? -1;
+              const indexB = MANUAL_ALBUMS.find((manualAlbum) => `${artistKeyFor(manualAlbum.artist)}:${slugFor(manualAlbum.title)}` === album.key)?.tracks.indexOf(b.manualPath) ?? -1;
+              if (indexA !== -1 || indexB !== -1) return (indexA === -1 ? 999 : indexA) - (indexB === -1 ? 999 : indexB);
+            }
             const manualA = manual.indexOf(a.titleKey);
             const manualB = manual.indexOf(b.titleKey);
             if (manualA !== -1 || manualB !== -1) return (manualA === -1 ? 999 : manualA) - (manualB === -1 ? 999 : manualB);
@@ -654,9 +759,10 @@
           .map((track, index) => ({ ...track, number: index + 1 }));
         album.durationSeconds = album.tracks.reduce((total, track) => total + parseDurationSeconds(track.version?.duration), 0);
         album.trackCount = album.tracks.length;
+        album.artwork = ALBUM_ARTWORK[album.key] || null;
         return album;
       })
-      .sort((a, b) => a.artist.localeCompare(b.artist) || (a.year || "9999").localeCompare(b.year || "9999") || a.title.localeCompare(b.title));
+      .sort((a, b) => (a.year || "9999").localeCompare(b.year || "9999") || a.artist.localeCompare(b.artist) || a.title.localeCompare(b.title));
 
     for (const album of albumList) {
       byPath[normalizePath(album.path)] = album;
@@ -944,15 +1050,57 @@
     </div>
   </section>
 </section>`;
+    hideBrokenAlbumArtwork();
+  };
+
+  const sourceLabelFor = (url) => {
+    try {
+      return new URL(url).hostname.replace(/^www\./, "");
+    } catch {
+      return url;
+    }
+  };
+
+  const albumArtworkHtml = (album, className) => {
+    const artwork = album.artwork;
+    if (!artwork?.image) return "";
+    const image = `<img class="${className}" src="${escapeHtml(artwork.image)}" alt="${escapeHtml(artwork.alt || `${album.title} artwork`)}" loading="lazy" decoding="async">`;
+    if (!artwork.sourceUrl) return image;
+    return `<a class="album-art-link" href="${escapeHtml(artwork.sourceUrl)}">${image}</a>`;
+  };
+
+  const hideBrokenAlbumArtwork = (root = app) => {
+    if (!root?.querySelectorAll) return;
+    root.querySelectorAll(".album-art-link img").forEach((image) => {
+      const hide = () => {
+        image.closest(".album-main")?.classList.add("artwork-missing");
+        image.closest(".album-page-head")?.classList.add("artwork-missing");
+        image.closest(".album-art-link")?.remove();
+      };
+      image.addEventListener("error", hide, { once: true });
+      if (image.complete && image.naturalWidth === 0) hide();
+    });
   };
 
   const renderAlbumPage = (album) => {
     const duration = formatDuration(album.durationSeconds);
     const meta = [album.artist, album.year, `${album.trackCount} tracks`, duration].filter(Boolean).join(" / ");
+    const sourceNotes = [
+      album.sourceUrl ? `Recovered from <a href="${escapeHtml(album.sourceUrl)}">${escapeHtml(sourceLabelFor(album.sourceUrl))}</a>.` : "",
+      album.artwork?.sourceUrl && album.artwork.sourceUrl !== album.sourceUrl
+        ? `Artwork from <a href="${escapeHtml(album.artwork.sourceUrl)}">${escapeHtml(sourceLabelFor(album.artwork.sourceUrl))}</a>.`
+        : "",
+    ].filter(Boolean).join(" ");
     setMeta(album.title, `${album.title} by ${album.artist}`);
     app.innerHTML = `<article class="node node-album">
-  <h1>${escapeHtml(album.title)}</h1>
-  ${meta ? `<p class="meta">${escapeHtml(meta)}</p>` : ""}
+  <div class="album-page-head">
+    ${albumArtworkHtml(album, "album-cover-large")}
+    <div class="album-page-copy">
+      <h1>${escapeHtml(album.title)}</h1>
+      ${meta ? `<p class="meta">${escapeHtml(meta)}</p>` : ""}
+      ${sourceNotes ? `<p class="related album-source">${sourceNotes}</p>` : ""}
+    </div>
+  </div>
   <section class="song-panel album-track-panel" aria-labelledby="album-tracklist-title">
     <h2 id="album-tracklist-title">Tracklist</h2>
     <div class="album-track-list">
@@ -967,6 +1115,7 @@
     </div>
   </section>
 </article>`;
+    hideBrokenAlbumArtwork();
   };
 
   const artistCounts = (nodes) => {
@@ -1042,9 +1191,12 @@
   const albumListRowHtml = (album) => {
     const duration = formatDuration(album.durationSeconds);
     return `<article class="album-row">
-  <div class="album-main">
-    <a class="album-title" href="${routeHref(album.path)}">${escapeHtml(album.title)}</a>
-    <span class="album-meta">${escapeHtml(album.artist)}</span>
+  <div class="album-main${album.artwork ? " has-art" : ""}">
+    ${albumArtworkHtml(album, "album-thumb")}
+    <div class="album-main-copy">
+      <a class="album-title" href="${routeHref(album.path)}">${escapeHtml(album.title)}</a>
+      <span class="album-meta">${escapeHtml(album.artist)}</span>
+    </div>
   </div>
   <span>${escapeHtml(album.year || "-")}</span>
   <span>${album.trackCount}</span>
