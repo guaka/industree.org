@@ -2,6 +2,7 @@ const { test, expect } = require("@playwright/test");
 
 test.beforeEach(async ({ page }) => {
   await page.route("https://audio.industree.org/**", (route) => route.abort());
+  await page.route("https://audio.guaka.org/**", (route) => route.abort());
 });
 
 test("renders the music archive and keeps filters interactive", async ({ page }) => {
@@ -31,7 +32,7 @@ test("opens a song detail page and uses the persistent audio player", async ({ p
   const player = page.locator(".bottom-player");
   await expect(player).toBeVisible();
   await expect(player.locator(".bottom-player-title")).toHaveText("Butter Fun by 2L84US");
-  await expect(player.locator("[data-mixtape-audio]")).toHaveAttribute("src", /audio\.industree\.org\/audio\//);
+  await expect(player.locator("[data-mixtape-audio]")).toHaveAttribute("src", /audio\.guaka\.org\/audio\//);
 });
 
 test("supports archive routes, hash compatibility, and not-found pages", async ({ page }) => {
@@ -76,7 +77,7 @@ test("supports the full Impulse player tabs and file list", async ({ page }) => 
     mount.appendChild(template.content.cloneNode(true));
     document.body.appendChild(mount);
     window.initIndusTreeImpulsePlayer({
-      baseUrl: "https://audio.industree.org/itfiles/",
+      baseUrl: "https://audio.guaka.org/itfiles/",
       files: ["1-2sleepy.it", "fake-second.it"],
       initialFile: "1-2sleepy.it",
     });

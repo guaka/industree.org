@@ -32,7 +32,7 @@ if (COMPACT_MODE) {
 const NOTE_NAMES = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
 const FX = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 const IT_FILES = (options.files || ['1-2sleepy.it']).map(file => typeof file === 'string' ? file : file.name);
-const DEFAULT_IT_BASE_URL = 'https://audio.industree.org/itfiles/';
+const DEFAULT_IT_BASE_URL = 'https://audio.guaka.org/itfiles/';
 const IT_BASE_URL = (options.baseUrl || DEFAULT_IT_BASE_URL).replace(/\/?$/, '/');
 const INITIAL_FILE = options.initialFile || IT_FILES[0];
 const AUTOPLAY_INITIAL_FILE = Boolean(options.autoplay);
