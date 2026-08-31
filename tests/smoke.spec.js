@@ -26,7 +26,7 @@ test("opens a song detail page and uses the persistent audio player", async ({ p
   await page.goto("/audio/butter-fun-2l84us/");
 
   await expect(page.getByRole("heading", { level: 1, name: "Butter Fun by 2L84US" })).toBeVisible();
-  await page.getByRole("button", { name: "Play audio" }).click();
+  await page.locator("[data-track-kind='audio']").first().click();
 
   const player = page.locator(".bottom-player");
   await expect(player).toBeVisible();
